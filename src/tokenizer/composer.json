@@ -1,0 +1,21 @@
+{
+	"name" : "gossi/tokenizer",
+	"description" : "Tokenizer for PHP code",
+	"type" : "library",
+	"license" : "MIT",
+	"authors" : [{
+			"name" : "gossi"
+		}
+	],
+	"autoload" : {
+		"psr-4" : {
+			"gossi\\tokenizer\\" : "src"
+		}
+	},
+	"require" : {
+		"phootwork/collection" : "~1"
+	},
+	"keywords" : [
+		"tokenizer"
+	]
+}

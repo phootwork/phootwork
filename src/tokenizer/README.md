@@ -1,2 +1,4 @@
-# tokenizer
-Tokenizer for PHP code. 
+Tokenizer
+=========
+
+Tokenizer for PHP code.
