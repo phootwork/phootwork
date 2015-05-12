@@ -1,5 +1,5 @@
 {
-	"name" : "gossi/tokenizer",
+	"name" : "phootwork/tokenizer",
 	"description" : "Tokenizer for PHP code",
 	"type" : "library",
 	"license" : "MIT",
@@ -9,7 +9,7 @@
 	],
 	"autoload" : {
 		"psr-4" : {
-			"gossi\\tokenizer\\" : "src"
+			"phootwork\\tokenizer\\" : "src"
 		}
 	},
 	"require" : {
