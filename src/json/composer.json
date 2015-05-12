@@ -1,0 +1,25 @@
+{
+	"name" : "phootwork/json",
+	"type" : "library",
+	"description" : "PHP json wrapper library",
+	"license" : "MIT",
+	"keywords" : [
+		"json"
+	],
+	"require" : {
+		"php" : ">=5.4"
+	},
+	"require-dev" : {
+		"phpunit/phpunit" : "~4"
+	},
+	"autoload" : {
+		"psr-4" : {
+			"phootwork\\json\\" : "src"
+		}
+	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"phootwork\\json\\tests\\" : "tests"
+		}
+	}
+}
