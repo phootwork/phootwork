@@ -12,10 +12,18 @@
 			"phootwork\\tokenizer\\" : "src"
 		}
 	},
+	"autoload-dev" : {
+		"psr-4" : {
+			"phootwork\\tokenizer\\tests\\" : "tests"
+		}
+	},
 	"require" : {
 		"phootwork/collection" : "~1"
 	},
 	"keywords" : [
 		"tokenizer"
-	]
+	],
+	"require-dev" : {
+		"phpunit/phpunit" : "~4"
+	}
 }
