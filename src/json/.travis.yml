@@ -4,7 +4,8 @@ php:
   - 5.4
   - 5.5
   - 5.6
-  - hhvm
+  # - hhvm
+  # hhvm bug: https://github.com/facebook/hhvm/issues/5335
 
 install:
   - composer install
