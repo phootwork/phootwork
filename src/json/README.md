@@ -1,8 +1,8 @@
 # PHP JSON Library
 
-[![Build Status](https://travis-ci.org/gossi/json.svg?branch=master)](https://travis-ci.org/gossi/json)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/gossi/json/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/gossi/json/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/gossi/json/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/gossi/json/?branch=master)
+[![Build Status](https://travis-ci.org/phootwork/json.svg?branch=master)](https://travis-ci.org/phootwork/json)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phootwork/json/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phootwork/json/?branch=master)
+[![Code Coverage](https://scrutinizer-ci.com/g/phootwork/json/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phootwork/json/?branch=master)
 
 PHP json library, with clean syntax and proper error management (through exception).
 
@@ -13,7 +13,7 @@ Installation via composer:
 ```json
 {
 	"require": {
-		"gossi/json": "~1"
+		"phootwork/json": "~1"
 	}
 }
 ```
@@ -39,8 +39,8 @@ string Json::encode (mixed $data [, int $options = 0 [, int $depth = 512]])
 Example:
 
 ```php
-use gossi\json\Json;
-use gossi\json\JsonException;
+use phootwork\json\Json;
+use phootwork\json\JsonException;
 
 $data = ['json': 'data'];
 
@@ -72,8 +72,8 @@ array Json::decode (string $json [, int $options = 0 [, int $depth = 512]])
 Example:
 
 ```php
-use gossi\json\Json;
-use gossi\json\JsonException;
+use phootwork\json\Json;
+use phootwork\json\JsonException;
 
 $json = '{"json": "data"}';
 
