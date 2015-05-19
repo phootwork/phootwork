@@ -1,6 +1,10 @@
 <?php
 namespace phootwork\json;
 
+use phootwork\collection\Map;
+use phootwork\collection\ArrayList;
+use phootwork\collection\CollectionUtils;
+
 class Json {
 	
 	/**
@@ -226,6 +230,36 @@ class Json {
 		return $data;
 	}
 	
+	/**
+	 * Returns a map collection of the provided json
+	 * 
+	 * @param string $json
+	 * @return Map
+	 */
+	public static function toMap($json) {
+		return self::toCollection($json);
+	}
+	
+	/**
+	 * Returns a list collection of the provided json
+	 *
+	 * @param string $json
+	 * @return ArrayList
+	 */
+	public static function toList($json) {
+		return self::toCollection($json);
+	}
+	
+	/**
+	 * Returns a collection (list or map) of the provided json
+	 *
+	 * @param string $json
+	 * @return ArrayList
+	 */
+	public static function toCollection($json) {
+		return CollectionUtils::fromArray(json_decode($json, true));
+	}
+
 	private static function throwExceptionOnError($output) {
 		$error = json_last_error();
 	
@@ -233,5 +267,5 @@ class Json {
 			throw new JsonException('', $error);
 		}
 	}
-	
+
 }

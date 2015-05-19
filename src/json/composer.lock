@@ -4,8 +4,85 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "5cb8605f6e7d6f54df826ddd35d5ebab",
-    "packages": [],
+    "hash": "230d878c082819a4817f734e08264050",
+    "packages": [
+        {
+            "name": "phootwork/collection",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phootwork/collection.git",
+                "reference": "57b02e598281d0ae7c72b9b7dcf065d570c8064b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phootwork/collection/zipball/57b02e598281d0ae7c72b9b7dcf065d570c8064b",
+                "reference": "57b02e598281d0ae7c72b9b7dcf065d570c8064b",
+                "shasum": ""
+            },
+            "require": {
+                "phootwork/lang": "~0",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phootwork\\collection\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "PHP Collections library (List, Set, Map, Queue & Stack)",
+            "keywords": [
+                "collection",
+                "collections",
+                "list",
+                "map",
+                "queue",
+                "set",
+                "stack"
+            ],
+            "time": "2015-05-18 21:45:19"
+        },
+        {
+            "name": "phootwork/lang",
+            "version": "v0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phootwork/lang.git",
+                "reference": "a1b8159737230bf84adcbf16bdd6e020c4f00082"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phootwork/lang/zipball/a1b8159737230bf84adcbf16bdd6e020c4f00082",
+                "reference": "a1b8159737230bf84adcbf16bdd6e020c4f00082",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "phootwork\\lang\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "(Missing) PHP features represented by objects",
+            "time": "2015-05-11 16:03:40"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
