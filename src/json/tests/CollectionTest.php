@@ -1,10 +1,9 @@
 <?php
 namespace phootwork\json\tests;
 
-use phootwork\json\Json;
-use phootwork\json\JsonException;
-use phootwork\collection\Map;
 use phootwork\collection\ArrayList;
+use phootwork\collection\Map;
+use phootwork\json\Json;
 
 /**
  * Test class partly taken from Simon Hampel: https://bitbucket.org/hampel/json
