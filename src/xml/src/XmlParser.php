@@ -3,6 +3,9 @@ namespace phootwork\xml;
 
 use phootwork\collection\Set;
 use phootwork\xml\exception\XmlException;
+use phootwork\file\Path;
+use phootwork\file\File;
+use phootwork\lang\Text;
 
 class XmlParser {
 	
@@ -51,6 +54,7 @@ class XmlParser {
 	}
 	
 	/**
+	 * Parses a string
 	 * 
 	 * @param string $data
 	 */
@@ -58,6 +62,29 @@ class XmlParser {
 		if (!xml_parse($this->parser, $data)) {
 			$code = xml_get_error_code($this->parser);
 			throw new XmlException(xml_error_string($code), $code);
+		}
+	}
+	
+	/**
+	 * Parses a file
+	 * 
+	 * @param Path|File|Text|string $file
+	 */
+	public function parseFile($file) {
+		if ($file instanceof Path) {
+			$file = $file->getPathname();
+		}
+		
+		if ($file instanceof Text) {
+			$file = $file->toString();
+		}
+		
+		if (is_string($file)) {
+			$file = new File($file);
+		}
+		
+		if ($file instanceof File) {
+			$this->parse($file->read());
 		}
 	}
 	
