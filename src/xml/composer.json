@@ -1,0 +1,23 @@
+{
+	"name" : "phootwork/xml",
+	"type" : "library",
+	"license" : "MIT",
+	"keywords" : [
+		"xml",
+		"utilities"
+	],
+	"authors" : [{
+			"name" : "gossi",
+			"homepage" : "http://gos.si"
+		}
+	],
+	"autoload" : {
+		"psr-0" : {
+			"phootwork\\xml" : "src"
+		}
+	},
+	"require" : {
+		"phootwork/collection" : "~1",
+		"phootwork/file" : "~0"
+	}
+}
