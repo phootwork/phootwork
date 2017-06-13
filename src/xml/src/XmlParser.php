@@ -9,8 +9,54 @@ use phootwork\lang\Text;
 
 class XmlParser {
 	
+	/**
+	 * Controls whether case-folding is enabled for this XML parser. Enabled by default. 
+	 * 
+	 * Data Type: integer
+	 * 
+	 * @var integer
+	 */
+	const OPTION_CASE_FOLDING = XML_OPTION_CASE_FOLDING;
+	
+	/**
+	 * Specify how many characters should be skipped in the beginning of a tag name.
+	 * 
+	 * Data Type: integer
+	 * 
+	 * @var integer
+	 */
+	const OPTION_SKIP_TAGSTART = XML_OPTION_SKIP_TAGSTART;
+	
+	/**
+	 * Whether to skip values consisting of whitespace characters. 
+	 * 
+	 * Data Type: integer
+	 * 
+	 * @var string
+	 */
+	const OPTION_SKIP_WHITE = XML_OPTION_SKIP_WHITE;
+	
+	/**
+	 * Sets which target encoding to use in this XML parser. By default, it is set to the same as the 
+	 * source encoding used by XmlParser::construct(). Supported target encodings are ISO-8859-1, US-ASCII and UTF-8.
+	 * 
+	 * Data Type: string
+	 *
+	 * @var string
+	 */
+	const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
+	
+	
 	private $parser;
 	
+	/** @var Set */
+	private $visitors;
+	
+	/**
+	 * Creates a new XML parser
+	 * 
+	 * @param string $encoding Force a specific encoding
+	 */
 	public function __construct($encoding = null) {
 		$this->visitors = new Set();
 		$this->parser = xml_parser_create($encoding);
@@ -27,10 +73,22 @@ class XmlParser {
 		xml_parser_free($this->parser);
 	}
 	
+	/**
+	 * Set an option for the parser
+	 * 
+	 * @param int $option Any of the XmlParser::OPTION_* constants
+	 * @param mixed $value The desired value
+	 */
 	public function setOption($option, $value) {
-		xml_parser_set_option($option, $value);
+		xml_parser_set_option($this->parser, $option, $value);
 	}
 	
+	/**
+	 * Gets the value for an option
+	 * 
+	 * @param int $option Any of the XmlParser::OPTION_* constants
+	 * @return mixed
+	 */
 	public function getOption($option) {
 		return xml_parser_get_option($this->parser, $option);
 	}
