@@ -146,6 +146,14 @@ class XmlParser {
 		}
 	}
 	
+	private function getCurrentLineNumber() {
+		return xml_get_current_line_number($this->parser);
+	}
+	
+	private function getCurrentColumnNumber() {
+		return xml_get_current_column_number($this->parser);
+	}
+	
 	/**
 	 * handle element start
 	 * 
@@ -156,7 +164,7 @@ class XmlParser {
 	private function handleElementStart($parser, $name, $attribs) {
 		/** @var $visitor XmlParserVisitorInterface */
 		foreach ($this->visitors as $visitor) {
-			$visitor->visitElementStart($name, $attribs);
+			$visitor->visitElementStart(strtolower($name), $attribs, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 	
@@ -169,7 +177,7 @@ class XmlParser {
 	private function handleElementEnd($parser, $name) {
 		/** @var $visitor XmlParserVisitorInterface */
 		foreach ($this->visitors as $visitor) {
-			$visitor->visitElementEnd($name);
+			$visitor->visitElementEnd(strtolower($name), $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 	
@@ -182,7 +190,7 @@ class XmlParser {
 	private function handleCharacterData($parser, $data) {
 		/** @var $visitor XmlParserVisitorInterface */
 		foreach ($this->visitors as $visitor) {
-			$visitor->visitCharacterData($data);
+			$visitor->visitCharacterData($data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 	
@@ -196,7 +204,7 @@ class XmlParser {
 	private function handleProcessingInstruction($parser, $target, $data) {
 		/** @var $visitor XmlParserVisitorInterface */
 		foreach ($this->visitors as $visitor) {
-			$visitor->visitProcessingInstruction($target, $data);
+			$visitor->visitProcessingInstruction($target, $data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 	
@@ -212,7 +220,7 @@ class XmlParser {
 	private function handleNotationDeclaration($parser, $notationName, $base, $systemId, $publicId) {
 		/** @var $visitor XmlParserVisitorInterface */
 		foreach ($this->visitors as $visitor) {
-			$visitor->visitNotationDeclaration($notationName, $base, $systemId, $publicId);
+			$visitor->visitNotationDeclaration($notationName, $base, $systemId, $publicId, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 	
@@ -229,7 +237,7 @@ class XmlParser {
 	private function handleUnparsedEntitiyDeclaration($parser, $entityName, $base, $systemId, $publicId, $notationName) {
 		/** @var $visitor XmlParserVisitorInterface */
 		foreach ($this->visitors as $visitor) {
-			$visitor->visitUnparsedEntitiyDeclaration($entityName, $base, $systemId, $publicId, $notationName);
+			$visitor->visitUnparsedEntitiyDeclaration($entityName, $base, $systemId, $publicId, $notationName, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 }
