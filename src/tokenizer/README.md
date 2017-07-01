@@ -1,5 +1,4 @@
 # PHP Tokenizer Library
-=========
 
 [![License](https://img.shields.io/github/license/phootwork/tokenizer.svg?style=flat-square)](https://packagist.org/packages/phootwork/tokenizer)
 [![Latest Stable Version](https://img.shields.io/packagist/v/phootwork/tokenizer.svg?style=flat-square)](https://packagist.org/packages/phootwork/tokenizer)
