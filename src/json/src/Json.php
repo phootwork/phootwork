@@ -1,9 +1,10 @@
 <?php
 namespace phootwork\json;
 
-use phootwork\collection\Map;
 use phootwork\collection\ArrayList;
+use phootwork\collection\Collection;
 use phootwork\collection\CollectionUtils;
+use phootwork\collection\Map;
 
 class Json {
 	
@@ -203,11 +204,7 @@ class Json {
 	 * @return string Returns a JSON encoded string
 	 */
 	public static function encode($data, $options = 0, $depth = 512) {
-		if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
-			$json = json_encode($data, $options, $depth);
-		} else {
-			$json = json_encode($data, $options);
-		}
+		$json = json_encode($data, $options, $depth);
 		
 		self::throwExceptionOnError($json);
 
@@ -219,7 +216,7 @@ class Json {
 	 *
 	 * @param string $json The json string being decoded. This only works with UTF-8 encoded strings.  
 	 * @param int $options Bitmask of JSON decode options. Currently only OBJECT_AS_ARRAY, BIGINT_AS_STRING is supported (default is to cast large integers as floats)
-	 * @param int $depth User specified recursion depth. (PHP 5.5 only!)
+	 * @param int $depth User specified recursion depth.
 	 * @throws JsonException if something gone wrong
 	 * @return array Returns the value encoded in json in appropriate PHP type. Values true, false and null are returned as TRUE, FALSE and NULL respectively. 
 	 */
@@ -254,10 +251,10 @@ class Json {
 	 * Returns a collection (list or map) of the provided json
 	 *
 	 * @param string $json
-	 * @return ArrayList
+	 * @return Collection
 	 */
 	public static function toCollection($json) {
-		return CollectionUtils::fromArray(json_decode($json, true));
+		return CollectionUtils::fromCollection(json_decode($json, true));
 	}
 
 	private static function throwExceptionOnError($output) {

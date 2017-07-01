@@ -1,96 +1,35 @@
 # PHP JSON Library
 
-[![Build Status](https://travis-ci.org/phootwork/json.svg?branch=master)](https://travis-ci.org/phootwork/json)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phootwork/json/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phootwork/json/?branch=master)
-[![Code Coverage](https://scrutinizer-ci.com/g/phootwork/json/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phootwork/json/?branch=master)
+[![License](https://img.shields.io/github/license/phootwork/json.svg?style=flat-square)](https://packagist.org/packages/phootwork/json)
+[![Latest Stable Version](https://img.shields.io/packagist/v/phootwork/json.svg?style=flat-square)](https://packagist.org/packages/phootwork/json)
+[![Total Downloads](https://img.shields.io/packagist/dt/phootwork/json.svg?style=flat-square&colorB=007ec6)](https://packagist.org/packages/phootwork/json)<br>
+[![Build Status](https://img.shields.io/scrutinizer/build/g/phootwork/json.svg?style=flat-square)](https://travis-ci.org/phootwork/json)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/phootwork/json.svg?style=flat-square)](https://scrutinizer-ci.com/g/phootwork/json)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/phootwork/json.svg?style=flat-square)](https://scrutinizer-ci.com/g/phootwork/json)
 
 PHP json library, with clean syntax and proper error management (through exception).
 
-## Installation via Composer
+## Goals
+
+- Wrap native PHP functions with classes
+- Provide solid error handling with exceptions
+
+## Installation
 
 Installation via composer:
 
-```json
-{
-	"require": {
-		"phootwork/json": "~1"
-	}
-}
+```
+composer require phootwork/json
 ```
 
-Then run `composer install`
+## Documentation
 
-## Usage
+[https://phootwork.github.io/json](https://phootwork.github.io/json)
 
-### Constants
+## Contact
 
-Constants can be used through `Json::*`, however they have the same value as their php equivalent.
+Report issues at the github [Issue Tracker](https://github.com/phootwork/json/issues).
 
-### Encode
+## Changelog
 
-Synopsis:
-
-```php
-string Json::encode (mixed $data [, int $options = 0 [, int $depth = 512]])
-```
-
-`$depth` works since php 5.5 (is ignored on lower versions).
-
-Example:
-
-```php
-use phootwork\json\Json;
-use phootwork\json\JsonException;
-
-$data = ['json': 'data'];
-
-try {
-	$json = Json::encode($data);
-} catch (JsonException $e) {
-	// something went wrong
-}
-
-var_dump($json);
-```
-
-The above example will output:
-
-```php
-string(15) "{"json":"data"}"
-```
-
-### Decode
-
-By default, this json library returns decoded JSON as array!
-
-Synopsis:
-
-```php
-array Json::decode (string $json [, int $options = 0 [, int $depth = 512]])
-```
-
-Example:
-
-```php
-use phootwork\json\Json;
-use phootwork\json\JsonException;
-
-$json = '{"json": "data"}';
-
-try {
-	$data = Json::decode($json);
-} catch (JsonException $e) {
-	// something went wrong
-}
-
-var_dump($data);
-```
-
-The above example will output:
-
-```php
-array(1) {
-  'json' =>
-  string(4) "data"
-}
-```
+Refer to [Releases](https://github.com/phootwork/json/releases)

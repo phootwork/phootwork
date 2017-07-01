@@ -2,6 +2,7 @@
 namespace phootwork\json\tests;
 
 use phootwork\collection\ArrayList;
+use phootwork\collection\CollectionUtils;
 use phootwork\collection\Map;
 use phootwork\json\Json;
 
@@ -36,7 +37,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase {
 		
 		$this->assertTrue($map instanceof Map);
 		$this->assertTrue($map->get('b') instanceof ArrayList);
-		$this->assertEquals($data, $map->toArray());
+		$this->assertEquals($data, CollectionUtils::toArrayRecursive($map));
 	}
 
 }
