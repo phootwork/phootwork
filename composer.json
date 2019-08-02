@@ -1,0 +1,49 @@
+{
+  "name" : "phootwork/phootwork",
+  "type" : "library",
+  "description" : "The phootwork library fills gaps in the php language and provides better solutions than the existing ones php offers.",
+  "authors" : [{
+    "name" : "Thomas Gossmann",
+    "homepage" : "http://gos.si"
+  }
+  ],
+  "license" : "MIT",
+  "keywords" : ["Text object", "Array object", "collection", "collections", "list", "set", "map", "queue", "stack",
+    "xml", "json"
+  ],
+  "support" : {
+    "issues" : "https://github.com/phootwork/phootwork/issues"
+  },
+  "require": {
+    "php": ">=5.6",
+    "ext-json": "*",
+    "symfony/polyfill-mbstring" : "~1.8"
+  },
+  "replace": {
+    "phootwork/collection": "self.version",
+    "phootwork/file": "self.version",
+    "phootwork/json": "self.version",
+    "phootwork/lang": "self.version",
+    "phootwork/tokenizer": "self.version",
+    "phootwork/xml": "self.version"
+  },
+  "require-dev": {
+    "phpunit/phpunit" : "^5.7",
+    "mikey179/vfsstream": "^1.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "phootwork\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "phootwork\\collection\\tests\\": "tests/collection/",
+      "phootwork\\file\\tests\\": "tests/file/",
+      "phootwork\\json\\tests\\": "tests/json/",
+      "phootwork\\lang\\tests\\": "tests/lang/",
+      "phootwork\\tokenizer\\tests\\": "tests/tokenizer/",
+      "phootwork\\xml\\tests\\": "tests/xml/"
+    }
+  }
+}

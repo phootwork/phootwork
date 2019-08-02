@@ -20,7 +20,7 @@ class StackParserVisitor extends XmlParserNoopVisitor {
 		return $this->elementStack;
 	}
 	
-	public function visitElementStart($name, $attributes) {
+	public function visitElementStart($name, $attributes, $line, $column) {
 		$this->elementStack->push($name);
 	}
 }

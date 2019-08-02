@@ -42,9 +42,9 @@ class XmlParserTest extends \PHPUnit_Framework_TestCase {
 		$stack->push('database');
 		$stack->push('entity');
 		$stack->pushAll(['field', 'field', 'field', 'field', 'relation', 'relation']);
-		$stack = $stack->map(function ($item) {
-			return strtoupper($item);
-		});
+		//$stack = $stack->map(function ($item) {
+		//	return strtoupper($item);
+		//});
 		$this->assertEquals($stack, $visitor->getElementStack());
 		
 	}

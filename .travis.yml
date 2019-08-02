@@ -1,0 +1,32 @@
+language: php
+fast_finish: true
+sudo: false
+
+php:
+  - 5.6
+  - 7.0
+  - 7.1
+  - 7.2
+  - 7.3
+  - nightly
+
+install:
+  - composer install
+
+script:
+  - vendor/bin/phpunit --coverage-clover coverage.clover
+
+after_script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
+
+after_success:
+  - bin/auto_split.sh
+
+matrix:
+  allow_failures:
+    - php: nightly
+
+env:
+  global:
+    secure: JU0KzLriE1s9Y5v0DJa5HCghge6XvBWIcOfPmyntARWPuDIMAgJt29Ff6gy5pOJnaPRYRZKxEZ/4/icBqfbVqnVYhQTcsAY2e7041MYnmUbncYpFktLQLLCdfPhYtVpI9tdFkyjycqjq472Xh+sMidL990ybnRrqLBxiacgCVb5sBHyKLmg068P5epBu6hsR0aCmSm/W6A7+YdM4Z9mbv7e0GiSwGdsvXWPe1B6HuAbnNRl8wDbE7tvIwwo/s9PfL98n2yY2fcLn3u0TQOqxaB2tzn4gRwa06LFZaREU9xwSMQhxD/RN2w2xxlTJmmZYufIcmUyU1j5nQVq9FCoTwFybQqCmcZN8amvEtCBOn+AJzkSiBjmo+0/Rvn+yHrXnRoJg7Dcu8tA+eDXxPyJIIs4XmUJ02mhzFqPLKdlYI8AWES965skrVNeSkE7yu1Hg5dpL+6JFbenZxWJhEiN4ToiTNtA8bbQ+oUXjQ1IlWLRM9Nzhf4PmEVSpjxdpMhpuHJ0ULl8p00p8ru91Y2AIq63AEZJk7TOat9eo8L+TErxaLjesdlVlevGYY8u9xB9ROdO32lgVYOtWKf+SpRmFezHUtkpMyyeBcZKFYViE1C+TjmdXfenNPyC0kkkDOdWoLtu04OUuAF0FZ103FCRs1m/HmHHIIuE0rgQhJ7OAn5g=

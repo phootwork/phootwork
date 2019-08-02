@@ -1,0 +1,17 @@
+#!/bin/bash
+
+#Run the commands only when push on master branch
+if [ ${TRAVIS_BRANCH} = "master" ]
+then
+ if [ ${TRAVIS_PULL_REQUEST} = "false" ]
+ then
+    git clone https://github.com/shopsys/monorepo-tools
+    git remote add dep_collection https://${GITHUB_TOKEN}@github.com/phootwork/collection
+    git remote add dep_file https://${GITHUB_TOKEN}@github.com/phootwork/file
+    git remote add dep_json https://${GITHUB_TOKEN}@github.com/phootwork/json
+    git remote add dep_lang https://${GITHUB_TOKEN}@github.com/phootwork/lang
+    git remote add dep_tokenizer https://${GITHUB_TOKEN}@github.com/phootwork/tokenizer
+    git remote add dep_xml https://${GITHUB_TOKEN}@github.com/phootwork/xml
+    monorepo-tools/monorepo_split.sh dep_collection:src/collection dep_file:src/file dep_json:src/json dep_lang:src/lang dep_tokenizer:src/tokenizer dep_xml:src/xml
+ fi
+fi
