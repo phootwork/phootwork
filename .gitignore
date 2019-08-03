@@ -1,5 +1,8 @@
 composer.phar
 composer.lock
 phpunit.xml
+sami.phar
+cache/
+docs/
 vendor/
 .phpunit.result.cache
