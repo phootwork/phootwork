@@ -1,12 +1,22 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\collection\tests;
 
 use phootwork\collection\ArrayList;
 use phootwork\collection\CollectionUtils;
+use PHPUnit\Framework\TestCase;
 
-class AbstractCollectionTest extends \PHPUnit_Framework_TestCase {
+class AbstractCollectionTest extends TestCase {
 
-	public function testSize() {
+	public function testSize(): void {
 		$list = new ArrayList();
 
 		$this->assertTrue($list->isEmpty());
@@ -28,7 +38,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, $list->size());
 	}
 
-	public function testIterator() {
+	public function testIterator(): void {
 		$data = ['item 1', 'item 2'];
 		$list = new ArrayList($data);
 		$elements = [];
@@ -49,7 +59,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame($elements, $keyelems);
 	}
 
-	public function testExport() {
+	public function testExport(): void {
 		$data = [1, 2, ['a' => 'b', 'c' => [7, 8, 9]], 4];
 		$list = CollectionUtils::fromCollection($data);
 		$this->assertEquals(4, count($list->toArray()));
@@ -58,5 +68,4 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase {
 		$map = CollectionUtils::fromCollection($data);
 		$this->assertEquals(3, count($map->toArray()));
 	}
-
 }

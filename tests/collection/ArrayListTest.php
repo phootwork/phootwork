@@ -1,13 +1,23 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\collection\tests;
 
 use phootwork\collection\ArrayList;
 use phootwork\collection\tests\fixtures\Item;
 use phootwork\lang\ComparableComparator;
+use PHPUnit\Framework\TestCase;
 
-class ArrayListTest extends \PHPUnit_Framework_TestCase {
+class ArrayListTest extends TestCase {
 
-	public function testAddGetRemove() {
+	public function testAddGetRemove(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -40,7 +50,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, $list->size());
 	}
 
-	public function testDuplicateValues() {
+	public function testDuplicateValues(): void {
 		$item1 = 'item 1';
 
 		$list = new ArrayList();
@@ -49,7 +59,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $list->size());
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -60,7 +70,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$index1 = $list->indexOf($item1);
 		$this->assertEquals(0, $index1);
 		$this->assertEquals(1, $list->indexOf($item2));
-		$this->assertFalse($list->indexOf($item3));
+		$this->assertNull($list->indexOf($item3));
 
 		$list->removeAll($items);
 		$list->addAll($items);
@@ -73,7 +83,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($item2, $list->get(2));
 	}
 
-	public function testContains() {
+	public function testContains(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -85,7 +95,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($list->contains($item3));
 	}
 
-	public function testMap() {
+	public function testMap(): void {
 		$list = new ArrayList([2, 3, 4]);
 		$list2 = $list->map(function ($item) {
 			return $item * $item;
@@ -94,7 +104,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame([4, 9, 16], $list2->toArray());
 	}
 
-	public function testFilter() {
+	public function testFilter(): void {
 		$list = new ArrayList([1, 2, 3, 4, 5, 6]);
 		$list2 = $list->filter(function ($item) {
 			return $item & 1;
@@ -103,14 +113,14 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame([1, 3, 5], $list2->toArray());
 	}
 
-	public function testReduce() {
+	public function testReduce(): void {
 		$list = new ArrayList(range(1, 10));
 		$sum = $list->reduce(function($a, $b) {return $a + $b;});
 
 		$this->assertEquals(55, $sum);
 	}
 
-	public function testClone() {
+	public function testClone(): void {
 		$list = new ArrayList([new Item(), 2, 3, 4, 5, 6]);
 		$clone = clone $list;
 
@@ -120,11 +130,11 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotSame($list, $clone);
 		$this->assertSame($list->get(0), $clone->get(0));
 		
-		$clone->remove(0);
+		$clone->removeByIndex(0);
 		$this->assertNotEquals($list->size(), $clone->size());
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		$list = new ArrayList(range(1, 10));
 		$search = function ($elem, $query) {return $elem == $query;};
 
@@ -139,7 +149,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		}));
 	}
 
-	public function testSortAndReverse() {
+	public function testSortAndReverse(): void {
 		$unsorted = [5, 2, 8, 3, 9, 4, 6, 1, 7, 10];
 		$list = new ArrayList($unsorted);
 
@@ -167,7 +177,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(['a', 'c', 'm', 't', 'x'], $list->map(function ($item) {return $item->getContent();})->toArray());
 	}
 
-	public function testEach() {
+	public function testEach(): void {
 		$result = [];
 		$list = new ArrayList(range(1, 10));
 		$list->each(function ($value) use (&$result) {
@@ -176,7 +186,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($list->toArray(), $result);
 	}
 
-	public function testFind() {
+	public function testFind(): void {
 		$list = new ArrayList(range(1, 10));
 		$list = $list->map(function ($item) {
 			return new Item($item);
@@ -220,7 +230,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(2, $bananas->size());
 	}
 
-	public function testSome() {
+	public function testSome(): void {
 		$list = new ArrayList(range(1, 10));
 
 		$this->assertTrue($list->some(function ($item) {
@@ -237,7 +247,7 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase {
 		}));
 	}
 
-	public function testEvery() {
+	public function testEvery(): void {
 		$list = new ArrayList(range(1, 10));
 
 		$this->assertTrue($list->every(function ($item) {

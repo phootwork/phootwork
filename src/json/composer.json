@@ -20,8 +20,8 @@
 		}
 	},
 	"require" : {
-		"php" : ">=5.6",
-		"phootwork/collection" : "^1.5"
+		"php" : ">=7.2",
+		"phootwork/collection" : "^2.0"
 	},
 	"homepage" : "https://phootwork.github.io/json/"
 }

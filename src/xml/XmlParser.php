@@ -1,7 +1,17 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\xml;
 
 use phootwork\collection\Set;
+use phootwork\file\exception\FileException;
 use phootwork\xml\exception\XmlException;
 use phootwork\file\Path;
 use phootwork\file\File;
@@ -46,7 +56,7 @@ class XmlParser {
 	 */
 	const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
 	
-	
+	/** @var resource */
 	private $parser;
 	
 	/** @var Set */
@@ -57,16 +67,16 @@ class XmlParser {
 	 * 
 	 * @param string $encoding Force a specific encoding
 	 */
-	public function __construct($encoding = null) {
+	public function __construct($encoding = 'UTF-8') {
 		$this->visitors = new Set();
 		$this->parser = xml_parser_create($encoding);
 		
 		xml_set_object($this->parser, $this);
-		xml_set_element_handler($this->parser, 'handleElementStart', 'handleElementEnd');
-		xml_set_character_data_handler($this->parser, 'handleCharacterData');
-		xml_set_processing_instruction_handler($this->parser, 'handleProcessingInstruction');
-		xml_set_notation_decl_handler($this->parser, 'handleNotationDeclaration');
-		xml_set_unparsed_entity_decl_handler($this->parser, 'handleUnparsedEntitiyDeclaration');
+		xml_set_element_handler($this->parser, [$this, 'handleElementStart'], [$this, 'handleElementEnd']);
+		xml_set_character_data_handler($this->parser, [$this, 'handleCharacterData']);
+		xml_set_processing_instruction_handler($this->parser, [$this, 'handleProcessingInstruction']);
+		xml_set_notation_decl_handler($this->parser, [$this, 'handleNotationDeclaration']);
+		xml_set_unparsed_entity_decl_handler($this->parser, [$this, 'handleUnparsedEntitiyDeclaration']);
 	}
 	
 	public function __destruct() {
@@ -79,7 +89,7 @@ class XmlParser {
 	 * @param int $option Any of the XmlParser::OPTION_* constants
 	 * @param mixed $value The desired value
 	 */
-	public function setOption($option, $value) {
+	public function setOption(int $option, $value): void {
 		xml_parser_set_option($this->parser, $option, $value);
 	}
 	
@@ -89,7 +99,7 @@ class XmlParser {
 	 * @param int $option Any of the XmlParser::OPTION_* constants
 	 * @return mixed
 	 */
-	public function getOption($option) {
+	public function getOption(int $option) {
 		return xml_parser_get_option($this->parser, $option);
 	}
 	
@@ -98,7 +108,7 @@ class XmlParser {
 	 * 
 	 * @param XmlParserVisitorInterface $visitor
 	 */
-	public function addVisitor(XmlParserVisitorInterface $visitor) {
+	public function addVisitor(XmlParserVisitorInterface $visitor): void {
 		$this->visitors->add($visitor);
 	}
 	
@@ -107,28 +117,31 @@ class XmlParser {
 	 * 
 	 * @param XmlParserVisitorInterface $visitor
 	 */
-	public function removeVisitor(XmlParserVisitorInterface $visitor) {
+	public function removeVisitor(XmlParserVisitorInterface $visitor): void {
 		$this->visitors->remove($visitor);
 	}
-	
+
 	/**
 	 * Parses a string
-	 * 
+	 *
 	 * @param string $data
+	 * @throws XmlException
 	 */
-	public function parse($data) {
+	public function parse($data): void {
 		if (!xml_parse($this->parser, $data)) {
 			$code = xml_get_error_code($this->parser);
 			throw new XmlException(xml_error_string($code), $code);
 		}
 	}
-	
+
 	/**
 	 * Parses a file
-	 * 
-	 * @param Path|File|Text|string $file
+	 *
+	 * @param mixed|Path|File|Text|string $file
+	 * @throws XmlException
+	 * @throws FileException If something went wrong in reading file
 	 */
-	public function parseFile($file) {
+	public function parseFile($file): void {
 		if ($file instanceof Path) {
 			$file = $file->getPathname();
 		}
@@ -145,12 +158,18 @@ class XmlParser {
 			$this->parse($file->read());
 		}
 	}
-	
-	private function getCurrentLineNumber() {
+
+	/**
+	 * @return int
+	 */
+	private function getCurrentLineNumber(): int {
 		return xml_get_current_line_number($this->parser);
 	}
-	
-	private function getCurrentColumnNumber() {
+
+	/**
+	 * @return int
+	 */
+	private function getCurrentColumnNumber(): int {
 		return xml_get_current_column_number($this->parser);
 	}
 	
@@ -161,8 +180,8 @@ class XmlParser {
 	 * @param string $name
 	 * @param array $attribs
 	 */
-	private function handleElementStart($parser, $name, $attribs) {
-		/** @var $visitor XmlParserVisitorInterface */
+	private function handleElementStart($parser, string $name, array $attribs): void {
+		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitElementStart(strtolower($name), $attribs, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
@@ -174,8 +193,8 @@ class XmlParser {
 	 * @param resource $parser
 	 * @param string $name
 	 */
-	private function handleElementEnd($parser, $name) {
-		/** @var $visitor XmlParserVisitorInterface */
+	private function handleElementEnd($parser, string $name): void {
+		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitElementEnd(strtolower($name), $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
@@ -187,8 +206,8 @@ class XmlParser {
 	 * @param resource $parser
 	 * @param string $data
 	 */
-	private function handleCharacterData($parser, $data) {
-		/** @var $visitor XmlParserVisitorInterface */
+	private function handleCharacterData($parser, string $data): void {
+		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitCharacterData($data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
@@ -201,8 +220,8 @@ class XmlParser {
 	 * @param string $target
 	 * @param string $data
 	 */
-	private function handleProcessingInstruction($parser, $target, $data) {
-		/** @var $visitor XmlParserVisitorInterface */
+	private function handleProcessingInstruction($parser, string $target, string $data): void {
+		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitProcessingInstruction($target, $data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
@@ -217,15 +236,16 @@ class XmlParser {
 	 * @param string $systemId
 	 * @param string $publicId
 	 */
-	private function handleNotationDeclaration($parser, $notationName, $base, $systemId, $publicId) {
-		/** @var $visitor XmlParserVisitorInterface */
+	private function handleNotationDeclaration($parser, string $notationName, string $base, string $systemId,
+											   string $publicId): void {
+		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitNotationDeclaration($notationName, $base, $systemId, $publicId, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 	
 	/**
-	 * handle unparsed entitiy declaration
+	 * handle unparsed entity declaration
 	 * 
 	 * @param resource $parser
 	 * @param string $entityName
@@ -234,10 +254,11 @@ class XmlParser {
 	 * @param string $publicId
 	 * @param string $notationName
 	 */
-	private function handleUnparsedEntitiyDeclaration($parser, $entityName, $base, $systemId, $publicId, $notationName) {
-		/** @var $visitor XmlParserVisitorInterface */
+	private function handleUnparsedEntitiyDeclaration($parser, string $entityName, string $base, string $systemId,
+													  string $publicId, $notationName): void {
+		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
-			$visitor->visitUnparsedEntitiyDeclaration($entityName, $base, $systemId, $publicId, $notationName, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
+			$visitor->visitUnparsedEntityDeclaration($entityName, $base, $systemId, $publicId, $notationName, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
 }

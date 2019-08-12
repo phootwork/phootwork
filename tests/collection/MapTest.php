@@ -1,4 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\collection\tests;
 
 use phootwork\collection\ArrayList;
@@ -8,10 +17,11 @@ use phootwork\collection\tests\fixtures\Item;
 use phootwork\lang\ComparableComparator;
 use phootwork\lang\StringComparator;
 use phootwork\lang\Text;
+use PHPUnit\Framework\TestCase;
 
-class MapTest extends \PHPUnit_Framework_TestCase {
+class MapTest extends TestCase {
 
-	public function testAddGetRemove() {
+	public function testAddGetRemove(): void {
 		$key1 = 'key1';
 		$key2 = 'key2';
 		$key3 = 'key3';
@@ -57,11 +67,11 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($item3, $map->get($key2));
 		
 		$this->assertEmpty($map->get('non_existing_key'));
-		$this->assertEmpty($map->remove('non_existing_key'));
+		$this->assertSame($map, $map->remove('non_existing_key'), 'Remove method always returns self');
 		$this->assertEquals([], $map->get('non_existing_key', []));
 	}
 	
-	public function testToArray() {
+	public function testToArray(): void {
 		$key1 = 'key1';
 		$key2 = 'key2';
 		$key3 = 'key3';
@@ -74,7 +84,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame($items, $map->toArray());
 	}
 
-	public function testMap() {
+	public function testMap(): void {
 		$map = new Map(['a' => 'a', 'b' => 'b', 'c' => 'c']);
 		$map2 = $map->map(function ($item) {
 			return $item . 'val';
@@ -83,7 +93,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $map2->toArray());
 	}
 
-	public function testFilter() {
+	public function testFilter(): void {
 		$map = new Map(['a' => 'a', 'b' => 'b', 'c' => 'c']);
 		$map2 = $map->filter(function ($item) {
 			return $item != 'b';
@@ -92,7 +102,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame(['a' => 'a', 'c' => 'c'], $map2->toArray());
 	}
 
-	public function testArrayAccess() {
+	public function testArrayAccess(): void {
 		$map = new Map();
 		$map['a'] = 'b';
 		
@@ -115,7 +125,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(0, $map->size());	
 	}
 	
-	public function testClone() {
+	public function testClone(): void {
 		$map = new Map(['a' => 'aval', 'b' => 'bval', 'c' => 'cval']);
 		$clone = clone $map;
 	
@@ -125,7 +135,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotSame($map, $clone);
 	}
 	
-	public function testSort() {
+	public function testSort(): void {
 		$map = new Map(['b' => 'bval', 'a' => 'aval', 'c' => 'cval']);
 		$map->sort();
 		$this->assertEquals(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $map->toArray());
@@ -146,7 +156,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 				->toArray());
 	}
 	
-	public function testSortKeys() {
+	public function testSortKeys(): void {
 		$map = new Map(['b' => 'bval', 'a' => 'aval', 'c' => 'cval']);
 		$map->sortKeys();
 		$this->assertEquals(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $map->toArray());
@@ -165,7 +175,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $map->toArray());
 	}
 	
-	public function testEach() {
+	public function testEach(): void {
 		$result = [];
 		$map = new Map(['b' => 'bval', 'a' => 'aval', 'c' => 'cval']);
 		$map->each(function ($key, $value) use (&$result) {
@@ -174,7 +184,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($map->toArray(), $result);
 	}
 	
-	public function testFind() {
+	public function testFind(): void {
 		$fruits = new Map([
 			'a' => 'apple', 
 			'b' => 'banana', 
@@ -199,7 +209,7 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		}));
 	}
 	
-	public function testTextAsKey() {
+	public function testTextAsKey(): void {
 		$map = new Map();
 		$key = new Text('k');
 		$map->set($key, 'val');
@@ -208,5 +218,4 @@ class MapTest extends \PHPUnit_Framework_TestCase {
 		$map->remove($key);
 		$this->assertEquals(0, $map->size());
 	}
-	
 }

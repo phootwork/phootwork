@@ -1,12 +1,22 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\file\tests;
 
 use phootwork\file\Path;
 use phootwork\lang\ArrayObject;
+use PHPUnit\Framework\TestCase;
 
-class PathTest extends \PHPUnit_Framework_TestCase {
+class PathTest extends TestCase {
 
-	public function testBasicNaming() {
+	public function testBasicNaming(): void {
 		$p = new Path('this/is/the/path/to/my/file.ext');
 		
 		$this->assertEquals('this/is/the/path/to/my', $p->getDirname());
@@ -29,14 +39,14 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('file:///this/is/the/path/to/my/file.ext', $p->getPathname());
 	}
 	
-	public function testExtension() {
+	public function testExtension(): void {
 		$p = new Path('my/file.ext');
 		$this->assertEquals('ext', $p->getExtension());
 		$this->assertEquals('bla', $p->setExtension('bla')->getExtension());
 		$this->assertEmpty($p->removeExtension()->getExtension());
 	}
 
-	public function testSegments() {
+	public function testSegments(): void {
 		$p = new Path('this/is/the/path/to/my/file.ext');
 		
 		$this->assertEquals(new ArrayObject(['this', 'is', 'the', 'path', 'to', 'my', 'file.ext']), $p->segments());
@@ -51,7 +61,7 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('', $p->upToSegment(0)->toString());
 	}
 
-	public function testSegmentsStream() {
+	public function testSegmentsStream(): void {
 		$p = new Path('ftp://this/is/the/path/to/my/file.ext');
 
 		$this->assertEquals(new ArrayObject(['this', 'is', 'the', 'path', 'to', 'my', 'file.ext']), $p->segments());
@@ -66,7 +76,7 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('', $p->upToSegment(0)->toString());
 	}
 	
-	public function testTrailingSlash() {
+	public function testTrailingSlash(): void {
 		$p = new Path('stairway/to/hell');
 		
 		$this->assertFalse($p->hasTrailingSeparator());
@@ -76,7 +86,7 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($p->hasTrailingSeparator());
 	}
 	
-	public function testMatching() {
+	public function testMatching(): void {
 		$base = new Path('this/is/the/path/to/my/file.ext');
 		$prefix = new Path('this/is/the');
 		$anotherPath = new Path('this/is/another/path');
@@ -88,12 +98,15 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('/path/to/my/file.ext', $base->makeRelativeTo($prefix)->toString());
 	}
 
-	public function testAbsolute() {
+	public function testAbsolute(): void {
 		$win = new Path('c:\\\\windows');
 		$this->assertTrue($win->isAbsolute());
 		
 		$unix = new Path('/etc');
 		$this->assertTrue($unix->isAbsolute());
+
+		$win = new Path('\\windows\\system');
+		$this->assertTrue($win->isAbsolute());
 		
 		$null = new Path('');
 		$this->assertFalse($null->isAbsolute());
@@ -109,7 +122,7 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 
 	}
 	
-	public function testEquals() {
+	public function testEquals(): void {
 		$current = new Path(__FILE__);
 		$cwd = new Path(getcwd());
 		$relative = new Path('.'.$current->makeRelativeTo($cwd));
@@ -123,7 +136,7 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($current->equals($cwd));
 	}
 
-	public function testAppend() {
+	public function testAppend(): void {
 		$current = new Path('/home/user');
 		$new = $current->append('path/to/append');
 		$this->assertEquals('/home/user/path/to/append', $new->getPathname()->toString());
@@ -136,5 +149,10 @@ class PathTest extends \PHPUnit_Framework_TestCase {
 		$current = new Path('/home/user/spiderman.txt');
 		$new = $current->append('path/to/append');
 		$this->assertEquals('/home/user/spiderman.txt/path/to/append', $new->getPathname()->toString());
+	}
+
+	public function testIsEmpty(): void {
+		$path = new Path('');
+		$this->assertTrue($path->isEmpty());
 	}
 }
