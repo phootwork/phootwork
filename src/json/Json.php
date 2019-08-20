@@ -1,4 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\json;
 
 use phootwork\collection\ArrayList;
@@ -203,7 +212,7 @@ class Json {
 	 * @throws JsonException if something gone wrong
 	 * @return string Returns a JSON encoded string
 	 */
-	public static function encode($data, $options = 0, $depth = 512) {
+	public static function encode($data, int $options = 0, int $depth = 512): string {
 		$json = json_encode($data, $options, $depth);
 		
 		self::throwExceptionOnError($json);
@@ -220,7 +229,7 @@ class Json {
 	 * @throws JsonException if something gone wrong
 	 * @return array Returns the value encoded in json in appropriate PHP type. Values true, false and null are returned as TRUE, FALSE and NULL respectively. 
 	 */
-	public static function decode($json, $options = 0, $depth = 512) {
+	public static function decode(string $json, int $options = 0, int $depth = 512): array {
 		$data = json_decode($json, true, $depth, $options);
 		self::throwExceptionOnError($data);
 
@@ -233,8 +242,8 @@ class Json {
 	 * @param string $json
 	 * @return Map
 	 */
-	public static function toMap($json) {
-		return self::toCollection($json);
+	public static function toMap(string $json): Map {
+		return CollectionUtils::toMap(json_decode($json, true));
 	}
 	
 	/**
@@ -243,8 +252,8 @@ class Json {
 	 * @param string $json
 	 * @return ArrayList
 	 */
-	public static function toList($json) {
-		return self::toCollection($json);
+	public static function toList(string $json): ArrayList {
+		return CollectionUtils::toList(json_decode($json, true));
 	}
 	
 	/**
@@ -253,16 +262,19 @@ class Json {
 	 * @param string $json
 	 * @return Collection
 	 */
-	public static function toCollection($json) {
+	public static function toCollection(string $json): Collection {
 		return CollectionUtils::fromCollection(json_decode($json, true));
 	}
 
-	private static function throwExceptionOnError($output) {
+	/**
+	 * @param mixed $output
+	 * @throws JsonException
+	 */
+	private static function throwExceptionOnError($output): void {
 		$error = json_last_error();
 	
 		if ($output === null || $error !== Json::ERROR_NONE) {
 			throw new JsonException('', $error);
 		}
 	}
-
 }

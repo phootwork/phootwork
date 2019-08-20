@@ -1,11 +1,21 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\collection\tests;
 
 use phootwork\collection\Stack;
+use PHPUnit\Framework\TestCase;
 
-class StackTest extends \PHPUnit_Framework_TestCase {
+class StackTest extends TestCase {
 	
-	public function testAddRemove() {
+	public function testAddRemove(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -28,7 +38,7 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $stack->size());
 	}
 	
-	public function testToArray() {
+	public function testToArray(): void {
 		$stack = new Stack(['item 1', 'item 2', 'item 3']);
 		$this->assertSame('item 3', $stack->peek());
 		$this->assertEquals($stack->toArray(), ['item 1', 'item 2', 'item 3']);
@@ -44,7 +54,7 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($stack->toArray(), ['item 1', 'item 2', 'item 3']);
 	}
 	
-	public function testDuplicateValues() {
+	public function testDuplicateValues(): void {
 		$item1 = 'item 1';
 		
 		$stack = new Stack();
@@ -53,7 +63,7 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(3, $stack->size());
 	}
 	
-	public function testOrder() {
+	public function testOrder(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -78,7 +88,7 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNull($stack->peek());
 	}
 	
-	public function testContains() {
+	public function testContains(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -90,7 +100,7 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($stack->contains($item3));
 	}
 	
-	public function testClone() {
+	public function testClone(): void {
 		$stack = new Stack([1, 2, 3, 4, 5, 6]);
 		$clone = clone $stack;
 	
@@ -100,7 +110,7 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 		$this->assertNotSame($stack, $clone);
 	}
 	
-	public function testMap() {
+	public function testMap(): void {
 		$cb = function ($item) {
 			return strtoupper($item);
 		};
@@ -108,5 +118,4 @@ class StackTest extends \PHPUnit_Framework_TestCase {
 		$stack = new Stack(['item 1', 'item 2', 'item 3']);
 		$this->assertEquals(array_map($cb, $stack->toArray()), $stack->map($cb)->toArray());
 	}
-	
 }

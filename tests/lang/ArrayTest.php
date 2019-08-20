@@ -1,4 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\lang\tests;
 
 use phootwork\lang\ArrayObject;
@@ -6,10 +15,11 @@ use phootwork\lang\Text;
 use phootwork\lang\tests\fixtures\Item;
 use phootwork\lang\ComparableComparator;
 use phootwork\lang\StringComparator;
+use PHPUnit\Framework\TestCase;
 
-class ArrayTest extends \PHPUnit_Framework_TestCase {
+class ArrayTest extends TestCase {
 
-	public function testArray() {
+	public function testArray(): void {
 		$base = ['a' => 'b', 'c' => 'd'];
 		$arr = new ArrayObject($base);
 
@@ -34,7 +44,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertTrue($arr->isEmpty());
 	}
 
-	public function testCount() {
+	public function testCount(): void {
 		$arr = new ArrayObject(['these', 'are', 'my', 'items']);
 
 		$this->assertEquals(4, $arr->count());
@@ -45,7 +55,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(6, $arr->count());
 	}
 
-	public function testArrayAccess() {
+	public function testArrayAccess(): void {
 		$arr = new ArrayObject(['a' => 'b', 'c' => 'd']);
 
 		$this->assertEquals('b', $arr['a']);
@@ -57,7 +67,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals('x', $arr['a']);
 	}
 
-	public function testSerialization() {
+	public function testSerialization(): void {
 		$arr = new ArrayObject(['these', 'are', 'my', 'items']);
 		$serialized = $arr->serialize();
 
@@ -67,14 +77,14 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($arr, $brr);
 	}
 
-	public function testReduce() {
+	public function testReduce(): void {
 		$list = new ArrayObject(range(1, 10));
 		$sum = $list->reduce(function($a, $b) {return $a + $b;});
 
 		$this->assertEquals(55, $sum);
 	}
 
-	public function testFilter() {
+	public function testFilter(): void {
 		$arr = new ArrayObject(['a' => 'a', 'b' => 'b', 'c' => 'c']);
 		$arr = $arr->filter(function ($item) {
 			return $item != 'b';
@@ -83,7 +93,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame(['a' => 'a', 'c' => 'c'], $arr->toArray());
 	}
 
-	public function testMap() {
+	public function testMap(): void {
 		$arr = new ArrayObject(['a' => 'a', 'b' => 'b', 'c' => 'c']);
 		$arr = $arr->map(function ($item) {
 			return $item . 'val';
@@ -92,7 +102,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertSame(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $arr->toArray());
 	}
 
-	public function testSort() {
+	public function testSort(): void {
 		$unsorted = [5, 2, 8, 3, 9, 4, 6, 1, 7, 10];
 		$list = new ArrayObject($unsorted);
 
@@ -111,13 +121,27 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$items = ['x', 'c', 'a', 't', 'm'];
 		$list = new ArrayObject();
 		foreach ($items as $item) {
-			$list->push(new Item($item));
+			$list->append(new Item($item));
 		}
+
 		$list->sort(new ComparableComparator());
 		$this->assertEquals(['a', 'c', 'm', 't', 'x'], $list->map(function ($item) {return $item->getContent();})->toArray());
 	}
 
-	public function testSortAssoc() {
+	public function testSortNotComparableThrowsException(): void {
+		$this->expectException(\InvalidArgumentException::class);
+		$this->expectExceptionMessage('ComparableComparator can compare only objects implementing phootwork\lang\Comparable interface');
+
+		$items = [(object) 'x', (object) 'c', (object) 'a'];
+		$list = new ArrayObject();
+		foreach ($items as $item) {
+			$list->append($item);
+		}
+
+		$list->sort(new ComparableComparator());
+	}
+
+	public function testSortAssoc(): void {
 		$arr = new ArrayObject(['b' => 'bval', 'a' => 'aval', 'c' => 'cval']);
 		$arr->sortAssoc();
 		$this->assertEquals(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $arr->toArray());
@@ -134,11 +158,11 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$arr = new ArrayObject(['b' => new Item('bval'), 'a' => new Item('aval'), 'c' => new Item('cval')]);
 		$arr->sortAssoc(new ComparableComparator());
 		$this->assertEquals(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $arr
-				->map(function ($elem) {return $elem->getContent();})
+				->map(function (Item $elem) {return $elem->getContent();})
 				->toArray());
 	}
 
-	public function testSortKeys() {
+	public function testSortKeys(): void {
 		$arr = new ArrayObject(['b' => 'bval', 'a' => 'aval', 'c' => 'cval']);
 		$arr->sortKeys();
 		$this->assertEquals(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $arr->toArray());
@@ -157,10 +181,10 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(['a' => 'aval', 'b' => 'bval', 'c' => 'cval'], $arr->toArray());
 	}
 
-	public function testMutators() {
+	public function testMutators(): void {
 		$base = ['b', 'c', 'd'];
 		$arr = new ArrayObject($base);
-		$arr->push('e', 'f');
+		$arr->append('e', 'f');
 
 		$this->assertEquals(['b', 'c', 'd', 'e', 'f'], $arr->toArray());
 		$this->assertEquals('f', $arr->pop());
@@ -169,9 +193,11 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(['a', 'b', 'c', 'd'], $arr->toArray());
 		$this->assertEquals('a', $arr->shift());
 		$this->assertEquals($base, $arr->toArray());
+		$arr->prepend('a');
+		$this->assertEquals(['a', 'b', 'c', 'd'], $arr->toArray());
 	}
 
-	public function testEach() {
+	public function testEach(): void {
 		$result = [];
 		$list = new ArrayObject(range(1, 10));
 		$list->each(function ($value) use (&$result) {
@@ -180,7 +206,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($list->toArray(), $result);
 	}
 
-	public function testIndex() {
+	public function testIndex(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -191,7 +217,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$index1 = $list->indexOf($item1);
 		$this->assertEquals(0, $index1);
 		$this->assertEquals(1, $list->indexOf($item2));
-		$this->assertFalse($list->indexOf($item3));
+		$this->assertNull($list->indexOf($item3));
 
 		$list->removeAll($items);
 		$list->addAll($items);
@@ -204,7 +230,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals($item2, $list->get(2));
 	}
 
-	public function testContains() {
+	public function testContains(): void {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
@@ -216,13 +242,13 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$this->assertFalse($list->contains($item3));
 	}
 
-	public function testFind() {
+	public function testFind(): void {
 		$list = new ArrayObject(range(1, 10));
-		$list = $list->map(function ($item) {
-			return new Item($item);
+		$list = $list->map(function (int $item) {
+			return new Item((string) $item);
 		});
 
-		$search = function ($i, $query) {
+		$search = function (Item $i, $query) {
 			return $i->getContent() == $query;
 		};
 
@@ -236,31 +262,31 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		$fruits = $fruits->map(function ($item) {
 			return new Item($item);
 		});
-		$this->assertEquals(1, $fruits->findIndex(function ($elem) {
+		$this->assertEquals(1, $fruits->findIndex(function (Item $elem) {
 			return $elem->getContent() == 'banana';
 		}));
-		$this->assertEquals(3, $fruits->findLastIndex(function ($elem) {
+		$this->assertEquals(3, $fruits->findLastIndex(function (Item $elem) {
 			return $elem->getContent() == 'banana';
 		}));
-		$this->assertEquals(3, $fruits->findLastIndex('banana', function ($elem, $query) {
+		$this->assertEquals(3, $fruits->findLastIndex('banana', function (Item $elem, $query) {
 			return $elem->getContent() == $query;
 		}));
-		$this->assertNull($fruits->findLast('mango', function ($elem, $query) {
+		$this->assertNull($fruits->findLast('mango', function (Item $elem, $query) {
 			return $elem->getContent() == $query;
 		}));
 
-		$apples = $fruits->findAll('apple', function ($elem, $query) {
+		$apples = $fruits->findAll('apple', function (Item $elem, $query) {
 			return $elem->getContent() == $query;
 		});
 		$this->assertEquals(1, $apples->count());
 
-		$bananas = $fruits->findAll(function ($elem) {
+		$bananas = $fruits->findAll(function (Item $elem) {
 			return $elem->getContent() == 'banana';
 		});
 		$this->assertEquals(2, $bananas->count());
 	}
 
-	public function testSearch() {
+	public function testSearch(): void {
 		$list = new ArrayObject(range(1, 10));
 		$search = function ($elem, $query) {return $elem == $query;};
 
@@ -275,7 +301,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		}));
 	}
 
-	public function testSome() {
+	public function testSome(): void {
 		$list = new ArrayObject(range(1, 10));
 
 		$this->assertTrue($list->some(function ($item) {
@@ -292,7 +318,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		}));
 	}
 
-	public function testEvery() {
+	public function testEvery(): void {
 		$list = new ArrayObject(range(1, 10));
 
 		$this->assertTrue($list->every(function ($item) {
@@ -309,14 +335,14 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 		}));
 	}
 
-	public function testSlice() {
+	public function testSlice(): void {
 		$fruits = new ArrayObject(['apple', 'banana', 'pine', 'banana', 'ananas']);
 
 		$this->assertEquals(['banana', 'pine'], $fruits->slice(1, 2)->toArray());
 	}
 
 
-	public function testSplice() {
+	public function testSplice(): void {
 		// delete
 		$fruits = new ArrayObject(['apple', 'banana', 'pine', 'banana', 'ananas']);
 		$this->assertEquals(['apple', 'banana'], $fruits->splice(2)->toArray());
@@ -339,7 +365,29 @@ class ArrayTest extends \PHPUnit_Framework_TestCase {
 
 		// insert string
 		$fruits = new ArrayObject(['apple', 'banana', 'pine', 'banana', 'ananas']);
-		$this->assertEquals(['apple', 'banana', 'pine', 'orange', 'banana', 'ananas'], $fruits->splice(3, 0, 'orange')->toArray());
+		$this->assertEquals(['apple', 'banana', 'pine', 'orange', 'banana', 'ananas'], $fruits->splice(3, 0, ['orange'])->toArray());
 	}
 
+	public function testClone(): void {
+		$fruits = new ArrayObject(['apple', 'banana', 'pine', 'banana', 'ananas']);
+		$clonedFruits = clone $fruits;
+		$this->assertNotSame($fruits, $clonedFruits);
+		$this->assertSame($fruits->toArray(), $clonedFruits->toArray());
+	}
+
+	public function testAppend(): void {
+		$fruits = new ArrayObject(['apple', 'banana']);
+		$fruits->append('pine', 'ananas');
+		$this->assertEquals(['apple', 'banana', 'pine', 'ananas'], $fruits->toArray());
+		$fruits->append(['peach', 'pear']);
+		$this->assertEquals(['apple', 'banana', 'pine', 'ananas', ['peach', 'pear']], $fruits->toArray());
+		$fruits->append($obj = new ArrayObject(['wathermelon']));
+		$this->assertEquals(['apple', 'banana', 'pine', 'ananas', ['peach', 'pear'], $obj], $fruits->toArray());
+	}
+
+	public function testGetWithNotExistentIndex(): void {
+		$fruits = new ArrayObject(['apple', 'banana']);
+		$element = $fruits->get(4);
+		$this->assertNull($element);
+	}
 }

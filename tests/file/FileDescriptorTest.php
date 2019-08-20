@@ -1,4 +1,13 @@
-<?php
+<?php declare(strict_types=1);
+/**
+ * This file is part of the Phootwork package.
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @license MIT License
+ * @copyright Thomas Gossmann
+ */
+
 namespace phootwork\file\tests;
 
 use phootwork\file\Directory;
@@ -9,7 +18,7 @@ use phootwork\lang\Text;
 
 class FileDescriptorTest extends FilesystemTest {
 	
-	public function testTypes() {
+	public function testTypes(): void {
 		$this->assertTrue(Directory::create('') instanceof Directory);
 		$this->assertTrue(File::create('') instanceof File);
 		$this->assertTrue(FileDescriptor::create('') instanceof FileDescriptor);
@@ -19,7 +28,7 @@ class FileDescriptorTest extends FilesystemTest {
 		$this->assertTrue(is_string(FileDescriptor::create(new Text('/path/to/dir'))->getPathname()));
 	}
 
-	public function testNames() {
+	public function testNames(): void {
 		$file = new File($this->root->url() . '/dir/composer.json');
 
 		$this->assertEquals('composer.json', $file->getFilename());
@@ -34,5 +43,4 @@ class FileDescriptorTest extends FilesystemTest {
 		$desc = new FileDescriptor($this->root->url() . '/dir/composer.json');
 		$this->assertEquals($this->root->url() . '/dir/composer.json', ''.$desc);
 	}
-	
 }
