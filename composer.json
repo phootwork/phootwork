@@ -61,8 +61,23 @@
     }
   },
   "scripts": {
-    "check": "@cs",
+    "analytics": "vendor/bin/psalm",
+    "check": [
+      "@test",
+      "@analytics",
+      "@cs-fix"
+    ],
+    "coverage": "@test --coverage-html coverage/",
     "cs": "php-cs-fixer fix -v --diff --dry-run",
-    "cs-fix": "php-cs-fixer fix -v --diff"
+    "cs-fix": "php-cs-fixer fix -v --diff",
+    "test": "vendor/bin/phpunit"
+  },
+  "scripts-descriptions": {
+    "analytics": "Run static analysis tool",
+    "check": "Perform all tests and analysis, required before submitting a pull request",
+    "coverage": "Create a code coverage report in html format, into the `coverage/` directory",
+    "cs": "Run code style analysis, without fixing errors",
+    "cs-fix": "Run code style analysis and fix errors",
+    "test": "Run all tests"
   }
 }
