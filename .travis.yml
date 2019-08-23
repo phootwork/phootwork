@@ -19,7 +19,6 @@ after_script:
 
 after_success:
   - bin/auto_split.sh
-  - wget http://get.sensiolabs.org/sami.phar
   - bin/build_api.sh
 
 matrix:
