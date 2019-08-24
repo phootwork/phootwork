@@ -138,7 +138,7 @@ composer cs-fix
 ```
 and to show the errors without fixing them, run:
 ```bash
-compose cs
+composer cs
 ```
 If you want to learn more about phootwork code style, see https://github.com/phootwork/php-cs-fixer-config.
 
