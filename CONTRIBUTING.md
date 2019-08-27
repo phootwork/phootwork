@@ -95,7 +95,7 @@ composer test -- --stop-on-failure
 ```
 You can also use phpunit directly:
 ```
-vendor\bin\phpunit
+vendor/bin/phpunit
 ```
 
 Each single library has its own test suite and you can launch it separately. I.e. if you want to run the `phootwork/lang`
