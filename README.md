@@ -3,6 +3,8 @@
 [![Build Status](https://travis-ci.org/phootwork/phootwork.svg?branch=master)](https://travis-ci.org/phootwork/phootwork)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phootwork/phootwork/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phootwork/phootwork/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/phootwork/phootwork/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phootwork/phootwork/?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/a873cc250773621aa74b/maintainability)](https://codeclimate.com/github/phootwork/phootwork/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/a873cc250773621aa74b/test_coverage)](https://codeclimate.com/github/phootwork/phootwork/test_coverage)
 [![License](https://img.shields.io/github/license/phootwork/phootwork.svg?style=flat-square)](https://packagist.org/packages/phootwork/phootwork)
 
 Phootwork is a collection of php libraries which fill gaps in the php language and provides consistent object oriented solutions
