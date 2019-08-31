@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\collection;
 
 /**
@@ -16,33 +15,33 @@ namespace phootwork\collection;
  * @author Thomas Gossmann
  */
 interface Collection extends \Iterator {
-	
+
 	/**
 	 * Resets the collection
 	 * 
 	 * @return void
 	 */
 	public function clear(): void;
-	
+
 	/**
 	 * Checks whether this collection is empty
 	 * 
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isEmpty(): bool;
-	
+
 	/**
 	 * Checks whether the given element is in this collection
 	 * 
 	 * @param mixed $element
-	 * @return boolean
+	 * @return bool
 	 */
 	public function contains($element): bool;
-	
+
 	/**
 	 * Returns the amount of elements in this collection
 	 * 
-	 * @return integer
+	 * @return int
 	 */
 	public function size(): int;
 

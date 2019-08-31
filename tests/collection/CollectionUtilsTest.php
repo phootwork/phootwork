@@ -7,11 +7,10 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\collection\tests;
 
-use phootwork\collection\CollectionUtils;
 use phootwork\collection\ArrayList;
+use phootwork\collection\CollectionUtils;
 use phootwork\collection\Map;
 use phootwork\collection\tests\fixtures\DummyIteratorClass;
 use PHPUnit\Framework\TestCase;
@@ -47,7 +46,6 @@ class CollectionUtilsTest extends TestCase {
 
 		$this->assertTrue($map instanceof Map);
 		$this->assertTrue($map->get('a') instanceof ArrayList);
-
 
 		$data = ['a' => 'b', 'c' => [1, ['x' => 'y'], 4], 'd' => 'e'];
 		/** @var Map $map */

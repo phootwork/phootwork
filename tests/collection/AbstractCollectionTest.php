@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\collection\tests;
 
 use phootwork\collection\ArrayList;

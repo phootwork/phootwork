@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\json\tests;
 
 use phootwork\json\Json;
@@ -18,15 +17,15 @@ use PHPUnit\Framework\TestCase;
  * Test class partly taken from Simon Hampel: https://bitbucket.org/hampel/json
  */
 class JsonTest extends TestCase {
-	
+
 	public function testEncode(): void {
 		$data = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5];
 		$this->assertEquals(json_encode($data), Json::encode($data));
 	}
-	
+
 	public function testEncodeNoException(): void {
 		$data = ['a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5];
-		
+
 		try {
 			Json::encode($data);
 			$this->assertTrue(true, 'Test pass');
@@ -36,7 +35,7 @@ class JsonTest extends TestCase {
 	}
 
 	public function testEncodeWithOptions(): void {
-		$data = ['<foo>',"'bar'",'"baz"','&blong&', "\xc3\xa9"];
+		$data = ['<foo>', "'bar'", '"baz"', '&blong&', "\xc3\xa9"];
 
 		$bitmask = JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP;
 
@@ -44,7 +43,7 @@ class JsonTest extends TestCase {
 	}
 
 	public function testEncodeWithObject(): void {
-		$data = [[1,2,3]];
+		$data = [[1, 2, 3]];
 
 		$bitmask = JSON_FORCE_OBJECT;
 
@@ -56,17 +55,17 @@ class JsonTest extends TestCase {
 		$this->expectExceptionMessage('Malformed UTF-8 characters, possibly incorrectly encoded');
 		$this->expectExceptionCode(Json::ERROR_UTF8);
 
-		Json::encode([pack("H*" ,'c32e')]);
+		Json::encode([pack('H*', 'c32e')]);
 	}
 
 	public function testDecode(): void {
 		$data = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
 		$this->assertEquals(json_decode($data, true), Json::decode($data));
 	}
-	
+
 	public function testDecodeNoException(): void {
 		$json = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
-	
+
 		try {
 			Json::decode($json);
 			$this->assertTrue(true, 'Test pass');
@@ -104,7 +103,7 @@ class JsonTest extends TestCase {
 
 		Json::decode($json, 0, 3);
 	}
-	
+
 	public function testConstants(): void {
 		$this->assertEquals(JSON_ERROR_CTRL_CHAR, Json::ERROR_CTRL_CHAR);
 		$this->assertEquals(JSON_ERROR_DEPTH, Json::ERROR_DEPTH);
@@ -112,7 +111,7 @@ class JsonTest extends TestCase {
 		$this->assertEquals(JSON_ERROR_STATE_MISMATCH, Json::ERROR_STATE_MISMATCH);
 		$this->assertEquals(JSON_ERROR_SYNTAX, Json::ERROR_SYNTAX);
 		$this->assertEquals(JSON_ERROR_UTF8, Json::ERROR_UTF8);
-		
+
 		$this->assertEquals(JSON_BIGINT_AS_STRING, Json::BIGINT_AS_STRING);
 		$this->assertEquals(JSON_FORCE_OBJECT, Json::FORCE_OBJECT);
 		$this->assertEquals(JSON_HEX_AMP, Json::HEX_AMP);
@@ -121,11 +120,11 @@ class JsonTest extends TestCase {
 		$this->assertEquals(JSON_HEX_TAG, Json::HEX_TAG);
 		$this->assertEquals(JSON_NUMERIC_CHECK, Json::NUMERIC_CHECK);
 		$this->assertEquals(JSON_OBJECT_AS_ARRAY, Json::OBJECT_AS_ARRAY);
-		
+
 		$this->assertEquals(JSON_PRETTY_PRINT, Json::PRETTY_PRINT);
 		$this->assertEquals(JSON_UNESCAPED_SLASHES, Json::UNESCAPED_SLASHES);
 		$this->assertEquals(JSON_UNESCAPED_UNICODE, Json::UNESCAPED_UNICODE);
-		
+
 		if (version_compare(PHP_VERSION, '5.5.0') >= 0) {
 			$this->assertEquals(JSON_ERROR_RECURSION, Json::ERROR_RECURSION);
 			$this->assertEquals(JSON_ERROR_INF_OR_NAN, Json::ERROR_INF_OR_NAN);

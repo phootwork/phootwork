@@ -7,9 +7,7 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\tokenizer\tests\fixtures;
-
 
 use phootwork\tokenizer\Token;
 use phootwork\tokenizer\TokenVisitorInterface;

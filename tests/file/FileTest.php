@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file\tests;
 
 use org\bovigo\vfs\vfsStream;
@@ -43,12 +42,12 @@ class FileTest extends FilesystemTest {
 		$file = new File($this->root->url() . '/composer.json');
 		$file->read();
 	}
-	
+
 	public function testMove(): void {
 		$file = new File($this->root->url() . '/dir/composer.json');
 		$file->write('{}');
 		$file->move($this->root->url() . '/composer.json');
-		
+
 		$this->assertTrue(file_exists($this->root->url() . '/composer.json'));
 		$this->assertFalse(file_exists($this->root->url() . '/dir/composer.json'));
 	}
@@ -63,18 +62,18 @@ class FileTest extends FilesystemTest {
 		$file->write('{}');
 		$file->move(new Path($this->root->url() . '/dir/composer.json'));
 	}
-	
+
 	public function testCopy(): void {
 		$file = new File($this->root->url() . '/dir/composer.json');
 		$file->write('{}');
 		$file->copy($this->root->url() . '/composer.json');
-	
+
 		$this->assertTrue(file_exists($this->root->url() . '/composer.json'));
 		$this->assertTrue(file_exists($this->root->url() . '/dir/composer.json'));
-		
+
 		$a = new File($this->root->url() . '/dir/composer.json');
 		$b = new File($this->root->url() . '/composer.json');
-		
+
 		$this->assertEquals($a->read(), $b->read());
 	}
 
@@ -111,13 +110,13 @@ class FileTest extends FilesystemTest {
 		$this->assertEquals($modDate, $file->getLastAccessedAt());
 		$this->assertEquals($createDate, $file->getModifiedAt());
 	}
-	
+
 	public function testDelete(): void {
 		$dir = new Directory($this->root->url() . '/dir');
 		$dir->make();
 		$file = new File($this->root->url() . '/dir/composer.json');
 		$file->touch();
-		
+
 		$this->assertTrue($file->exists());
 		$file->delete();
 		$this->assertFalse($file->exists());

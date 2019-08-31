@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file;
 
 use phootwork\lang\Text;
@@ -22,7 +21,7 @@ class FileDescriptor {
 	 * @param \SplFileInfo $fileInfo
 	 * @return FileDescriptor
 	 */
-	public static function fromFileInfo(\SplFileInfo $fileInfo): FileDescriptor {
+	public static function fromFileInfo(\SplFileInfo $fileInfo): self {
 		return new self($fileInfo->getPathname());
 	}
 
@@ -34,29 +33,29 @@ class FileDescriptor {
 	public function __construct($filename) {
 		$this->init($filename);
 	}
-	
+
 	/**
 	 * Tells whether this is a regular file
 	 *
-	 * @return boolean Returns TRUE if the filename exists and is a regular file, FALSE otherwise.
+	 * @return bool Returns TRUE if the filename exists and is a regular file, FALSE otherwise.
 	 */
 	public function isFile(): bool {
 		return is_file($this->pathname);
 	}
-	
+
 	/**
 	 * Tells whether the filename is a '.' or '..'
 	 *
-	 * @return boolean
+	 * @return bool
 	 */
 	public function isDot(): bool {
 		return $this->getFilename() == '.' || $this->getFilename() == '..';
 	}
-	
+
 	/**
 	 * Tells whether this is a directory
 	 *
-	 * @return boolean Returns TRUE if the filename exists and is a directory, FALSE otherwise.
+	 * @return bool Returns TRUE if the filename exists and is a directory, FALSE otherwise.
 	 */
 	public function isDir(): bool {
 		return is_dir($this->pathname);
@@ -70,7 +69,7 @@ class FileDescriptor {
 	public function toFile(): File {
 		return new File($this->pathname);
 	}
-	
+
 	/**
 	 * Converts this file descriptor into a directory object
 	 *

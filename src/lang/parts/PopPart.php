@@ -7,8 +7,15 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-namespace phootwork\file\exception;
+namespace phootwork\lang\parts;
 
-class FileException extends \Exception {
-
+trait PopPart {
+	/**
+	 * Pop the element off the end of array
+	 *
+	 * @return mixed the popped element
+	 */
+	public function pop() {
+		return array_pop($this->array);
+	}
 }

@@ -7,19 +7,18 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-namespace phootwork\tokenizer;
+namespace phootwork\lang\parts;
 
-use phootwork\collection\ArrayList;
-
-class TokenCollection extends ArrayList {
+trait EachPart {
 
 	/**
-	 * Retrieves a token at the given index
-	 * 
-	 * @param int $index the given index
-	 * @return Token 
+	 * Iterates the array and calls the callback function with the current item as parameter
+	 *
+	 * @param callable $callback
 	 */
-	public function get(int $index): Token {
-		return parent::get($index);
+	public function each(callable $callback): void {
+		foreach ($this->array as $item) {
+			$callback($item);
+		}
 	}
 }

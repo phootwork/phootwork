@@ -7,16 +7,15 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file;
 
-use \DirectoryIterator;
-use \Iterator;
+use DirectoryIterator;
+use Iterator;
 use phootwork\file\exception\FileException;
 use phootwork\lang\Text;
 
 class Directory implements Iterator {
-	
+
 	use FileOperationTrait;
 
 	/** @var DirectoryIterator|null */
@@ -30,7 +29,7 @@ class Directory implements Iterator {
 	public function __construct($filename) {
 		$this->init($filename);
 	}
-	
+
 	/**
 	 * Creates the directory
 	 * 
@@ -42,7 +41,7 @@ class Directory implements Iterator {
 			throw new FileException(sprintf('Failed to create directory "%s"', $this->pathname));
 		}
 	}
-	
+
 	/**
 	 * Recursively deletes the directory
 	 *
@@ -72,40 +71,40 @@ class Directory implements Iterator {
 
 		return $this->iterator;
 	}
-	
+
 	/**
 	 * @return FileDescriptor
 	 * @internal
 	 */
-	public function current (): FileDescriptor {
+	public function current(): FileDescriptor {
 		return FileDescriptor::fromFileInfo($this->getIterator()->current());
 	}
 
 	/**
 	 * @internal
 	 */
-	public function key () {
+	public function key() {
 		return $this->getIterator()->key();
 	}
 
 	/**
 	 * @internal
 	 */
-	public function next () {
+	public function next() {
 		$this->getIterator()->next();
 	}
 
 	/**
 	 * @internal
 	 */
-	public function rewind () {
+	public function rewind() {
 		$this->getIterator()->rewind();
 	}
 
 	/**
 	 * @internal
 	 */
-	public function valid () {
+	public function valid() {
 		return $this->getIterator()->valid();
 	}
 

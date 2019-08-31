@@ -7,12 +7,11 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\collection;
 
-use \Iterator;
-use \InvalidArgumentException;
-use \stdClass;
+use InvalidArgumentException;
+use Iterator;
+use stdClass;
 
 /**
  * CollectionUtils help to transform data recursively into collections.

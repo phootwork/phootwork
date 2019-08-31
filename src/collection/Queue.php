@@ -7,43 +7,42 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\collection;
 
-use \Iterator;
+use Iterator;
 
 /**
  * Represents a Queue
- * 
+ *
  * FIFO - first in first out
- * 
+ *
  * @author Thomas Gossmann
  */
 class Queue extends AbstractList {
-	
+
 	/**
 	 * Creates a new Queue
-	 * 
+	 *
 	 * @param array|Iterator $collection
 	 */
 	public function __construct($collection = []) {
 		foreach ($collection as $element) {
-			$this->collection[] = $element;
+			$this->array[] = $element;
 		}
 	}
-	
+
 	/**
 	 * Enqueues an element
-	 * 
+	 *
 	 * @param mixed $element
 	 * @return $this
 	 */
 	public function enqueue($element): self {
-		array_unshift($this->collection, $element);
-		
+		array_unshift($this->array, $element);
+
 		return $this;
 	}
-	
+
 	/**
 	 * Enqueues many elements
 	 *
@@ -54,29 +53,29 @@ class Queue extends AbstractList {
 		foreach ($collection as $element) {
 			$this->enqueue($element);
 		}
-	
+
 		return $this;
 	}
-	
+
 	/**
-	 * Returns the element at the head or null if the queue is empty but doesn't remove that element  
-	 * 
+	 * Returns the element at the head or null if the queue is empty but doesn't remove that element
+	 *
 	 * @return mixed
 	 */
 	public function peek() {
 		if ($this->size() > 0) {
-			return $this->collection[0];
+			return $this->array[0];
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Removes and returns the element at the head or null if the is empty
-	 * 
+	 *
 	 * @return mixed
 	 */
 	public function poll() {
-		return array_shift($this->collection);
+		return array_shift($this->array);
 	}
 }

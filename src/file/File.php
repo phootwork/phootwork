@@ -7,15 +7,14 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file;
 
-use \DateTime;
+use DateTime;
 use phootwork\file\exception\FileException;
 use phootwork\lang\Text;
 
 class File {
- 
+
 	use FileOperationTrait;
 
 	/**
@@ -55,12 +54,12 @@ class File {
 	public function write(string $contents): self {
 		$dir = new Directory($this->getDirname());
 		$dir->make();
-	
+
 		file_put_contents($this->pathname, $contents);
 
 		return $this;
 	}
-	
+
 	/**
 	 * Touches the file
 	 * 
@@ -70,7 +69,7 @@ class File {
 	 */
 	public function touch($created = null, $lastAccessed = null): void {
 		$created = $created instanceof DateTime
-			? $created->getTimestamp() 
+			? $created->getTimestamp()
 			: ($created === null ? time() : $created);
 		$lastAccessed = $lastAccessed instanceof DateTime
 			? $lastAccessed->getTimestamp()
@@ -80,7 +79,7 @@ class File {
 			throw new FileException(sprintf('Failed to touch file at %s', $this->pathname));
 		}
 	}
-	
+
 	/**
 	 * Deletes the file
 	 *
@@ -91,7 +90,7 @@ class File {
 			throw new FileException(sprintf('Failed to delete file at %s', $this->pathname));
 		}
 	}
-	
+
 	/**
 	 * String representation of this file as pathname
 	 */
@@ -99,4 +98,3 @@ class File {
 		return $this->pathname;
 	}
 }
-

@@ -7,17 +7,16 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\lang\tests;
 
+use phootwork\lang\inflector\Inflector;
 use PHPUnit\Framework\TestCase;
-use phootwork\lang\text\EnglishPluralizer;
 
 /**
- * Tests for the StandardEnglishPluralizer class
+ * Tests for the Inflector class
  *
  */
-class EnglishPluralizerTest extends TestCase {
+class InflectorTest extends TestCase {
 	public function getPluralFormDataProvider(): array {
 		return [
 			['', 's'],
@@ -105,7 +104,7 @@ class EnglishPluralizerTest extends TestCase {
 	 * @dataProvider getPluralFormDataProvider
 	 */
 	public function testPluralForm($input, $output): void {
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$this->assertEquals($output, $pluralizer->getPluralForm($input));
 	}
 
@@ -115,9 +114,9 @@ class EnglishPluralizerTest extends TestCase {
 	public function testWrongTypeToPluralizeThrowsException($wrong): void {
 		$this->expectException(\TypeError::class);
 		$this->expectExceptionMessage(
-			'Argument 1 passed to phootwork\lang\text\EnglishPluralizer::getPluralForm() must be of the type string'
+			'Argument 1 passed to phootwork\lang\inflector\Inflector::getPluralForm() must be of the type string'
 		);
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$pluralizer->getPluralForm($wrong);
 	}
 
@@ -125,7 +124,7 @@ class EnglishPluralizerTest extends TestCase {
 	 * @dataProvider getPluralFormDataProvider
 	 */
 	public function testSingularForm($output, $input): void {
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$this->assertEquals($output, $pluralizer->getSingularForm($input));
 	}
 
@@ -135,15 +134,15 @@ class EnglishPluralizerTest extends TestCase {
 	public function testWrongTypeToSingularizeThrowsException($wrong): void {
 		$this->expectException(\TypeError::class);
 		$this->expectExceptionMessage(
-			'Argument 1 passed to phootwork\lang\text\EnglishPluralizer::getSingularForm() must be of the type string'
+			'Argument 1 passed to phootwork\lang\inflector\Inflector::getSingularForm() must be of the type string'
 		);
 
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$pluralizer->getSingularForm($wrong);
 	}
 
 	public function testSingularizeSingularForm(): void {
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$this->assertEquals('book', $pluralizer->getSingularForm('book'), '`book` is already singular.');
 		$this->assertEquals('Book', $pluralizer->getSingularForm('Book'), '`Book` is already singular.');
 		$this->assertEquals('foot', $pluralizer->getSingularForm('foot'), '`foot` is already singular.');
@@ -152,7 +151,7 @@ class EnglishPluralizerTest extends TestCase {
 	}
 
 	public function testPluralizePluralForm(): void {
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$this->assertEquals('books', $pluralizer->getPluralForm('books'), '`books` is already plural.');
 		$this->assertEquals('Books', $pluralizer->getPluralForm('Books'), '`Books` is already plural.');
 		$this->assertEquals('feet', $pluralizer->getPluralForm('feet'), '`feet` is already plural.');
@@ -164,7 +163,7 @@ class EnglishPluralizerTest extends TestCase {
 	 * @dataProvider getPluralFormDataProvider
 	 */
 	public function testIsPlural($singular, $plural): void {
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$this->assertTrue($pluralizer->isPlural($plural));
 	}
 
@@ -172,7 +171,7 @@ class EnglishPluralizerTest extends TestCase {
 	 * @dataProvider getPluralFormDataProvider
 	 */
 	public function testIsSingular($singular, $plural): void {
-		$pluralizer = new EnglishPluralizer();
+		$pluralizer = new Inflector();
 		$this->assertTrue($pluralizer->isSingular($singular));
 	}
 }

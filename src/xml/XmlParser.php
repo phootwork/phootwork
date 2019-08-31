@@ -7,36 +7,35 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\xml;
 
 use phootwork\collection\Set;
 use phootwork\file\exception\FileException;
-use phootwork\xml\exception\XmlException;
-use phootwork\file\Path;
 use phootwork\file\File;
+use phootwork\file\Path;
 use phootwork\lang\Text;
+use phootwork\xml\exception\XmlException;
 
 class XmlParser {
-	
+
 	/**
 	 * Controls whether case-folding is enabled for this XML parser. Enabled by default. 
 	 * 
 	 * Data Type: integer
 	 * 
-	 * @var integer
+	 * @var int
 	 */
 	const OPTION_CASE_FOLDING = XML_OPTION_CASE_FOLDING;
-	
+
 	/**
 	 * Specify how many characters should be skipped in the beginning of a tag name.
 	 * 
 	 * Data Type: integer
 	 * 
-	 * @var integer
+	 * @var int
 	 */
 	const OPTION_SKIP_TAGSTART = XML_OPTION_SKIP_TAGSTART;
-	
+
 	/**
 	 * Whether to skip values consisting of whitespace characters. 
 	 * 
@@ -45,7 +44,7 @@ class XmlParser {
 	 * @var string
 	 */
 	const OPTION_SKIP_WHITE = XML_OPTION_SKIP_WHITE;
-	
+
 	/**
 	 * Sets which target encoding to use in this XML parser. By default, it is set to the same as the 
 	 * source encoding used by XmlParser::construct(). Supported target encodings are ISO-8859-1, US-ASCII and UTF-8.
@@ -55,13 +54,13 @@ class XmlParser {
 	 * @var string
 	 */
 	const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
-	
+
 	/** @var resource */
 	private $parser;
-	
+
 	/** @var Set */
 	private $visitors;
-	
+
 	/**
 	 * Creates a new XML parser
 	 * 
@@ -70,7 +69,7 @@ class XmlParser {
 	public function __construct($encoding = 'UTF-8') {
 		$this->visitors = new Set();
 		$this->parser = xml_parser_create($encoding);
-		
+
 		xml_set_object($this->parser, $this);
 		xml_set_element_handler($this->parser, [$this, 'handleElementStart'], [$this, 'handleElementEnd']);
 		xml_set_character_data_handler($this->parser, [$this, 'handleCharacterData']);
@@ -78,11 +77,11 @@ class XmlParser {
 		xml_set_notation_decl_handler($this->parser, [$this, 'handleNotationDeclaration']);
 		xml_set_unparsed_entity_decl_handler($this->parser, [$this, 'handleUnparsedEntitiyDeclaration']);
 	}
-	
+
 	public function __destruct() {
 		xml_parser_free($this->parser);
 	}
-	
+
 	/**
 	 * Set an option for the parser
 	 * 
@@ -92,7 +91,7 @@ class XmlParser {
 	public function setOption(int $option, $value): void {
 		xml_parser_set_option($this->parser, $option, $value);
 	}
-	
+
 	/**
 	 * Gets the value for an option
 	 * 
@@ -102,7 +101,7 @@ class XmlParser {
 	public function getOption(int $option) {
 		return xml_parser_get_option($this->parser, $option);
 	}
-	
+
 	/**
 	 * Adds a visitor
 	 * 
@@ -111,7 +110,7 @@ class XmlParser {
 	public function addVisitor(XmlParserVisitorInterface $visitor): void {
 		$this->visitors->add($visitor);
 	}
-	
+
 	/**
 	 * Removes a visitor
 	 * 
@@ -145,15 +144,15 @@ class XmlParser {
 		if ($file instanceof Path) {
 			$file = $file->getPathname();
 		}
-		
+
 		if ($file instanceof Text) {
 			$file = $file->toString();
 		}
-		
+
 		if (is_string($file)) {
 			$file = new File($file);
 		}
-		
+
 		if ($file instanceof File) {
 			$this->parse($file->read());
 		}
@@ -172,7 +171,7 @@ class XmlParser {
 	private function getCurrentColumnNumber(): int {
 		return xml_get_current_column_number($this->parser);
 	}
-	
+
 	/**
 	 * handle element start
 	 * 
@@ -186,7 +185,7 @@ class XmlParser {
 			$visitor->visitElementStart(strtolower($name), $attribs, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
-	
+
 	/**
 	 * handle element end 
 	 *
@@ -199,7 +198,7 @@ class XmlParser {
 			$visitor->visitElementEnd(strtolower($name), $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
-	
+
 	/**
 	 * handle cdata
 	 * 
@@ -212,7 +211,7 @@ class XmlParser {
 			$visitor->visitCharacterData($data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
-	
+
 	/**
 	 * handle processing instruction
 	 * 
@@ -226,7 +225,7 @@ class XmlParser {
 			$visitor->visitProcessingInstruction($target, $data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
-	
+
 	/**
 	 * handle notation declaration
 	 * 
@@ -243,7 +242,7 @@ class XmlParser {
 			$visitor->visitNotationDeclaration($notationName, $base, $systemId, $publicId, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
 		}
 	}
-	
+
 	/**
 	 * handle unparsed entity declaration
 	 * 

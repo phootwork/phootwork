@@ -7,10 +7,9 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file;
 
-use \DateTime;
+use DateTime;
 use phootwork\file\exception\FileException;
 use phootwork\lang\Text;
 
@@ -33,7 +32,7 @@ trait FileOperationTrait {
 	 * @param string|Text $pathname
 	 */
 	protected function init($pathname): void {
-		$this->pathname = ''.$pathname; // "cast" to string
+		$this->pathname = '' . $pathname; // "cast" to string
 	}
 
 	/**
@@ -182,7 +181,7 @@ trait FileOperationTrait {
 	/**
 	 * Checks its existance
 	 *
-	 * @return boolean Returns TRUE if exists; FALSE otherwise. Will return FALSE for symlinks
+	 * @return bool Returns TRUE if exists; FALSE otherwise. Will return FALSE for symlinks
 	 * 		pointing to non-existing files.
 	 */
 	public function exists(): bool {
@@ -192,7 +191,7 @@ trait FileOperationTrait {
 	/**
 	 * Tells whether is executable
 	 *
-	 * @return boolean Returns TRUE if exists and is executable.
+	 * @return bool Returns TRUE if exists and is executable.
 	 */
 	public function isExecutable(): bool {
 		return is_executable($this->pathname);
@@ -201,7 +200,7 @@ trait FileOperationTrait {
 	/**
 	 * Tells whether is readable
 	 *
-	 * @return boolean Returns TRUE if exists and is readable.
+	 * @return bool Returns TRUE if exists and is readable.
 	 */
 	public function isReadable(): bool {
 		return is_readable($this->pathname);
@@ -210,7 +209,7 @@ trait FileOperationTrait {
 	/**
 	 * Tells whether is writable
 	 *
-	 * @return boolean Returns TRUE if exists and is writable.
+	 * @return bool Returns TRUE if exists and is writable.
 	 */
 	public function isWritable(): bool {
 		return is_writable($this->pathname);
@@ -219,7 +218,7 @@ trait FileOperationTrait {
 	/**
 	 * Tells whether the filename is a symbolic link
 	 *
-	 * @return boolean Returns TRUE if the filename exists and is a symbolic link, FALSE otherwise.
+	 * @return bool Returns TRUE if the filename exists and is a symbolic link, FALSE otherwise.
 	 */
 	public function isLink(): bool {
 		return is_link($this->pathname);
@@ -246,7 +245,7 @@ trait FileOperationTrait {
 	 * change the group of a file to any group of which that user is a member.
 	 *
 	 * @param mixed $group A group name or number.
-	 * @return boolean Returns TRUE on success or FALSE on failure.
+	 * @return bool Returns TRUE on success or FALSE on failure.
 	 */
 	public function setGroup($group): bool {
 		if ($this->isLink()) {
@@ -267,7 +266,7 @@ trait FileOperationTrait {
 	 * 		(such as "g+w") will not work properly. To ensure the expected operation, you
 	 * 		need to prefix mode with a zero (0).
 	 *
-	 * @return boolean Returns TRUE on success or FALSE on failure.
+	 * @return bool Returns TRUE on success or FALSE on failure.
 	 */
 	public function setMode(int $mode): bool {
 		return chmod($this->pathname, $mode);
@@ -279,7 +278,7 @@ trait FileOperationTrait {
 	 * Attempts to change the owner. Only the superuser may change the owner of a file.
 	 *
 	 * @param mixed $user A user name or number.
-	 * @return boolean Returns TRUE on success or FALSE on failure.
+	 * @return bool Returns TRUE on success or FALSE on failure.
 	 */
 	public function setOwner($user): bool {
 		if ($this->isLink()) {
@@ -367,5 +366,5 @@ trait FileOperationTrait {
 		}
 	}
 
-	public abstract function delete();
+	abstract public function delete();
 }

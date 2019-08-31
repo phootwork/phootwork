@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\xml;
 
 interface XmlParserVisitorInterface {
@@ -21,7 +20,7 @@ interface XmlParserVisitorInterface {
 	 * @param int    $line       line number
 	 */
 	public function visitElementStart(string $name, array $attributes, int $line, int $column): void;
-	
+
 	/**
 	 * visits the end of an element
 	 * 
@@ -30,7 +29,7 @@ interface XmlParserVisitorInterface {
 	 * @param int $column column number
 	 */
 	public function visitElementEnd(string $name, int $line, int $column): void;
-	
+
 	/**
 	 * visits character data
 	 * 
@@ -39,7 +38,7 @@ interface XmlParserVisitorInterface {
 	 * @param int $column column number
 	 */
 	public function visitCharacterData(string $data, int $line, int $column): void;
-	
+
 	/**
 	 * visits a processing instruction
 	 * 
@@ -49,7 +48,7 @@ interface XmlParserVisitorInterface {
 	 * @param int $column column number
 	 */
 	public function visitProcessingInstruction(string $target, string $data, int $line, int $column): void;
-	
+
 	/**
 	 * visits a notation declaration
 	 *
@@ -62,7 +61,7 @@ interface XmlParserVisitorInterface {
 	 */
 	public function visitNotationDeclaration(string $notationName, string $base, string $systemId, string $publicId,
 											 int $line, int $column): void;
-	
+
 	/**
 	 * visits an unparsed entity declaration
 	 *

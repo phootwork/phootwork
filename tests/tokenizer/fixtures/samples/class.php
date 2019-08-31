@@ -1,7 +1,7 @@
 <?php
 
 namespace a\b\c;
-use a\b\Gamma; 
+
 class D {
 	use Alpha;
 	const XYZ = 'xyz';
@@ -14,6 +14,6 @@ class D {
 		}
 	}
 	public function mthd() {
-		
+
 	}
 }

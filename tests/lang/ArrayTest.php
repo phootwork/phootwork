@@ -7,14 +7,13 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\lang\tests;
 
 use phootwork\lang\ArrayObject;
-use phootwork\lang\Text;
-use phootwork\lang\tests\fixtures\Item;
 use phootwork\lang\ComparableComparator;
 use phootwork\lang\StringComparator;
+use phootwork\lang\tests\fixtures\Item;
+use phootwork\lang\Text;
 use PHPUnit\Framework\TestCase;
 
 class ArrayTest extends TestCase {
@@ -79,7 +78,7 @@ class ArrayTest extends TestCase {
 
 	public function testReduce(): void {
 		$list = new ArrayObject(range(1, 10));
-		$sum = $list->reduce(function($a, $b) {return $a + $b;});
+		$sum = $list->reduce(function ($a, $b) {return $a + $b;});
 
 		$this->assertEquals(55, $sum);
 	}
@@ -340,7 +339,6 @@ class ArrayTest extends TestCase {
 
 		$this->assertEquals(['banana', 'pine'], $fruits->slice(1, 2)->toArray());
 	}
-
 
 	public function testSplice(): void {
 		// delete

@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\lang\tests;
 
 use phootwork\lang\ArrayObject;
@@ -281,7 +280,7 @@ class TextTest extends TestCase {
 		$this->assertEquals('ÄåÖäÄåûüÜÛ', $str->toUpperCaseFirst());
 	}
 
-	public function testToCapitalCase()	{
+	public function testToCapitalCase() {
 		$str = new Text('let it go');
 		$upper = $str->toCapitalCase();
 		$this->assertInstanceOf(Text::class, $upper);
@@ -314,7 +313,7 @@ class TextTest extends TestCase {
 		$this->assertInstanceOf(Text::class, $repl);
 
 		// Text objects
-		$repl = $str->replace(new Text(" it"), new Text("'s"));
+		$repl = $str->replace(new Text(' it'), new Text("'s"));
 		$this->assertEquals('let\'s go', $repl);
 		$this->assertInstanceOf(Text::class, $repl);
 
@@ -391,7 +390,7 @@ class TextTest extends TestCase {
 
 	public function testSpliceWrongOffsetThrowsException(): void {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage("Offset must be in range [-len, len]");
+		$this->expectExceptionMessage('Offset must be in range [-len, len]');
 
 		$str = new Text('Text to splice');
 		$str->splice('', 25);
@@ -505,20 +504,20 @@ class TextTest extends TestCase {
 		$wrapped = $text->wrapWords();
 		$this->assertInstanceOf(Text::class, $wrapped);
 
-		$expected = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+		$expected = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
 veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
 commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
 velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
 cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-est laborum.";
+est laborum.';
 		$this->assertEquals($expected, $wrapped);
 	}
 
 	public function testWrapWordsCut(): void {
 		$text = new Text(file_get_contents(__DIR__ . '/fixtures/lorem.txt'));
 		$wrapped = $text->wrapWords(20, "\n", true);
-		$expected = "Lorem ipsum dolor
+		$expected = 'Lorem ipsum dolor
 sit amet,
 consectetur
 adipiscing elit, sed
@@ -543,14 +542,14 @@ cupidatat non
 proident, sunt in
 culpa qui officia
 deserunt mollit anim
-id est laborum.";
+id est laborum.';
 		$this->assertEquals($expected, $wrapped);
 	}
 
 	public function testWrapWordsCustomBreak(): void {
 		$text = new Text(file_get_contents(__DIR__ . '/fixtures/lorem.txt'));
-		$wrapped = $text->wrapWords(75, "**", true);
-		$expected = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod**tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim**veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea**commodo consequat. Duis aute irure dolor in reprehenderit in voluptate**velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat**cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id**est laborum.";
+		$wrapped = $text->wrapWords(75, '**', true);
+		$expected = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod**tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim**veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea**commodo consequat. Duis aute irure dolor in reprehenderit in voluptate**velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat**cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id**est laborum.';
 		$this->assertEquals($expected, $wrapped);
 	}
 
@@ -570,10 +569,10 @@ id est laborum.";
 	}
 
 	public function testReverse(): void {
-		$str = new Text("Hello world!");
+		$str = new Text('Hello world!');
 		$rev = $str->reverse();
 		$this->assertInstanceOf(Text::class, $rev);
-		$this->assertEquals("!dlrow olleH", $rev);
+		$this->assertEquals('!dlrow olleH', $rev);
 	}
 
 	public function testTruncate(): void {
@@ -732,10 +731,10 @@ id est laborum.";
 
 	public function testToSpaces(): void {
 		$text = new Text("\n\tbeautiful\n\t\tstring\n");
-		$expected = "
+		$expected = '
     beautiful
         string
-";
+';
 		$this->assertEquals($expected, $text->toSpaces());
 	}
 

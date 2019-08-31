@@ -7,11 +7,9 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file\tests;
 
 use phootwork\file\Directory;
-use phootwork\file\exception\FileException;
 use phootwork\file\File;
 use phootwork\file\Path;
 use PHPUnit\Framework\TestCase;

@@ -7,13 +7,21 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-namespace phootwork\tokenizer;
+namespace phootwork\lang\parts;
 
-interface TokenVisitorInterface {
+trait AccessorsPart {
 
 	/**
-	 * @param Token $token
+	 * Returns the element at the given index (or null if the index isn't present)
+	 *
+	 * @param int $index
 	 * @return mixed
 	 */
-	public function visitToken(Token $token);
+	public function get(int $index) {
+		if (isset($this->array[$index])) {
+			return $this->array[$index];
+		}
+
+		return null;
+	}
 }

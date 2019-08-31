@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\collection\tests;
 
 use phootwork\collection\ArrayList;
@@ -115,7 +114,7 @@ class ArrayListTest extends TestCase {
 
 	public function testReduce(): void {
 		$list = new ArrayList(range(1, 10));
-		$sum = $list->reduce(function($a, $b) {return $a + $b;});
+		$sum = $list->reduce(function ($a, $b) {return $a + $b;});
 
 		$this->assertEquals(55, $sum);
 	}
@@ -129,7 +128,7 @@ class ArrayListTest extends TestCase {
 		$this->assertEquals($list->toArray(), $clone->toArray());
 		$this->assertNotSame($list, $clone);
 		$this->assertSame($list->get(0), $clone->get(0));
-		
+
 		$clone->removeByIndex(0);
 		$this->assertNotEquals($list->size(), $clone->size());
 	}

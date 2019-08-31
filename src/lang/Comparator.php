@@ -7,11 +7,10 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\lang;
 
 interface Comparator {
-	
+
 	/**
 	 * Compares two objects
 	 *
@@ -24,5 +23,5 @@ interface Comparator {
 	 * 		0 if they are equal.
 	 */
 	public function compare($a, $b): int;
-	
+
 }

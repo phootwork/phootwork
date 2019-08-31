@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file\tests;
 
 use phootwork\file\Directory;
@@ -20,7 +19,7 @@ class DirectoryTest extends FilesystemTest {
 	public function testCreateDirectory(): void {
 		$dir = new Directory($this->root->url() . '/prj');
 		$this->assertFalse($dir->exists());
-		
+
 		$dir->make();
 		$this->assertTrue($dir->exists());
 	}
@@ -31,11 +30,11 @@ class DirectoryTest extends FilesystemTest {
 
 		$root = new Directory($this->root->url());
 		$root->setMode(0555);
-		
+
 		$dir = new Directory($this->root->url() . '/prj');
 		$dir->make();
 	}
-	
+
 	public function testIterator(): void {
 		$dir = new Directory($this->root->url() . '/prj');
 		$dir->make();
@@ -43,34 +42,34 @@ class DirectoryTest extends FilesystemTest {
 		$composer = $path->append('composer.json');
 		$file = $composer->toFileDescriptor()->toFile();
 		$file->write('{}');
-		
+
 		$vendor = $path->append('vendor');
 		$folder = $vendor->toFileDescriptor()->toDirectory();
 		$folder->make();
-		
+
 		$arr = new ArrayObject();
 		foreach ($dir as $k => $file) {
 			if (!$file->isDot()) {
 				$this->assertTrue($file instanceof FileDescriptor);
 				$arr[$k] = $file->getFilename();
-				
+
 				if ($file->isFile()) {
 					$this->assertEquals('composer.json', $file->getFilename());
 				}
-				
+
 				if ($file->isDir()) {
 					$this->assertEquals('vendor', $file->getFilename());
 				}
 			}
 		}
-		
+
 		$this->assertEquals(['composer.json', 'vendor'], $arr->sort()->toArray());
 	}
-	
+
 	public function testDelete(): void {
 		$prj = new Directory($this->createProject());
 		$prj->delete();
-		
+
 		$this->assertFalse($prj->exists());
 	}
 
@@ -90,6 +89,5 @@ class DirectoryTest extends FilesystemTest {
 		//see https://github.com/bovigo/vfsStream/issues/119
 		$this->assertEquals(0, $dir->getInode());
 	}
-
 
 }

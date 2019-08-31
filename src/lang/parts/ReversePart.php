@@ -7,8 +7,17 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-namespace phootwork\file\exception;
+namespace phootwork\lang\parts;
 
-class FileException extends \Exception {
+trait ReversePart {
 
+	/**
+	 * Reverses the order of all elements
+	 *
+	 * @return $this
+	 */
+	public function reverse(): self {
+		$this->array = array_reverse($this->array);
+		return $this;
+	}
 }

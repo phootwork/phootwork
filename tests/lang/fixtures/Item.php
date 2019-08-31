@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\lang\tests\fixtures;
 
 use phootwork\lang\Comparable;
@@ -16,15 +15,15 @@ class Item implements Comparable {
 
 	/** @var string string */
 	private $content;
-	
+
 	public function __construct(string $content = '') {
 		$this->content = $content;
 	}
-	
+
 	public function compareTo($comparison): int {
 		return strcmp($this->content, $comparison->getContent());
 	}
-	
+
 	/**
 	 * @return mixed
 	 */

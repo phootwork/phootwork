@@ -7,11 +7,10 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\tokenizer;
 
 class PhpTokenizer {
-	
+
 	public function __construct() {
 	}
 
