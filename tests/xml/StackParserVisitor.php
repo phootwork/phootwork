@@ -7,29 +7,28 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\xml\tests;
 
-use phootwork\xml\XmlParserNoopVisitor;
 use phootwork\collection\Stack;
+use phootwork\xml\XmlParserNoopVisitor;
 
 class StackParserVisitor extends XmlParserNoopVisitor {
-	
-	/** @var Stack */
-	private $elementStack;
 
-	public function __construct() {
-		$this->elementStack = new Stack();
-	}
-	
-	/**
-	 * @return Stack
-	 */
-	public function getElementStack(): Stack {
-		return $this->elementStack;
-	}
-	
-	public function visitElementStart(string $name, array $attributes, int $line, int $column): void {
-		$this->elementStack->push($name);
-	}
+	/** @var Stack */
+    private $elementStack;
+
+    public function __construct() {
+        $this->elementStack = new Stack();
+    }
+
+    /**
+     * @return Stack
+     */
+    public function getElementStack(): Stack {
+        return $this->elementStack;
+    }
+
+    public function visitElementStart(string $name, array $attributes, int $line, int $column): void {
+        $this->elementStack->push($name);
+    }
 }

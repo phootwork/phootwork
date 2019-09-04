@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file\tests;
 
 use phootwork\file\Directory;
@@ -16,80 +15,77 @@ use phootwork\file\FileDescriptor;
 use phootwork\lang\ArrayObject;
 
 class DirectoryTest extends FilesystemTest {
+    public function testCreateDirectory(): void {
+        $dir = new Directory($this->root->url() . '/prj');
+        $this->assertFalse($dir->exists());
 
-	public function testCreateDirectory(): void {
-		$dir = new Directory($this->root->url() . '/prj');
-		$this->assertFalse($dir->exists());
-		
-		$dir->make();
-		$this->assertTrue($dir->exists());
-	}
+        $dir->make();
+        $this->assertTrue($dir->exists());
+    }
 
-	public function testCreateDirectoryWithFailure(): void {
-		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('Failed to create directory');
+    public function testCreateDirectoryWithFailure(): void {
+        $this->expectException(FileException::class);
+        $this->expectExceptionMessage('Failed to create directory');
 
-		$root = new Directory($this->root->url());
-		$root->setMode(0555);
-		
-		$dir = new Directory($this->root->url() . '/prj');
-		$dir->make();
-	}
-	
-	public function testIterator(): void {
-		$dir = new Directory($this->root->url() . '/prj');
-		$dir->make();
-		$path = $dir->toPath();
-		$composer = $path->append('composer.json');
-		$file = $composer->toFileDescriptor()->toFile();
-		$file->write('{}');
-		
-		$vendor = $path->append('vendor');
-		$folder = $vendor->toFileDescriptor()->toDirectory();
-		$folder->make();
-		
-		$arr = new ArrayObject();
-		foreach ($dir as $k => $file) {
-			if (!$file->isDot()) {
-				$this->assertTrue($file instanceof FileDescriptor);
-				$arr[$k] = $file->getFilename();
-				
-				if ($file->isFile()) {
-					$this->assertEquals('composer.json', $file->getFilename());
-				}
-				
-				if ($file->isDir()) {
-					$this->assertEquals('vendor', $file->getFilename());
-				}
-			}
-		}
-		
-		$this->assertEquals(['composer.json', 'vendor'], $arr->sort()->toArray());
-	}
-	
-	public function testDelete(): void {
-		$prj = new Directory($this->createProject());
-		$prj->delete();
-		
-		$this->assertFalse($prj->exists());
-	}
+        $root = new Directory($this->root->url());
+        $root->setMode(0555);
 
-	public function testDeleteWithFailure(): void {
-		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('Failed to delete directory');
+        $dir = new Directory($this->root->url() . '/prj');
+        $dir->make();
+    }
 
-		$prj = new Directory($this->createProject());
-		$root = new Directory($this->root->url());
-		$root->setMode(0555);
-		$prj->delete();
-	}
+    public function testIterator(): void {
+        $dir = new Directory($this->root->url() . '/prj');
+        $dir->make();
+        $path = $dir->toPath();
+        $composer = $path->append('composer.json');
+        $file = $composer->toFileDescriptor()->toFile();
+        $file->write('{}');
 
-	public function testInode(): void {
-		$dir = new Directory($this->createProject());
-		//By now, vfsStream return always 0 when ask for inode
-		//see https://github.com/bovigo/vfsStream/issues/119
-		$this->assertEquals(0, $dir->getInode());
-	}
+        $vendor = $path->append('vendor');
+        $folder = $vendor->toFileDescriptor()->toDirectory();
+        $folder->make();
 
+        $arr = new ArrayObject();
+        foreach ($dir as $k => $file) {
+            if (!$file->isDot()) {
+                $this->assertTrue($file instanceof FileDescriptor);
+                $arr[$k] = $file->getFilename();
 
+                if ($file->isFile()) {
+                    $this->assertEquals('composer.json', $file->getFilename());
+                }
+
+                if ($file->isDir()) {
+                    $this->assertEquals('vendor', $file->getFilename());
+                }
+            }
+        }
+
+        $this->assertEquals(['composer.json', 'vendor'], $arr->sort()->toArray());
+    }
+
+    public function testDelete(): void {
+        $prj = new Directory($this->createProject());
+        $prj->delete();
+
+        $this->assertFalse($prj->exists());
+    }
+
+    public function testDeleteWithFailure(): void {
+        $this->expectException(FileException::class);
+        $this->expectExceptionMessage('Failed to delete directory');
+
+        $prj = new Directory($this->createProject());
+        $root = new Directory($this->root->url());
+        $root->setMode(0555);
+        $prj->delete();
+    }
+
+    public function testInode(): void {
+        $dir = new Directory($this->createProject());
+        //By now, vfsStream return always 0 when ask for inode
+        //see https://github.com/bovigo/vfsStream/issues/119
+        $this->assertEquals(0, $dir->getInode());
+    }
 }

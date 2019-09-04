@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\tokenizer\tests;
 
 use phootwork\tokenizer\PhpTokenizer;
@@ -15,34 +14,33 @@ use phootwork\tokenizer\tests\fixtures\ExampleTokenVisitor;
 use phootwork\tokenizer\TokenCollection;
 
 class TokenizerCollectionTest extends TokenizerTest {
-	
-	public function testTokenizerCollection(): void {
-		$sample = $this->getSample('sample1');
-		
-		$tokenizer = new PhpTokenizer();
-		$tokens = $tokenizer->tokenize($sample);
-		
-		$this->assertTrue($tokens instanceof TokenCollection);
-		$this->assertEquals(77, $tokens->size());
-	}
-	
-	public function testWhitespaceToken(): void {
-		$sample = $this->getSample('class');
-		
-		$tokenizer = new PhpTokenizer();
-		$tokens = $tokenizer->tokenize($sample);
-		
-		$this->assertTrue($tokens->get(1)->type == T_WHITESPACE);
-	}
+    public function testTokenizerCollection(): void {
+        $sample = $this->getSample('sample1');
 
-	public function testAccept(): void {
-		$sample = $this->getSample('class');
+        $tokenizer = new PhpTokenizer();
+        $tokens = $tokenizer->tokenize($sample);
 
-		$tokenizer = new PhpTokenizer();
-		$tokens = $tokenizer->tokenize($sample);
+        $this->assertTrue($tokens instanceof TokenCollection);
+        $this->assertEquals(121, $tokens->size());
+    }
 
-		$spaceVisitor = new ExampleTokenVisitor();
+    public function testWhitespaceToken(): void {
+        $sample = $this->getSample('class');
 
-		$this->assertTrue($tokens->get(1)->accept($spaceVisitor));
-	}
+        $tokenizer = new PhpTokenizer();
+        $tokens = $tokenizer->tokenize($sample);
+
+        $this->assertFalse($tokens->get(1)->type == T_WHITESPACE);
+    }
+
+    public function testAccept(): void {
+        $sample = $this->getSample('class');
+
+        $tokenizer = new PhpTokenizer();
+        $tokens = $tokenizer->tokenize($sample);
+
+        $spaceVisitor = new ExampleTokenVisitor();
+
+        $this->assertFalse($tokens->get(1)->accept($spaceVisitor));
+    }
 }

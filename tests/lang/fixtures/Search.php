@@ -4,10 +4,8 @@ namespace phootwork\lang\tests\fixtures;
 
 use phootwork\lang\Arrayable;
 
-class Search implements Arrayable
-{
-	public function toArray(): array
-	{
-		return [' it', 'go'];
-	}
+class Search implements Arrayable {
+    public function toArray(): array {
+        return [' it', 'go'];
+    }
 }
