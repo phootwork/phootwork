@@ -7,9 +7,7 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\xml\exception;
 
 class XmlException extends \Exception {
-
 }

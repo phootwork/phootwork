@@ -7,14 +7,14 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\tokenizer;
 
 interface TokenVisitorInterface {
 
 	/**
 	 * @param Token $token
+	 *
 	 * @return mixed
 	 */
-	public function visitToken(Token $token);
+    public function visitToken(Token $token);
 }

@@ -7,20 +7,17 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\tokenizer\tests\fixtures;
-
 
 use phootwork\tokenizer\Token;
 use phootwork\tokenizer\TokenVisitorInterface;
 
 class ExampleTokenVisitor implements TokenVisitorInterface {
+    public function visitToken(Token $token): bool {
+        if ($token->type === T_WHITESPACE) {
+            return true;
+        }
 
-	public function visitToken(Token $token): bool {
-		if ($token->type === T_WHITESPACE) {
-			return true;
-		}
-
-		return false;
-	}
+        return false;
+    }
 }

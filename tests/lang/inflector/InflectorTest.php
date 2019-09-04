@@ -7,19 +7,18 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\lang\tests;
 
-use PHPUnit\Framework\TestCase;
 use phootwork\lang\inflector\Inflector;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Tests for the Inflector class
  *
  */
 class InflectorTest extends TestCase {
-	public function getPluralFormDataProvider(): array {
-		return [
+    public function getPluralFormDataProvider(): array {
+        return [
 			['', 's'],
 			['user', 'users'],
 			['User', 'Users'],
@@ -87,10 +86,10 @@ class InflectorTest extends TestCase {
 			['tooth', 'teeth'],
 			['Foot', 'Feet'],
 		];
-	}
+    }
 
-	public function providerForWrongType(): array {
-		return [
+    public function providerForWrongType(): array {
+        return [
 			[null],
 			[[1, 2, 3]],
 			[245],
@@ -99,80 +98,80 @@ class InflectorTest extends TestCase {
 			[true],
 			[false]
 		];
-	}
+    }
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
-	public function testPluralForm($input, $output): void {
-		$pluralizer = new Inflector();
-		$this->assertEquals($output, $pluralizer->getPluralForm($input));
-	}
+    /**
+     * @dataProvider getPluralFormDataProvider
+     */
+    public function testPluralForm($input, $output): void {
+        $pluralizer = new Inflector();
+        $this->assertEquals($output, $pluralizer->getPluralForm($input));
+    }
 
-	/**
-	 * @dataProvider providerForWrongType
-	 */
-	public function testWrongTypeToPluralizeThrowsException($wrong): void {
-		$this->expectException(\TypeError::class);
-		$this->expectExceptionMessage(
+    /**
+     * @dataProvider providerForWrongType
+     */
+    public function testWrongTypeToPluralizeThrowsException($wrong): void {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage(
 			'Argument 1 passed to phootwork\lang\inflector\Inflector::getPluralForm() must be of the type string'
 		);
-		$pluralizer = new Inflector();
-		$pluralizer->getPluralForm($wrong);
-	}
+        $pluralizer = new Inflector();
+        $pluralizer->getPluralForm($wrong);
+    }
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
-	public function testSingularForm($output, $input): void {
-		$pluralizer = new Inflector();
-		$this->assertEquals($output, $pluralizer->getSingularForm($input));
-	}
+    /**
+     * @dataProvider getPluralFormDataProvider
+     */
+    public function testSingularForm($output, $input): void {
+        $pluralizer = new Inflector();
+        $this->assertEquals($output, $pluralizer->getSingularForm($input));
+    }
 
-	/**
-	 * @dataProvider providerForWrongType
-	 */
-	public function testWrongTypeToSingularizeThrowsException($wrong): void {
-		$this->expectException(\TypeError::class);
-		$this->expectExceptionMessage(
+    /**
+     * @dataProvider providerForWrongType
+     */
+    public function testWrongTypeToSingularizeThrowsException($wrong): void {
+        $this->expectException(\TypeError::class);
+        $this->expectExceptionMessage(
 			'Argument 1 passed to phootwork\lang\inflector\Inflector::getSingularForm() must be of the type string'
 		);
 
-		$pluralizer = new Inflector();
-		$pluralizer->getSingularForm($wrong);
-	}
+        $pluralizer = new Inflector();
+        $pluralizer->getSingularForm($wrong);
+    }
 
-	public function testSingularizeSingularForm(): void {
-		$pluralizer = new Inflector();
-		$this->assertEquals('book', $pluralizer->getSingularForm('book'), '`book` is already singular.');
-		$this->assertEquals('Book', $pluralizer->getSingularForm('Book'), '`Book` is already singular.');
-		$this->assertEquals('foot', $pluralizer->getSingularForm('foot'), '`foot` is already singular.');
-		$this->assertEquals('people', $pluralizer->getSingularForm('people'), '`peolple` is uncountable, so it cannot be singularized.');
-		$this->assertEquals('food_menu', $pluralizer->getSingularForm('food_menu'), '`food_menu` is already singular.');
-	}
+    public function testSingularizeSingularForm(): void {
+        $pluralizer = new Inflector();
+        $this->assertEquals('book', $pluralizer->getSingularForm('book'), '`book` is already singular.');
+        $this->assertEquals('Book', $pluralizer->getSingularForm('Book'), '`Book` is already singular.');
+        $this->assertEquals('foot', $pluralizer->getSingularForm('foot'), '`foot` is already singular.');
+        $this->assertEquals('people', $pluralizer->getSingularForm('people'), '`peolple` is uncountable, so it cannot be singularized.');
+        $this->assertEquals('food_menu', $pluralizer->getSingularForm('food_menu'), '`food_menu` is already singular.');
+    }
 
-	public function testPluralizePluralForm(): void {
-		$pluralizer = new Inflector();
-		$this->assertEquals('books', $pluralizer->getPluralForm('books'), '`books` is already plural.');
-		$this->assertEquals('Books', $pluralizer->getPluralForm('Books'), '`Books` is already plural.');
-		$this->assertEquals('feet', $pluralizer->getPluralForm('feet'), '`feet` is already plural.');
-		$this->assertEquals('people', $pluralizer->getPluralForm('people'), '`peolple` is uncountable, so it cannot be pluralized.');
-		$this->assertEquals('food_menus', $pluralizer->getPluralForm('food_menus'), '`food_menus` is already plural.');
-	}
+    public function testPluralizePluralForm(): void {
+        $pluralizer = new Inflector();
+        $this->assertEquals('books', $pluralizer->getPluralForm('books'), '`books` is already plural.');
+        $this->assertEquals('Books', $pluralizer->getPluralForm('Books'), '`Books` is already plural.');
+        $this->assertEquals('feet', $pluralizer->getPluralForm('feet'), '`feet` is already plural.');
+        $this->assertEquals('people', $pluralizer->getPluralForm('people'), '`peolple` is uncountable, so it cannot be pluralized.');
+        $this->assertEquals('food_menus', $pluralizer->getPluralForm('food_menus'), '`food_menus` is already plural.');
+    }
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
-	public function testIsPlural($singular, $plural): void {
-		$pluralizer = new Inflector();
-		$this->assertTrue($pluralizer->isPlural($plural));
-	}
+    /**
+     * @dataProvider getPluralFormDataProvider
+     */
+    public function testIsPlural($singular, $plural): void {
+        $pluralizer = new Inflector();
+        $this->assertTrue($pluralizer->isPlural($plural));
+    }
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
-	public function testIsSingular($singular, $plural): void {
-		$pluralizer = new Inflector();
-		$this->assertTrue($pluralizer->isSingular($singular));
-	}
+    /**
+     * @dataProvider getPluralFormDataProvider
+     */
+    public function testIsSingular($singular, $plural): void {
+        $pluralizer = new Inflector();
+        $this->assertTrue($pluralizer->isSingular($singular));
+    }
 }

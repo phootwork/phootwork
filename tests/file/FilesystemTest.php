@@ -7,7 +7,6 @@
  * @license MIT License
  * @copyright Thomas Gossmann
  */
-
 namespace phootwork\file\tests;
 
 use org\bovigo\vfs\vfsStream;
@@ -17,14 +16,14 @@ use PHPUnit\Framework\TestCase;
 abstract class FilesystemTest extends TestCase {
 
 	/** @var vfsStreamDirectory */
-	protected $root;
-	
-	public function setUp(): void {
-		$this->root = vfsStream::setup();
-	}
-	
-	protected function createProject(): string {
-		vfsStream::create([
+    protected $root;
+
+    public function setUp(): void {
+        $this->root = vfsStream::setup();
+    }
+
+    protected function createProject(): string {
+        vfsStream::create([
 			'prj' => [
 				'composer.json' => '{}',
 				'vendor' => [
@@ -33,7 +32,7 @@ abstract class FilesystemTest extends TestCase {
 				'dir' => []
 			]
 		]);
-		
-		return $this->root->url() . '/prj';
-	}
+
+        return $this->root->url() . '/prj';
+    }
 }
