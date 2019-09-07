@@ -40,7 +40,7 @@
     "phootwork/xml": "self.version"
   },
   "require-dev": {
-    "phootwork/php-cs-fixer-config": "~0.1",
+    "phootwork/php-cs-fixer-config": "^0.2",
     "phpunit/phpunit": "^8.0",
     "mikey179/vfsstream": "^1.6",
     "vimeo/psalm": "^3.4"
