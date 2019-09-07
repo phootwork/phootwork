@@ -12,32 +12,32 @@ namespace phootwork\tokenizer;
 class Token {
 
 	/** @var int */
-    public $type;
+	public $type;
 
-    /** @var null|string */
-    public $contents;
+	/** @var null|string */
+	public $contents;
 
-    /**
-     * Token constructor.
-     *
-     * @param mixed $token
-     */
-    public function __construct($token = null) {
-        if (is_array($token)) {
-            $this->type = $token[0];
-            $this->contents = $token[1];
-        } else {
-            $this->type = -1;
-            $this->contents = $token;
-        }
-    }
+	/**
+	 * Token constructor.
+	 *
+	 * @param mixed $token
+	 */
+	public function __construct($token = null) {
+		if (is_array($token)) {
+			$this->type = $token[0];
+			$this->contents = $token[1];
+		} else {
+			$this->type = -1;
+			$this->contents = $token;
+		}
+	}
 
-    /**
-     * @param TokenVisitorInterface $visitor
-     *
-     * @return mixed
-     */
-    public function accept(TokenVisitorInterface $visitor) {
-        return $visitor->visitToken($this);
-    }
+	/**
+	 * @param TokenVisitorInterface $visitor
+	 *
+	 * @return mixed
+	 */
+	public function accept(TokenVisitorInterface $visitor) {
+		return $visitor->visitToken($this);
+	}
 }

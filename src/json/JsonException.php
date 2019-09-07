@@ -10,8 +10,8 @@
 namespace phootwork\json;
 
 class JsonException extends \Exception {
-    public function __construct(string $message = '', int $code = 0, \Exception $previous = null) {
-        $message = json_last_error_msg();
-        parent::__construct($message, $code, $previous);
-    }
+	public function __construct(string $message = '', int $code = 0, \Exception $previous = null) {
+		$message = json_last_error_msg();
+		parent::__construct($message, $code, $previous);
+	}
 }

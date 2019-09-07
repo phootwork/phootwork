@@ -16,14 +16,14 @@ use PHPUnit\Framework\TestCase;
 abstract class FilesystemTest extends TestCase {
 
 	/** @var vfsStreamDirectory */
-    protected $root;
+	protected $root;
 
-    public function setUp(): void {
-        $this->root = vfsStream::setup();
-    }
+	public function setUp(): void {
+		$this->root = vfsStream::setup();
+	}
 
-    protected function createProject(): string {
-        vfsStream::create([
+	protected function createProject(): string {
+		vfsStream::create([
 			'prj' => [
 				'composer.json' => '{}',
 				'vendor' => [
@@ -33,6 +33,6 @@ abstract class FilesystemTest extends TestCase {
 			]
 		]);
 
-        return $this->root->url() . '/prj';
-    }
+		return $this->root->url() . '/prj';
+	}
 }

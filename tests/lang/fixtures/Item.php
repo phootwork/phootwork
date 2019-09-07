@@ -14,31 +14,31 @@ use phootwork\lang\Comparable;
 class Item implements Comparable {
 
 	/** @var string string */
-    private $content;
+	private $content;
 
-    public function __construct(string $content = '') {
-        $this->content = $content;
-    }
+	public function __construct(string $content = '') {
+		$this->content = $content;
+	}
 
-    public function compareTo($comparison): int {
-        return strcmp($this->content, $comparison->getContent());
-    }
+	public function compareTo($comparison): int {
+		return strcmp($this->content, $comparison->getContent());
+	}
 
-    /**
-     * @return mixed
-     */
-    public function getContent() {
-        return $this->content;
-    }
+	/**
+	 * @return mixed
+	 */
+	public function getContent() {
+		return $this->content;
+	}
 
-    /**
-     * @param $content
-     *
-     * @return $this
-     */
-    public function setContent($content): self {
-        $this->content = $content;
+	/**
+	 * @param $content
+	 *
+	 * @return $this
+	 */
+	public function setContent($content): self {
+		$this->content = $content;
 
-        return $this;
-    }
+		return $this;
+	}
 }

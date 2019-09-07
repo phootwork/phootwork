@@ -16,5 +16,5 @@ interface TokenVisitorInterface {
 	 *
 	 * @return mixed
 	 */
-    public function visitToken(Token $token);
+	public function visitToken(Token $token);
 }

@@ -17,55 +17,55 @@ use phootwork\xml\XmlParser;
 use PHPUnit\Framework\TestCase;
 
 class XmlParserTest extends TestCase {
-    public function testConstants(): void {
-        $this->assertSame(XML_OPTION_CASE_FOLDING, XmlParser::OPTION_CASE_FOLDING);
-        $this->assertSame(XML_OPTION_SKIP_TAGSTART, XmlParser::OPTION_SKIP_TAGSTART);
-        $this->assertSame(XML_OPTION_SKIP_WHITE, XmlParser::OPTION_SKIP_WHITE);
-        $this->assertSame(XML_OPTION_TARGET_ENCODING, XmlParser::OPTION_TARGET_ENCODING);
-    }
+	public function testConstants(): void {
+		$this->assertSame(XML_OPTION_CASE_FOLDING, XmlParser::OPTION_CASE_FOLDING);
+		$this->assertSame(XML_OPTION_SKIP_TAGSTART, XmlParser::OPTION_SKIP_TAGSTART);
+		$this->assertSame(XML_OPTION_SKIP_WHITE, XmlParser::OPTION_SKIP_WHITE);
+		$this->assertSame(XML_OPTION_TARGET_ENCODING, XmlParser::OPTION_TARGET_ENCODING);
+	}
 
-    public function testParser(): void {
-        $parser = new XmlParser();
+	public function testParser(): void {
+		$parser = new XmlParser();
 
-        // test options
-        $caseFolding = $parser->getOption(XmlParser::OPTION_CASE_FOLDING);
-        $parser->setOption(XmlParser::OPTION_CASE_FOLDING, 42);
-        $this->assertEquals(42, $parser->getOption(XmlParser::OPTION_CASE_FOLDING));
-        $parser->setOption(XmlParser::OPTION_CASE_FOLDING, $caseFolding);
+		// test options
+		$caseFolding = $parser->getOption(XmlParser::OPTION_CASE_FOLDING);
+		$parser->setOption(XmlParser::OPTION_CASE_FOLDING, 42);
+		$this->assertEquals(42, $parser->getOption(XmlParser::OPTION_CASE_FOLDING));
+		$parser->setOption(XmlParser::OPTION_CASE_FOLDING, $caseFolding);
 
-        // test visitor
-        $visitor = new StackParserVisitor();
-        $parser->addVisitor($visitor);
-        $parser->removeVisitor($visitor);
-        $parser->parseFile(new Text(__DIR__ . '/fixtures/bookstore.xml'));
-        $this->assertEquals(0, $visitor->getElementStack()->size());
+		// test visitor
+		$visitor = new StackParserVisitor();
+		$parser->addVisitor($visitor);
+		$parser->removeVisitor($visitor);
+		$parser->parseFile(new Text(__DIR__ . '/fixtures/bookstore.xml'));
+		$this->assertEquals(0, $visitor->getElementStack()->size());
 
-        $parser = null;
-    }
+		$parser = null;
+	}
 
-    public function testBookstore(): void {
-        $stack = new Stack();
-        $visitor = new StackParserVisitor();
-        $parser = new XmlParser();
-        $parser->addVisitor($visitor);
-        $parser->parseFile(new Path(__DIR__ . '/fixtures/bookstore.xml'));
+	public function testBookstore(): void {
+		$stack = new Stack();
+		$visitor = new StackParserVisitor();
+		$parser = new XmlParser();
+		$parser->addVisitor($visitor);
+		$parser->parseFile(new Path(__DIR__ . '/fixtures/bookstore.xml'));
 
-        $stack->push('database');
-        $stack->push('entity');
-        $stack->pushAll(['field', 'field', 'field', 'field', 'relation', 'relation']);
-        //$stack = $stack->map(function ($item) {
-        //	return strtoupper($item);
-        //});
-        $this->assertEquals($stack, $visitor->getElementStack());
+		$stack->push('database');
+		$stack->push('entity');
+		$stack->pushAll(['field', 'field', 'field', 'field', 'relation', 'relation']);
+		//$stack = $stack->map(function ($item) {
+		//	return strtoupper($item);
+		//});
+		$this->assertEquals($stack, $visitor->getElementStack());
 
-        $parser->__destruct();
-    }
+		$parser->__destruct();
+	}
 
-    public function testParseWrongContentThrowsException(): void {
-        $this->expectException(XmlException::class);
-        $this->expectExceptionMessage('Not well-formed (invalid token)');
+	public function testParseWrongContentThrowsException(): void {
+		$this->expectException(XmlException::class);
+		$this->expectExceptionMessage('Not well-formed (invalid token)');
 
-        $parser = new XmlParser();
-        $parser->parse('This is not an xml string');
-    }
+		$parser = new XmlParser();
+		$parser->parse('This is not an xml string');
+	}
 }

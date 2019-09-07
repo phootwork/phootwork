@@ -15,20 +15,20 @@ use phootwork\xml\XmlParserNoopVisitor;
 class StackParserVisitor extends XmlParserNoopVisitor {
 
 	/** @var Stack */
-    private $elementStack;
+	private $elementStack;
 
-    public function __construct() {
-        $this->elementStack = new Stack();
-    }
+	public function __construct() {
+		$this->elementStack = new Stack();
+	}
 
-    /**
-     * @return Stack
-     */
-    public function getElementStack(): Stack {
-        return $this->elementStack;
-    }
+	/**
+	 * @return Stack
+	 */
+	public function getElementStack(): Stack {
+		return $this->elementStack;
+	}
 
-    public function visitElementStart(string $name, array $attributes, int $line, int $column): void {
-        $this->elementStack->push($name);
-    }
+	public function visitElementStart(string $name, array $attributes, int $line, int $column): void {
+		$this->elementStack->push($name);
+	}
 }
