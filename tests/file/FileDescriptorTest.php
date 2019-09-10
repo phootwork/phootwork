@@ -21,9 +21,9 @@ class FileDescriptorTest extends FilesystemTest {
 		$this->assertTrue(File::create('') instanceof File);
 		$this->assertTrue(FileDescriptor::create('') instanceof FileDescriptor);
 
-		$this->assertTrue(is_string(File::create('/path/to/dir')->getPathname()));
-		$this->assertTrue(is_string(Directory::create(new Path('/path/to/dir'))->getPathname()));
-		$this->assertTrue(is_string(FileDescriptor::create(new Text('/path/to/dir'))->getPathname()));
+		$this->assertInstanceOf(Text::class, File::create('/path/to/dir')->getPathname());
+		$this->assertInstanceOf(Text::class, Directory::create(new Path('/path/to/dir'))->getPathname());
+		$this->assertInstanceOf(Text::class, FileDescriptor::create(new Text('/path/to/dir'))->getPathname());
 	}
 
 	public function testNames(): void {

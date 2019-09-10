@@ -19,11 +19,11 @@ class PathTest extends TestCase {
 
 		$this->assertEquals('this/is/the/path/to/my', $p->getDirname());
 		$this->assertEquals('file.ext', $p->getFilename());
-		$this->assertEquals('ext', $p->getExtension());
-		$this->assertEquals('this/is/the/path/to/my/file.ext', $p->getPathname());
+		$this->assertEquals('ext', $p->getExtension()->toString());
+		$this->assertEquals('this/is/the/path/to/my/file.ext', $p->getPathname()->toString());
 
 		$p = new Path('another/path');
-		$this->assertEmpty($p->getExtension());
+		$this->assertTrue($p->getExtension()->isEmpty());
 		$p = $p->append('to');
 		$this->assertEquals('another/path/to', $p->getPathname());
 		$p = $p->append(new Path('my/stuff'));
@@ -41,7 +41,7 @@ class PathTest extends TestCase {
 		$p = new Path('my/file.ext');
 		$this->assertEquals('ext', $p->getExtension());
 		$this->assertEquals('bla', $p->setExtension('bla')->getExtension());
-		$this->assertEmpty($p->removeExtension()->getExtension());
+		$this->assertTrue($p->removeExtension()->getExtension()->isEmpty());
 	}
 
 	public function testSegments(): void {

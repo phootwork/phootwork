@@ -8,7 +8,7 @@ Contributing to a project is a process with its own rules and we try to explain 
 
 ## Quick Start for Experienced Programmers
 
-1. Fork, clone and apply your patches. See the [directory structure](#understanding-the directory-structure) explanation
+1. Fork, clone and apply your patches. See the [directory structure](#understanding-the-directory-structure) explanation
 if needed and don't forget to write tests.
 2. Run the test suite `composer test` and fix all red tests.
 3. Run static analysis tool (by now, we use [Psalm](https://psalm.dev/)) `composer analytics` and fix all errors and issues.

@@ -124,12 +124,12 @@ class XmlParser {
 	/**
 	 * Parses a string
 	 *
-	 * @param string $data
+	 * @param string|Text $data
 	 *
 	 * @throws XmlException
 	 */
 	public function parse($data): void {
-		if (!xml_parse($this->parser, $data)) {
+		if (!xml_parse($this->parser, (string) $data)) {
 			$code = xml_get_error_code($this->parser);
 
 			throw new XmlException(xml_error_string($code), $code);

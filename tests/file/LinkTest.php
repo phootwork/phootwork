@@ -45,8 +45,8 @@ class LinkTest extends TestCase {
 	}
 
 	public function testLink(): void {
-		$origin = new Path(tempnam($this->tempDir->getPathname(), 'orig'));
-		$target = new File(tempnam($this->tempDir->getPathname(), 'target'));
+		$origin = new Path(tempnam((string) $this->tempDir->getPathname(), 'orig'));
+		$target = new File(tempnam((string) $this->tempDir->getPathname(), 'target'));
 		$target->delete();
 		$target = new Path($target->getPathname());
 
@@ -62,8 +62,8 @@ class LinkTest extends TestCase {
 	}
 
 	public function testLinkToAdifferentLink(): void {
-		$origin = new Path(tempnam($this->tempDir->getPathname(), 'orig'));
-		$target = new File(tempnam($this->tempDir->getPathname(), 'target'));
+		$origin = new Path(tempnam((string) $this->tempDir->getPathname(), 'orig'));
+		$target = new File(tempnam((string) $this->tempDir->getPathname(), 'target'));
 		$target->delete();
 		$target = new Path($target->getPathname());
 
@@ -74,7 +74,7 @@ class LinkTest extends TestCase {
 		$this->assertTrue($link->exists());
 		$this->assertTrue($link->isLink());
 
-		$origin2 = new Path(tempnam($this->tempDir->getPathname(), '2orig'));
+		$origin2 = new Path(tempnam((string) $this->tempDir->getPathname(), '2orig'));
 		$file2 = new File($origin2);
 		$file2->touch();
 		$file2->linkTo($target);
