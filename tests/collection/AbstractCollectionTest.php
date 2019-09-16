@@ -11,6 +11,7 @@ namespace phootwork\collection\tests;
 
 use phootwork\collection\ArrayList;
 use phootwork\collection\CollectionUtils;
+use phootwork\collection\Map;
 use PHPUnit\Framework\TestCase;
 
 class AbstractCollectionTest extends TestCase {
@@ -55,6 +56,28 @@ class AbstractCollectionTest extends TestCase {
 		$this->assertEquals(2, $counter);
 		$this->assertSame($data, $elements);
 		$this->assertSame($elements, $keyelems);
+	}
+
+	public function testIteratorAssociative(): void {
+		$data = ['item_1' => 'Item 1', 'item_2' => 'Item 2'];
+		$map = new Map($data);
+		$elements = [];
+		$keyElements = [];
+		$counter = 0;
+
+		foreach ($map as $key => $element) {
+			$keyElements[$key] = $element;
+			$counter++;
+		}
+
+		foreach ($map as $element) {
+			$elements[] = $element;
+		}
+
+		$this->assertEquals(2, $counter);
+		$this->assertCount(2, $elements);
+		$this->assertSame($data, $keyElements);
+		$this->assertSame(array_values($data), $elements);
 	}
 
 	public function testExport(): void {
