@@ -48,7 +48,7 @@ class ArrayTest extends TestCase {
 		$this->assertEquals(4, $arr->count());
 		$this->assertEquals(4, count($arr));
 
-		$arr->merge('a', 'b');
+		$arr->merge(['a', 'b']);
 
 		$this->assertEquals(6, $arr->count());
 	}
@@ -389,7 +389,7 @@ class ArrayTest extends TestCase {
 		$this->assertEquals(['apple', 'banana', 'pine', 'ananas'], $fruits->toArray());
 		$fruits->append(['peach', 'pear']);
 		$this->assertEquals(['apple', 'banana', 'pine', 'ananas', ['peach', 'pear']], $fruits->toArray());
-		$fruits->append($obj = new ArrayObject(['wathermelon']));
+		$fruits->append($obj = new ArrayObject(['watermelon']));
 		$this->assertEquals(['apple', 'banana', 'pine', 'ananas', ['peach', 'pear'], $obj], $fruits->toArray());
 	}
 
@@ -397,5 +397,37 @@ class ArrayTest extends TestCase {
 		$fruits = new ArrayObject(['apple', 'banana']);
 		$element = $fruits->get(4);
 		$this->assertNull($element);
+	}
+
+	public function testMerge(): void {
+		$fruits = new ArrayObject(['apple', 'apricot', 'peach', 'banana']);
+		$fruits->merge(['ananas', 'watermelon']);
+		$expected = ['apple', 'apricot', 'peach', 'banana', 'ananas', 'watermelon'];
+		$this->assertEquals($expected, $fruits->toArray());
+	}
+
+	public function testMergeRecursive(): void {
+		$animals = new ArrayObject([
+			'quadrupeds' => [
+				'canids' => ['dog', 'wolfe'],
+				'felines' => ['cat', 'panther']
+				],
+			'bipedal' => ['human', 'chicken']
+		]);
+
+		$toMerge1 = ['quadrupeds' => ['felines' => ['lion', 'tiger']]];
+		$toMerge2 = ['cetaceans' => ['dolphin', 'whale']];
+		$animals->mergeRecursive($toMerge1, $toMerge2);
+
+		$expected = [
+			'quadrupeds' => [
+				'canids' => ['dog', 'wolfe'],
+				'felines' => ['cat', 'panther', 'lion', 'tiger']
+			],
+			'bipedal' => ['human', 'chicken'],
+			'cetaceans' => ['dolphin', 'whale']
+		];
+
+		$this->assertEquals($expected, $animals->toArray());
 	}
 }
