@@ -9,7 +9,7 @@ then
   then
     if [ ${TRAVIS_PULL_REQUEST} = "false" ]
     then
-      git clone https://github.com/shopsys/monorepo-tools
+      git clone https://github.com/cristianoc72/monorepo-tools
       git remote add dep_collection https://${GITHUB_TOKEN}@github.com/phootwork/collection
       git remote add dep_file https://${GITHUB_TOKEN}@github.com/phootwork/file
       git remote add dep_json https://${GITHUB_TOKEN}@github.com/phootwork/json
