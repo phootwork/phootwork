@@ -406,6 +406,61 @@ class ArrayTest extends TestCase {
 		$this->assertEquals($expected, $fruits->toArray());
 	}
 
+	public function testMergeMultidimensional(): void {
+		$cartoons = new ArrayObject([
+			'Marvel' => [
+				'avengers' => [
+					'Iron Man',
+					'Hulk',
+					'Captain America'
+				]
+			],
+			'Dc' => [
+				'Superman',
+				'Bat Man'
+			]
+		]);
+
+		$goNagai = [
+			'Go Nagai' => [
+				'Mazinger-Z',
+				'Great Mazinger',
+				'Goldrake'
+			]
+		];
+
+		$addMarvel = [
+			'Marvel' => [
+				'X-Men' => [
+					'Wolverine',
+					'Professor X',
+					'Magneto'
+				]
+			]
+		];
+
+		$expected = [
+			'Marvel' => [
+				'X-Men' => [
+					'Wolverine',
+					'Professor X',
+					'Magneto'
+					]
+				],
+			'Dc' => [
+				'Superman',
+				'Bat Man'
+				],
+			'Go Nagai' => [
+				'Mazinger-Z',
+				'Great Mazinger',
+				'Goldrake'
+				]
+			];
+
+		$this->assertEquals($expected, $cartoons->merge($addMarvel, $goNagai)->toArray());
+	}
+
 	public function testMergeRecursive(): void {
 		$animals = new ArrayObject([
 			'quadrupeds' => [
