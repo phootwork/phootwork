@@ -407,7 +407,7 @@ class ArrayTest extends TestCase {
 	}
 
 	public function testMergeMultidimensional(): void {
-		$cartoons = new ArrayObject([
+		$cartoons = [
 			'Marvel' => [
 				'avengers' => [
 					'Iron Man',
@@ -419,7 +419,7 @@ class ArrayTest extends TestCase {
 				'Superman',
 				'Bat Man'
 			]
-		]);
+		];
 
 		$goNagai = [
 			'Go Nagai' => [
@@ -439,50 +439,27 @@ class ArrayTest extends TestCase {
 			]
 		];
 
-		$expected = [
-			'Marvel' => [
-				'X-Men' => [
-					'Wolverine',
-					'Professor X',
-					'Magneto'
-					]
-				],
-			'Dc' => [
-				'Superman',
-				'Bat Man'
-				],
-			'Go Nagai' => [
-				'Mazinger-Z',
-				'Great Mazinger',
-				'Goldrake'
-				]
-			];
+		$expected = array_merge($cartoons, $goNagai, $addMarvel);
+		$obj = new ArrayObject($cartoons);
 
-		$this->assertEquals($expected, $cartoons->merge($addMarvel, $goNagai)->toArray());
+		$this->assertEquals($expected, $obj->merge($addMarvel, $goNagai)->toArray());
 	}
 
 	public function testMergeRecursive(): void {
-		$animals = new ArrayObject([
+		$animals = [
 			'quadrupeds' => [
 				'canids' => ['dog', 'wolfe'],
 				'felines' => ['cat', 'panther']
 				],
 			'bipedal' => ['human', 'chicken']
-		]);
+		];
 
 		$toMerge1 = ['quadrupeds' => ['felines' => ['lion', 'tiger']]];
 		$toMerge2 = ['cetaceans' => ['dolphin', 'whale']];
-		$animals->mergeRecursive($toMerge1, $toMerge2);
 
-		$expected = [
-			'quadrupeds' => [
-				'canids' => ['dog', 'wolfe'],
-				'felines' => ['cat', 'panther', 'lion', 'tiger']
-			],
-			'bipedal' => ['human', 'chicken'],
-			'cetaceans' => ['dolphin', 'whale']
-		];
+		$expected = array_merge_recursive($animals, $toMerge1, $toMerge2);
+		$obj = new ArrayObject($animals);
 
-		$this->assertEquals($expected, $animals->toArray());
+		$this->assertEquals($expected, $obj->mergeRecursive($toMerge1, $toMerge2)->toArray());
 	}
 }
