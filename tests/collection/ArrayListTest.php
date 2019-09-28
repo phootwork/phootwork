@@ -33,7 +33,7 @@ class ArrayListTest extends TestCase {
 
 		$this->assertEquals(0, $list->size());
 
-		$list->addAll($items);
+		$list->add(...$items);
 
 		$this->assertEquals(2, $list->size());
 		$this->assertEmpty($list->get(2));
@@ -43,7 +43,7 @@ class ArrayListTest extends TestCase {
 
 		$this->assertEquals(3, $list->size());
 
-		$list->removeAll($items);
+		$list->remove(...$items);
 
 		$this->assertEquals(1, $list->size());
 	}
@@ -70,13 +70,14 @@ class ArrayListTest extends TestCase {
 		$this->assertEquals(1, $list->indexOf($item2));
 		$this->assertNull($list->indexOf($item3));
 
-		$list->removeAll($items);
-		$list->addAll($items);
+		$list->remove($item1, $item2);
+		$list->add(...$items);
 
 		$this->assertEquals(2, $list->size());
 		$this->assertEquals($index1, $list->indexOf($item1));
 
-		$list->add($item3, 1);
+		$list->insert($item3, 1);
+
 		$this->assertEquals($item3, $list->get(1));
 		$this->assertEquals($item2, $list->get(2));
 	}

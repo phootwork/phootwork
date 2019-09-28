@@ -126,7 +126,7 @@ class ArrayTest extends TestCase {
 		}
 
 		$list->sort(new ComparableComparator());
-		$this->assertEquals(['a', 'c', 'm', 't', 'x'], $list->map(function ($item) {
+		$this->assertEquals(['a', 'c', 'm', 't', 'x'], $list->map(function (Item $item) {
 			return $item->getContent();
 		})->toArray());
 	}
@@ -226,15 +226,31 @@ class ArrayTest extends TestCase {
 		$this->assertEquals(1, $list->indexOf($item2));
 		$this->assertNull($list->indexOf($item3));
 
-		$list->removeAll($items);
-		$list->addAll($items);
+		$list->remove($item1, $item2);
+		$list->add(...$items);
 
 		$this->assertEquals(2, $list->count());
 		$this->assertEquals($index1, $list->indexOf($item1));
 
-		$list->add($item3, 1);
+		$list->insert($item3, 1);
 		$this->assertEquals($item3, $list->get(1));
 		$this->assertEquals($item2, $list->get(2));
+	}
+
+	public function testIndexAssociative(): void {
+		$items = ['item1' => 'item 1', 'item2' => 'item 2'];
+		$item3 = 'item 3';
+
+		$list = new ArrayObject($items);
+
+		$this->assertEquals('item1', $list->indexOf('item 1'));
+		$this->assertEquals('item2', $list->indexOf('item 2'));
+		$this->assertNull($list->indexOf($item3));
+		$this->assertEquals(2, $list->count());
+
+		$list->insert($item3, 'item3');
+		$this->assertEquals($item3, $list->get('item3'));
+		$this->assertEquals('item 2', $list->get('item2'));
 	}
 
 	public function testContains(): void {
@@ -461,5 +477,22 @@ class ArrayTest extends TestCase {
 		$obj = new ArrayObject($animals);
 
 		$this->assertEquals($expected, $obj->mergeRecursive($toMerge1, $toMerge2)->toArray());
+	}
+
+	public function testInsert(): void {
+		$fruits = new ArrayObject(['apple', 'banana']);
+		$fruits->insert('peach', 1);
+
+		$this->assertEquals(3, $fruits->size());
+		$this->assertEquals('apple', $fruits->get(0));
+		$this->assertEquals('peach', $fruits->get(1));
+		$this->assertEquals('banana', $fruits->get(2));
+
+		$fruits->insert('pear', null);
+		$this->assertEquals(4, $fruits->size());
+		$this->assertEquals('apple', $fruits->get(0));
+		$this->assertEquals('peach', $fruits->get(1));
+		$this->assertEquals('banana', $fruits->get(2));
+		$this->assertEquals('pear', $fruits->get(3));
 	}
 }
