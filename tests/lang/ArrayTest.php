@@ -275,6 +275,7 @@ class ArrayTest extends TestCase {
 			return $i->getContent() == $query;
 		};
 
+		/** @var Item $item */
 		$item = $list->find(4, $search);
 		$this->assertTrue($item instanceof Item);
 		$this->assertEquals(4, $item->getContent());
@@ -324,6 +325,53 @@ class ArrayTest extends TestCase {
 		$this->assertFalse($list->search(function ($elem) {
 			return $elem == 20;
 		}));
+	}
+
+	public function testIndexOf(): void {
+		$animals = new ArrayObject([
+			'quadrupeds' => [
+				'canids' => ['dog', 'wolfe'],
+				'felines' => ['cat', 'panther']
+			],
+			'bipedal' => 'chicken',
+			'cetaceans' => ['dolphin', 'whale']
+		]);
+
+		$this->assertEquals('cetaceans', $animals->indexOf(['dolphin', 'whale']));
+		$this->assertEquals('bipedal', $animals->indexOf('chicken'));
+		$this->assertNull($animals->indexOf('canids'), 'Can\'t work on deep levels of multidimensional arrays');
+	}
+
+	public function testFindIndexAssociative(): void {
+		$animals = new ArrayObject([
+			'quadrupeds' => [
+				'canids' => ['dog', 'wolfe'],
+				'felines' => ['cat', 'panther']
+			],
+			'bipedal' => ['human', 'chicken'],
+			'cetaceans' => ['dolphin', 'whale']
+		]);
+		$index = $animals->findIndex(['human', 'chicken'], function (array $element, array $query) {
+			return $element === $query;
+		});
+
+		$this->assertEquals('bipedal', $index);
+	}
+
+	public function testFindAssociative(): void {
+		$animals = new ArrayObject([
+			'quadrupeds' => [
+				'canids' => ['dog', 'wolfe'],
+				'felines' => ['cat', 'panther']
+			],
+			'bipedal' => ['human', 'chicken'],
+			'cetaceans' => ['dolphin', 'whale']
+		]);
+		$arr = $animals->find('whale', function (array $element, string $query) {
+			return in_array($query, $element) ? $element : false;
+		});
+
+		$this->assertEquals(['dolphin', 'whale'], $arr);
 	}
 
 	public function testSome(): void {
@@ -494,5 +542,22 @@ class ArrayTest extends TestCase {
 		$this->assertEquals('peach', $fruits->get(1));
 		$this->assertEquals('banana', $fruits->get(2));
 		$this->assertEquals('pear', $fruits->get(3));
+	}
+
+	public function testInsertAssociativeArray(): void {
+		$alimony = new ArrayObject([
+			'fruits' => ['apple', 'banana'],
+			'vegetables' => ['spinach', 'artichokes']
+		]);
+
+		$alimony->insert(['chickpeas', 'beans'], 'legumes');
+
+		$this->assertEquals(3, $alimony->size());
+		$this->assertEquals(['apple', 'banana'], $alimony->get('fruits'));
+		$this->assertEquals(['chickpeas', 'beans'], $alimony->get('legumes'));
+
+		$alimony->insert(['potatoes', 'carrots'], null); //adds the element at the end of the array
+		$this->assertEquals(4, $alimony->size());
+		$this->assertEquals(['potatoes', 'carrots'], $alimony->get(3));
 	}
 }
