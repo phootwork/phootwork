@@ -25,9 +25,9 @@ use phootwork\lang\parts\ReversePart;
 abstract class AbstractList extends AbstractCollection {
 	use EachPart;
 	use IndexFindersPart {
-		indexOf as parentIndexOf;
-		findLastIndex as parentFindLastIndex;
-		findIndex as parentFindIndex;
+		indexOf as traitIndexOf;
+		findLastIndex as traitFindLastIndex;
+		findIndex as traitFindIndex;
 	}
 	use ReducePart;
 	use RemovePart;
@@ -55,9 +55,9 @@ abstract class AbstractList extends AbstractCollection {
 	 * @return int the index for the given element
 	 */
 	public function indexOf($element): ?int {
-		$index = $this->parentIndexOf($element);
+		$index = $this->traitIndexOf($element);
 
-		return null === $index ? $index : (int) $index;
+		return $index === null ? $index : (int) $index;
 	}
 
 	/**
@@ -78,9 +78,9 @@ abstract class AbstractList extends AbstractCollection {
 	 * @return int|null the index or null if it hasn't been found
 	 */
 	public function findLastIndex(...$arguments): ?int {
-		$lastIndex = $this->parentFindLastIndex(...$arguments);
+		$lastIndex = $this->traitFindLastIndex(...$arguments);
 
-		return null === $lastIndex ? $lastIndex : (int) $lastIndex;
+		return $lastIndex === null ? $lastIndex : (int) $lastIndex;
 	}
 
 	/**
@@ -101,8 +101,8 @@ abstract class AbstractList extends AbstractCollection {
 	 * @return int|null the index or null if it hasn't been found
 	 */
 	public function findIndex(...$arguments): ?int {
-		$index = $this->parentFindIndex(...$arguments);
+		$index = $this->traitFindIndex(...$arguments);
 
-		return null === $index ? $index : (int) $index;
+		return $index === null ? $index : (int) $index;
 	}
 }

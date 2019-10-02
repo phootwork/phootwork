@@ -24,7 +24,7 @@ trait IndexFindersPart {
 	public function indexOf($element) {
 		$out = array_search($element, $this->array, true);
 
-		return false === $out ? null : $out;
+		return $out === false ? null : $out;
 	}
 
 	/**

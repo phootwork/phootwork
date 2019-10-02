@@ -22,7 +22,7 @@ use phootwork\lang\parts\InsertPart;
  */
 class ArrayList extends AbstractList {
 	use AccessorsPart {
-		get as parentGet;
+		get as traitGet;
 	}
 	use AddPart;
 	use InsertPart;
@@ -61,6 +61,6 @@ class ArrayList extends AbstractList {
 	 * @return mixed
 	 */
 	public function get(int $index) {
-		return $this->parentGet($index);
+		return $this->traitGet($index);
 	}
 }
