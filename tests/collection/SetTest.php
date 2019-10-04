@@ -29,7 +29,7 @@ class SetTest extends TestCase {
 
 		$this->assertEquals(0, $set->size());
 
-		$set->addAll($items);
+		$set->add($item1, $item2);
 
 		$this->assertEquals(2, $set->size());
 		$this->assertSame($items, $set->toArray());
@@ -38,7 +38,7 @@ class SetTest extends TestCase {
 
 		$this->assertEquals(3, $set->size());
 
-		$set->removeAll($items);
+		$set->remove(...$items);
 
 		$this->assertEquals(1, $set->size());
 	}
