@@ -27,7 +27,7 @@ class StackTest extends TestCase {
 
 		$this->assertEquals(0, $stack->size());
 
-		$stack->pushAll($items);
+		$stack->push(...$items);
 
 		$this->assertEquals(2, $stack->size());
 
@@ -47,7 +47,7 @@ class StackTest extends TestCase {
 		$this->assertEquals($stack->toArray(), ['item 1', 'item 2', 'item 3']);
 
 		$stack = new Stack();
-		$stack->pushAll(['item 1', 'item 2', 'item 3']);
+		$stack->push('item 1', 'item 2', 'item 3');
 		$this->assertSame('item 3', $stack->peek());
 		$this->assertEquals($stack->toArray(), ['item 1', 'item 2', 'item 3']);
 	}

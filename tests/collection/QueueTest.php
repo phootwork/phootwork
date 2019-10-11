@@ -27,7 +27,7 @@ class QueueTest extends TestCase {
 
 		$this->assertEquals(0, $queue->size());
 
-		$queue->enqueueAll($items);
+		$queue->enqueue(...$items);
 
 		$this->assertEquals(2, $queue->size());
 
@@ -43,8 +43,8 @@ class QueueTest extends TestCase {
 
 		$queue = new Queue();
 		$queue->enqueue('item 1')->enqueue('item 2')->enqueue('item 3');
-		$this->assertSame('item 3', $queue->peek());
-		$this->assertEquals($queue->toArray(), ['item 3', 'item 2', 'item 1']);
+		$this->assertSame('item 1', $queue->peek(), 'First in first out');
+		$this->assertEquals($queue->toArray(), ['item 1', 'item 2', 'item 3']);
 	}
 
 	public function testDuplicateValues(): void {
@@ -109,5 +109,19 @@ class QueueTest extends TestCase {
 
 		$queue = new Queue(['item 1', 'item 2', 'item 3']);
 		$this->assertEquals(array_map($cb, $queue->toArray()), $queue->map($cb)->toArray());
+	}
+
+	public function testFiFo(): void {
+		$queue = new Queue(['item 1', 'item 2', 'item 3']);
+
+		$this->assertEquals('item 1', $queue->peek(), 'Return first inserted element');
+
+		$queue->enqueue('item 4');
+		$this->assertEquals('item 1', $queue->poll(), 'Return first inserted element');
+
+		$queue->enqueue('item 5', 'item 6');
+		$this->assertEquals('item 2', $queue->poll(), 'Return second inserted element');
+
+		$this->assertEquals(['item 3', 'item 4', 'item 5', 'item 6'], $queue->toArray());
 	}
 }
