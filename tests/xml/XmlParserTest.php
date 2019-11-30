@@ -52,7 +52,7 @@ class XmlParserTest extends TestCase {
 
 		$stack->push('database');
 		$stack->push('entity');
-		$stack->pushAll(['field', 'field', 'field', 'field', 'relation', 'relation']);
+		$stack->push('field', 'field', 'field', 'field', 'relation', 'relation');
 		//$stack = $stack->map(function ($item) {
 		//	return strtoupper($item);
 		//});

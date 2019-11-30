@@ -17,7 +17,6 @@ class StackTest extends TestCase {
 		$item1 = 'item 1';
 		$item2 = 'item 2';
 		$item3 = 'item 3';
-		$items = [$item1, $item2];
 
 		$stack = new Stack();
 		$stack->push($item1);
@@ -27,13 +26,20 @@ class StackTest extends TestCase {
 
 		$this->assertEquals(0, $stack->size());
 
-		$stack->pushAll($items);
+		$stack->push($item1, $item2);
 
 		$this->assertEquals(2, $stack->size());
 
 		$stack->push($item3);
 
 		$this->assertEquals(3, $stack->size());
+	}
+
+	public function testsAddWithIterator(): void {
+		$iterator = new \ArrayIterator(['item 1', 'item 2', 'item 3']);
+		$stack = new Stack($iterator);
+
+		$this->assertEquals('item 3', $stack->pop());
 	}
 
 	public function testToArray(): void {
@@ -47,7 +53,7 @@ class StackTest extends TestCase {
 		$this->assertEquals($stack->toArray(), ['item 1', 'item 2', 'item 3']);
 
 		$stack = new Stack();
-		$stack->pushAll(['item 1', 'item 2', 'item 3']);
+		$stack->push('item 1', 'item 2', 'item 3');
 		$this->assertSame('item 3', $stack->peek());
 		$this->assertEquals($stack->toArray(), ['item 1', 'item 2', 'item 3']);
 	}
