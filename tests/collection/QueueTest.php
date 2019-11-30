@@ -27,7 +27,7 @@ class QueueTest extends TestCase {
 
 		$this->assertEquals(0, $queue->size());
 
-		$queue->enqueueAll($items);
+		$queue->enqueue(...$items);
 
 		$this->assertEquals(2, $queue->size());
 
