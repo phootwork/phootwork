@@ -4,8 +4,8 @@
 # corresponding to the minumim php version supported
 if [ ${TRAVIS_PHP_VERSION} = "7.2" ]
 then
-  # Run the commands only when push on master branch
-  if [ ${TRAVIS_BRANCH} = "master" ]
+  # Run the commands only when push on master branch or when a new tag is added
+  if [ ${TRAVIS_BRANCH} = "master" ] || [ ${TRAVIS_BRANCH} = ${TRAVIS_TAG} ]
   then
     if [ ${TRAVIS_PULL_REQUEST} = "false" ]
     then
