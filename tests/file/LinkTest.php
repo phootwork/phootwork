@@ -12,6 +12,7 @@ namespace phootwork\file\tests;
 use phootwork\file\Directory;
 use phootwork\file\File;
 use phootwork\file\Path;
+use phootwork\lang\Text;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -30,6 +31,10 @@ class LinkTest extends TestCase {
 	private $tempDir;
 
 	public function setUp(): void {
+		if ((new Text(PHP_OS))->toUpperCase()->contains('WIN')) {
+			$this->markTestSkipped('To investigate: symlinks don\'t work on Windows.');
+		}
+
 		$this->tempDir = new Directory(sys_get_temp_dir() . '/phootwork');
 		//if some errors, sometimes tearDown is not called
 		if ($this->tempDir->exists()) {
