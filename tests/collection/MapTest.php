@@ -66,7 +66,7 @@ class MapTest extends TestCase {
 
 		$this->assertEmpty($map->get('non_existing_key'));
 		$this->assertSame($map, $map->remove('non_existing_key'), 'Remove method always returns self');
-		$this->assertEquals([], $map->get('non_existing_key', []));
+		$this->assertEquals([], $map->get('non_existing_key') ?? []);
 	}
 
 	public function testToArray(): void {
