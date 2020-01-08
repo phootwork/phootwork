@@ -11,6 +11,8 @@ jobs:
         php-versions: ['7.2', '7.3', '7.4']
     runs-on: ${{ matrix.operating-system }}
     steps:
+      - name: Fix autocrlf on Windows
+      - if: matrix.operating-system == 'windows-latest'
       - run: git config --global core.autocrlf false
       - name: Checkout
         uses: actions/checkout@v1
