@@ -12,8 +12,8 @@ jobs:
     runs-on: ${{ matrix.operating-system }}
     steps:
       - name: Fix autocrlf on Windows
-      - if: matrix.operating-system == 'windows-latest'
-      - run: git config --global core.autocrlf false
+        if: matrix.operating-system == 'windows-latest'
+        run: git config --global core.autocrlf false
       - name: Checkout
         uses: actions/checkout@v1
       - name: Setup PHP, with composer and extensions
