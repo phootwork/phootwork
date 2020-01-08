@@ -19,7 +19,6 @@ after_script:
   - php ocular.phar code-coverage:upload --format=php-clover clover.xml
 
 after_success:
-  - bin/auto_split.sh
   - bin/build_api.sh
 
 matrix:
