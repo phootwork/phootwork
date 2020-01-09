@@ -1,12 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 $config = new phootwork\fixer\Config();
 $config->getFinder()
-    ->exclude(['fixture'])
     ->in(__DIR__ . '/src')
     ->in(__DIR__ . '/tests')
 ;
-
-$cacheDir = getenv('TRAVIS') ? getenv('HOME') . '/.php-cs-fixer' : __DIR__;
 
 return $config;
