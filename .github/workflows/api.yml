@@ -1,0 +1,35 @@
+name: Build Api Documentation
+on:
+  push:
+    branches: [master]
+jobs:
+  build-api:
+    name: Build api
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Checkout api repository
+        uses: actions/checkout@v2
+        with:
+          repository: phootwork/api
+          path: api
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: 7.2
+          extensions: mbstring, dom, json, libxml, xml, xmlwriter
+          coverage: none
+      - name: Download Sami
+        run: wget http://get.sensiolabs.org/sami.phar
+      - name: Build api documentation
+        run: php sami.phar update sami.php
+      - name: Create .nojekyll file
+        run: touch ./api/.nojekyll
+      - name: Deploy api documentation site
+        uses: peaceiris/actions-gh-pages@v2
+        env:
+          ACTIONS_DEPLOY_KEY: ${{ secrets.AUTH_TOKEN }}
+          EXTERNAL_REPOSITORY: phootwork/api
+          PUBLISH_BRANCH: master
+          PUBLISH_DIR: ./api

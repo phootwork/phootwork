@@ -3,7 +3,7 @@ composer.lock
 phpunit.xml
 sami.phar
 cache/
-docs/
+api/
 vendor/
 .phpunit.result.cache
 .php_cs.cache

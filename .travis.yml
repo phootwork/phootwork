@@ -17,14 +17,3 @@ script:
 after_script:
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover clover.xml
-
-after_success:
-  - bin/build_api.sh
-
-matrix:
-  allow_failures:
-    - php: nightly
-
-env:
-  global:
-    - secure: A5X6qEt2zkieTWeUDa0cHrMtMWinb9QzdR4Jn5NdcffHVBWOvPahKA8u6yoS9mt+/Ohk4z7HNj+AztLQW81X1Zox4Ogm8oN4qPjTNHhZZHrddj5aKBnbnX9mF5X0rRty/j01/HQ9+mFOIAWAc83laBXCK4nu3AGVobytR3t6zklf4iJWFJ4CxSqOPEVrAU9FNkaDW99XQpDWfckki/rBuyuPzgdrCdU+QgRqZzX9n6MJw/d5WE1nN7mlarlljqu/Q7y4t+JnSzG3DzCjPoD6AzEyPFZm/9mxcn9YqKQemOsYk73Gsi3tZNbcOV2c/KZ24cX3TrQgIkUKKbBFNvc/wS0DPQ5so1piKDZX/u3asDnzj+2/C9tog4P1l5snY8elTkqR9T8uWdVqzMkGVdqDcOWArz8zFlWbAfGLf5e03cYDW7oW6tYQwkU44W8w8cs4CPc0U1qRfm4J1E3nJwDS+rRHsHRuYQrjBRgpJSMT2NYlicbaP07gWqTWTvLvnOVLu5rHSI4a0xcHLHWQH7Vse54E+/lI27kAFDoElc4tE3qr7YQa1RbH5L/qqDySELnaN4bNGqhJBd2iZg3lYB7zBBkZGIVNdiRhOHlPrFDdxhCJwTm+LPBJVWsQYWh33cX3h6sgw/ru6LGZbExfosCU4E/69g091NO1QeWkOGaiMmA=
