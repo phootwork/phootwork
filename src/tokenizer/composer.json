@@ -21,6 +21,6 @@
 	},
 	"require" : {
 		"php" : ">=7.2",
-		"phootwork/collection" : "2.0@dev"
+		"phootwork/collection" : "^2.0"
 	}
 }

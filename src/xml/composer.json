@@ -20,7 +20,7 @@
 	"require" : {
 		"php" : ">=7.2",
 		"ext-xml": "*",
-		"phootwork/collection" : "2.0@dev",
-		"phootwork/file" : "2.0@dev"
+		"phootwork/collection" : "^2.0",
+		"phootwork/file" : "^2.0"
 	}
 }
