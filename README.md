@@ -3,7 +3,6 @@
 ![Tests](https://github.com/phootwork/phootwork/workflows/Tests/badge.svg)
 ![Coverage report](https://github.com/phootwork/phootwork/workflows/Coverage/badge.svg)
 ![Build Api Documentation](https://github.com/phootwork/phootwork/workflows/Build%20Api%20Documentation/badge.svg)
-[![Build Status](https://travis-ci.org/phootwork/phootwork.svg?branch=master)](https://travis-ci.org/phootwork/phootwork)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phootwork/phootwork/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phootwork/phootwork/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/phootwork/phootwork/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phootwork/phootwork/?branch=master)
 [![Maintainability](https://api.codeclimate.com/v1/badges/a873cc250773621aa74b/maintainability)](https://codeclimate.com/github/phootwork/phootwork/maintainability)

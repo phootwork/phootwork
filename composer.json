@@ -77,7 +77,7 @@
     "analytics": "Run static analysis tool",
     "check": "Perform all tests and analysis, required before submitting a pull request",
     "coverage:html": "Create a code coverage report in html format, into the `coverage/` directory",
-    "coverage:clover": "Create a code coverage report in format, into clover.xml file",
+    "coverage:clover": "Create a code coverage report in xml format, into `clover.xml` file",
     "cs": "Run code style analysis, without fixing errors",
     "cs-fix": "Run code style analysis and fix errors",
     "test": "Run all tests"
