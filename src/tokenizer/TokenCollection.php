@@ -20,7 +20,7 @@ class TokenCollection extends ArrayList {
 	 *
 	 * @return Token 
 	 */
-	public function get(int $index): Token {
+	public function get(int $index): ?Token {
 		return parent::get($index);
 	}
 }
