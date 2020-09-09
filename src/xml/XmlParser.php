@@ -79,7 +79,11 @@ class XmlParser {
 	}
 
 	public function __destruct() {
-		xml_parser_free($this->parser);
+		// Workaround for an error with php 7.3 on Windows and MacOs
+		// remove if condition when 7.3 version not supported anymore
+		if (is_resource($this->parser)) {
+			xml_parser_free($this->parser);
+		}
 	}
 
 	/**
