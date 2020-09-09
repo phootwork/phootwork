@@ -71,7 +71,7 @@
     "coverage:clover": "@test --coverage-clover clover.xml",
     "cs": "php-cs-fixer fix -v --diff --dry-run",
     "cs-fix": "php-cs-fixer fix -v --diff",
-    "test": "phpunit"
+    "test": "phpunit --colors=always"
   },
   "scripts-descriptions": {
     "analytics": "Run static analysis tool",
