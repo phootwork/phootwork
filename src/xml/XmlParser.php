@@ -78,6 +78,10 @@ class XmlParser {
 		xml_set_unparsed_entity_decl_handler($this->parser, [$this, 'handleUnparsedEntitiyDeclaration']);
 	}
 
+	/**
+	 * @psalm-suppress RedundantConditionGivenDocblockType This is a workaround for an error with PHP 7.3 on
+	 *                                                      Windows and MacOs
+	 */
 	public function __destruct() {
 		// Workaround for an error with php 7.3 on Windows and MacOs
 		// remove if condition when 7.3 version not supported anymore
