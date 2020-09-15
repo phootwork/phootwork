@@ -675,37 +675,57 @@ id est laborum.';
 	}
 
 	public function testToCamelCase(): void {
+		$this->assertEquals('camelCaseString', Text::create('camelCaseString')->toCamelCase());
 		$this->assertEquals('snakeCaseString', (new Text('snake_case_string'))->toCamelCase());
 		$this->assertEquals('kebabCaseString', (new Text('kebab-case-string'))->toCamelCase());
 		$this->assertEquals('', (new Text(''))->toCamelCase());
 		$this->assertEquals('stringWith3Numbers2', (new Text('string_with_3_numbers2'))->toCamelCase());
 		$this->assertEquals('stringWith3Numbers2', (new Text('string-with-3-numbers2'))->toCamelCase());
+		$this->assertEquals('specialStart', (new Text('--special start'))->toCamelCase());
+		$this->assertEquals('specialStart', (new Text('_special-start'))->toCamelCase());
+		$this->assertEquals('stringWithSpaces', Text::create('string with spaces')->toCamelCase());
+		$this->assertEquals('stringWithMultipleSpaces', Text::create('String    with multiple      spaces')->toCamelCase());
 	}
 
 	public function testToStudlyCase(): void {
+		$this->assertEquals('StudlyCaseString', Text::create('StudlyCaseString')->toStudlyCase());
 		$this->assertEquals('SnakeCaseString', (new Text('snake_case_string'))->toStudlyCase());
 		$this->assertEquals('KebabCaseString', (new Text('kebab-case-string'))->toStudlyCase());
-		$this->assertEquals('', (new Text(''))->toCamelCase());
+		$this->assertEquals('', (new Text(''))->toStudlyCase());
 		$this->assertEquals('StringWith3Numbers2', (new Text('string_with_3_numbers2'))->toStudlyCase());
 		$this->assertEquals('StringWith3Numbers2', (new Text('string-with-3-numbers2'))->toStudlyCase());
+		$this->assertEquals('SpecialStart', (new Text('--special-start'))->toStudlyCase());
+		$this->assertEquals('SpecialStart', (new Text('_special start'))->toStudlyCase());
+		$this->assertEquals('StringWithSpaces', Text::create('string with spaces')->toStudlyCase());
+		$this->assertEquals('StringWithMultipleSpaces', Text::create('string    with multiple      spaces')->toStudlyCase());
 	}
 
 	public function testToSnakeCase(): void {
+		$this->assertEquals('snake_case_string', (new Text('snake_case_string'))->toSnakeCase());
 		$this->assertEquals('camel_case_string', (new Text('camelCaseString'))->toSnakeCase());
 		$this->assertEquals('studly_case_string', (new Text('StudlyCaseString'))->toSnakeCase());
 		$this->assertEquals('kebab_case_string', (new Text('kebab-case-string'))->toSnakeCase());
 		$this->assertEquals('', (new Text(''))->toSnakeCase());
 		$this->assertEquals('string_with3_numbers2', (new Text('StringWith3Numbers2'))->toSnakeCase());
 		$this->assertEquals('string_with_3_numbers2', (new Text('string-with-3-numbers2'))->toSnakeCase());
+		$this->assertEquals('special_start', (new Text('--special start'))->toSnakeCase());
+		$this->assertEquals('special_start', (new Text('_special-start'))->toSnakeCase());
+		$this->assertEquals('string_with_spaces', Text::create('string with spaces')->toSnakeCase());
+		$this->assertEquals('string_with_multiple_spaces', Text::create('string    with Multiple      Spaces')->toSnakeCase());
 	}
 
 	public function testToKebabCase(): void {
+		$this->assertEquals('kebab-case-string', (new Text('kebab-case-string'))->toKebabCase());
 		$this->assertEquals('camel-case-string', (new Text('camelCaseString'))->toKebabCase());
 		$this->assertEquals('studly-case-string', (new Text('StudlyCaseString'))->toKebabCase());
 		$this->assertEquals('snake-case-string', (new Text('snake_case_string'))->toKebabCase());
-		$this->assertEquals('', (new Text(''))->toSnakeCase());
+		$this->assertEquals('', (new Text(''))->toKebabCase());
 		$this->assertEquals('string-with3-numbers2', (new Text('StringWith3Numbers2'))->toKebabCase());
 		$this->assertEquals('string-with-3-numbers2', (new Text('string_with_3_numbers2'))->toKebabCase());
+		$this->assertEquals('special-start', (new Text('--special start'))->toKebabCase());
+		$this->assertEquals('special-start', (new Text('_special-start'))->toKebabCase());
+		$this->assertEquals('string-with-spaces', Text::create('string with spaces')->toKebabCase());
+		$this->assertEquals('string-with-multiple-spaces', Text::create('string    With multiple      Spaces')->toKebabCase());
 	}
 
 	public function testEnsureStart(): void {
