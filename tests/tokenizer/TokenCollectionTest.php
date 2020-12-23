@@ -19,7 +19,12 @@ class TokenCollectionTest extends TokenizerTest {
 		$tokenizer = new PhpTokenizer();
 		$tokens = $tokenizer->tokenize($sample);
 
-		$this->assertEquals(99, $tokens->size(), 'The fixture class has 99 tokens');
+		// the native PHP function `token_get_all` considers the string "a\b\c" as
+		// one single token in PHP 8 and 5 different tokens in PHP < 8
+		phpversion() < '8.0.0' ?
+			$this->assertEquals(99, $tokens->size(), 'The fixture class has 99 tokens') :
+			$this->assertEquals(95, $tokens->size(), 'The fixture class has 95 tokens')
+		;
 		$this->assertInstanceOf(Token::class, $tokens->get(55));
 		$this->assertNull($tokens->get(500));
 	}

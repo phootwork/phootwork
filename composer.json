@@ -43,7 +43,7 @@
     "phootwork/php-cs-fixer-config": "^0.2",
     "phpunit/phpunit": "^8.0",
     "mikey179/vfsstream": "^1.6",
-    "vimeo/psalm": "^3.4"
+    "psalm/phar": "^4.3"
   },
   "autoload": {
     "psr-4": {
@@ -61,7 +61,7 @@
     }
   },
   "scripts": {
-    "analytics": "psalm",
+    "analytics": "vendor/bin/psalm.phar",
     "check": [
       "@test",
       "@analytics",
