@@ -113,9 +113,8 @@ class InflectorTest extends TestCase {
 	 */
 	public function testWrongTypeToPluralizeThrowsException($wrong): void {
 		$this->expectException(\TypeError::class);
-		$this->expectExceptionMessage(
-			'Argument 1 passed to phootwork\lang\inflector\Inflector::getPluralForm() must be of the type string'
-		);
+		// No exception message here, because it's changed in PHP 8
+
 		$pluralizer = new Inflector();
 		$pluralizer->getPluralForm($wrong);
 	}
@@ -133,9 +132,7 @@ class InflectorTest extends TestCase {
 	 */
 	public function testWrongTypeToSingularizeThrowsException($wrong): void {
 		$this->expectException(\TypeError::class);
-		$this->expectExceptionMessage(
-			'Argument 1 passed to phootwork\lang\inflector\Inflector::getSingularForm() must be of the type string'
-		);
+		// No exception message here, because it's changed in PHP 8
 
 		$pluralizer = new Inflector();
 		$pluralizer->getSingularForm($wrong);
