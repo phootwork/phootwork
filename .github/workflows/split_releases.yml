@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Get the tag name
-        uses: little-core-labs/get-git-tag@v3
+        uses: little-core-labs/get-git-tag@v3.0.1
         id: tagName
       - uses: actions/cache@v1
         id: cache
