@@ -216,7 +216,7 @@ class Json {
 	 *
 	 * @return string Returns a JSON encoded string
 	 */
-	public static function encode($data, int $options = 0, int $depth = 512): string {
+	public static function encode(mixed $data, int $options = 0, int $depth = 512): string {
 		$json = json_encode($data, $options, $depth);
 
 		self::throwExceptionOnError($json);
@@ -280,7 +280,7 @@ class Json {
 	 *
 	 * @throws JsonException
 	 */
-	private static function throwExceptionOnError($output): void {
+	private static function throwExceptionOnError(mixed $output): void {
 		$error = json_last_error();
 
 		if ($output === null || $error !== self::ERROR_NONE) {

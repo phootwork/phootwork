@@ -12,17 +12,17 @@ namespace phootwork\tokenizer;
 class Token {
 
 	/** @var int */
-	public $type;
+	public int $type;
 
 	/** @var null|string */
-	public $contents;
+	public ?string $contents;
 
 	/**
 	 * Token constructor.
 	 *
 	 * @param mixed $token
 	 */
-	public function __construct($token = null) {
+	public function __construct(mixed $token = null) {
 		if (is_array($token)) {
 			$this->type = $token[0];
 			$this->contents = $token[1];

@@ -59,13 +59,6 @@ class CollectionUtilsTest extends TestCase {
 		$this->assertEquals($list, $coll);
 	}
 
-	public function testInvalidArgument(): void {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('$collection is neither an array nor an iterator');
-
-		CollectionUtils::fromCollection(1);
-	}
-
 	public function testToMap(): void {
 		$data = [['a' => 'b'], ['c' => 'd'], [1, 2, 3]];
 		$map = CollectionUtils::toMap($data);

@@ -762,20 +762,6 @@ id est laborum.';
 		$this->assertEquals("hello\n\t  world", $text->toTabs());
 	}
 
-	public function testConstructPassingArrayThrowsException(): void {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('The constructor parameter cannot be an array');
-
-		$text = new Text([1, 'a', 2]);
-	}
-
-	public function testConstructPassingNonStringableObjectThrowsException(): void {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Passed object must implement  `__toString` method');
-
-		$text = new Text(new \stdClass());
-	}
-
 	public function testEncoding(): void {
 		$text = new Text('Come on');
 		$this->assertEquals('UTF-8', $text->getEncoding(), 'Default encoding is UTF-8');

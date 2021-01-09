@@ -10,8 +10,6 @@
 namespace phootwork\tokenizer;
 
 class PhpTokenizer {
-	public function __construct() {
-	}
 
 	/**
 	 * 

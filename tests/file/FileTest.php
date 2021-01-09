@@ -109,6 +109,30 @@ class FileTest extends FilesystemTest {
 		$this->assertEquals($createDate, $file->getModifiedAt());
 	}
 
+	public function testLastAccessedAtOnNonExistentFile(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('fileatime(): stat failed for non-existent.txt');
+
+		$file = new File('non-existent.txt');
+		$file->getLastAccessedAt();
+	}
+
+	public function testGetCreatedAtOnNonExistentFile(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+
+		$file = new File('non-existent.txt');
+		$file->getCreatedAt();
+	}
+
+	public function testGetModifiedAtOnNonExistentFile(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+
+		$file = new File('non-existent.txt');
+		$file->getModifiedAt();
+	}
+
 	public function testDelete(): void {
 		$dir = new Directory($this->root->url() . '/dir');
 		$dir->make();

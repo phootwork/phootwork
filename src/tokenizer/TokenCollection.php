@@ -15,10 +15,10 @@ class TokenCollection extends ArrayList {
 
 	/**
 	 * Retrieves a token at the given index
-	 * 
+	 *
 	 * @param int $index the given index
 	 *
-	 * @return Token 
+	 * @return Token|null
 	 */
 	public function get(int $index): ?Token {
 		return parent::get($index);

@@ -12,9 +12,9 @@ namespace phootwork\xml;
 use phootwork\collection\Set;
 use phootwork\file\exception\FileException;
 use phootwork\file\File;
-use phootwork\file\Path;
-use phootwork\lang\Text;
 use phootwork\xml\exception\XmlException;
+use Stringable;
+use XmlParser as BaseParser;
 
 class XmlParser {
 
@@ -55,18 +55,21 @@ class XmlParser {
 	 */
 	const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
 
-	/** @var resource */
+	/** @var BaseParser */
 	private $parser;
 
 	/** @var Set */
-	private $visitors;
+	private Set $visitors;
 
 	/**
 	 * Creates a new XML parser
 	 * 
 	 * @param string $encoding Force a specific encoding
+	 *
+	 * @psalm-suppress InvalidPropertyAssignmentValue Psalm issue: in PHP8 the function `xml_parser_create`
+	 *                 returns an `XmlParser` class. Remove it when fixed.
 	 */
-	public function __construct($encoding = 'UTF-8') {
+	public function __construct(string $encoding = 'UTF-8') {
 		$this->visitors = new Set();
 		$this->parser = xml_parser_create($encoding);
 
@@ -79,24 +82,15 @@ class XmlParser {
 	}
 
 	/**
-	 * @psalm-suppress RedundantConditionGivenDocblockType This is a workaround for an error with PHP 7.3 on
-	 *                                                      Windows and MacOs
-	 */
-	public function __destruct() {
-		// Workaround for an error with php 7.3 on Windows and MacOs
-		// remove if condition when 7.3 version not supported anymore
-		if (is_resource($this->parser)) {
-			xml_parser_free($this->parser);
-		}
-	}
-
-	/**
 	 * Set an option for the parser
 	 * 
 	 * @param int $option Any of the XmlParser::OPTION_* constants
 	 * @param mixed $value The desired value
+	 *
+	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_parser_set_option`
+	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
-	public function setOption(int $option, $value): void {
+	public function setOption(int $option, mixed $value): void {
 		xml_parser_set_option($this->parser, $option, $value);
 	}
 
@@ -106,8 +100,11 @@ class XmlParser {
 	 * @param int $option Any of the XmlParser::OPTION_* constants
 	 *
 	 * @return mixed
+	 *
+	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_parser_get_option`
+	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
-	public function getOption(int $option) {
+	public function getOption(int $option): mixed {
 		return xml_parser_get_option($this->parser, $option);
 	}
 
@@ -132,11 +129,14 @@ class XmlParser {
 	/**
 	 * Parses a string
 	 *
-	 * @param string|Text $data
+	 * @param string|Stringable $data
 	 *
 	 * @throws XmlException
+	 *
+	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_get_error_code`
+	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
-	public function parse($data): void {
+	public function parse(string | Stringable $data): void {
 		if (!xml_parse($this->parser, (string) $data)) {
 			$code = xml_get_error_code($this->parser);
 
@@ -147,31 +147,20 @@ class XmlParser {
 	/**
 	 * Parses a file
 	 *
-	 * @param mixed|Path|File|Text|string $file
+	 * @param string|Stringable $file
 	 *
 	 * @throws XmlException
 	 * @throws FileException If something went wrong in reading file
 	 */
-	public function parseFile($file): void {
-		if ($file instanceof Path) {
-			$file = $file->getPathname();
-		}
-
-		if ($file instanceof Text) {
-			$file = $file->toString();
-		}
-
-		if (is_string($file)) {
-			$file = new File($file);
-		}
-
-		if ($file instanceof File) {
-			$this->parse($file->read());
-		}
+	public function parseFile(string | Stringable $file): void {
+		$file = new File($file);
+		$this->parse($file->read());
 	}
 
 	/**
 	 * @return int
+	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_get_current_line_number`
+	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
 	private function getCurrentLineNumber(): int {
 		return xml_get_current_line_number($this->parser);
@@ -179,6 +168,8 @@ class XmlParser {
 
 	/**
 	 * @return int
+	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_get_current_column_number`
+	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
 	private function getCurrentColumnNumber(): int {
 		return xml_get_current_column_number($this->parser);
@@ -187,11 +178,11 @@ class XmlParser {
 	/**
 	 * handle element start
 	 * 
-	 * @param resource $parser
+	 * @param BaseParser $parser
 	 * @param string $name
 	 * @param array $attribs
 	 */
-	private function handleElementStart($parser, string $name, array $attribs): void {
+	private function handleElementStart(BaseParser $parser, string $name, array $attribs): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitElementStart(strtolower($name), $attribs, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -201,10 +192,10 @@ class XmlParser {
 	/**
 	 * handle element end 
 	 *
-	 * @param resource $parser
+	 * @param BaseParser $parser
 	 * @param string $name
 	 */
-	private function handleElementEnd($parser, string $name): void {
+	private function handleElementEnd(BaseParser $parser, string $name): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitElementEnd(strtolower($name), $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -213,11 +204,11 @@ class XmlParser {
 
 	/**
 	 * handle cdata
-	 * 
-	 * @param resource $parser
+	 *
+	 * @param BaseParser $parser
 	 * @param string $data
 	 */
-	private function handleCharacterData($parser, string $data): void {
+	private function handleCharacterData(BaseParser $parser, string $data): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitCharacterData($data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -226,12 +217,12 @@ class XmlParser {
 
 	/**
 	 * handle processing instruction
-	 * 
-	 * @param resource $parser
-	 * @param string $target
-	 * @param string $data
+	 *
+	 * @param BaseParser $parser
+	 * @param string     $target
+	 * @param string     $data
 	 */
-	private function handleProcessingInstruction($parser, string $target, string $data): void {
+	private function handleProcessingInstruction(BaseParser $parser, string $target, string $data): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitProcessingInstruction($target, $data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -240,14 +231,14 @@ class XmlParser {
 
 	/**
 	 * handle notation declaration
-	 * 
-	 * @param resource $parser
-	 * @param string $notationName
-	 * @param string $base
-	 * @param string $systemId
-	 * @param string $publicId
+	 *
+	 * @param BaseParser $parser
+	 * @param string     $notationName
+	 * @param string     $base
+	 * @param string     $systemId
+	 * @param string     $publicId
 	 */
-	private function handleNotationDeclaration($parser, string $notationName, string $base, string $systemId,
+	private function handleNotationDeclaration(BaseParser $parser, string $notationName, string $base, string $systemId,
 											   string $publicId): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
@@ -257,16 +248,16 @@ class XmlParser {
 
 	/**
 	 * handle unparsed entity declaration
-	 * 
-	 * @param resource $parser
-	 * @param string $entityName
-	 * @param string $base
-	 * @param string $systemId
-	 * @param string $publicId
-	 * @param string $notationName
+	 *
+	 * @param BaseParser $parser
+	 * @param string     $entityName
+	 * @param string     $base
+	 * @param string     $systemId
+	 * @param string     $publicId
+	 * @param string     $notationName
 	 */
-	private function handleUnparsedEntitiyDeclaration($parser, string $entityName, string $base, string $systemId,
-													  string $publicId, $notationName): void {
+	private function handleUnparsedEntitiyDeclaration(BaseParser $parser, string $entityName, string $base, string $systemId,
+													  string $publicId, string $notationName): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitUnparsedEntityDeclaration($entityName, $base, $systemId, $publicId, $notationName, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());

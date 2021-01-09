@@ -40,7 +40,7 @@ class PathTest extends TestCase {
 	public function testExtension(): void {
 		$p = new Path('my/file.ext');
 		$this->assertEquals('ext', $p->getExtension());
-		$this->assertEquals('bla', $p->setExtension('bla')->getExtension());
+		$this->assertEquals('bla', $p->setExtension('bla')->getExtension()->toString());
 		$this->assertTrue($p->removeExtension()->getExtension()->isEmpty());
 	}
 

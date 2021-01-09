@@ -18,9 +18,9 @@
 		}
 	},
 	"require" : {
-		"php" : ">=7.2",
+		"php" : ">=8.0",
 		"ext-xml": "*",
-		"phootwork/collection" : "^2.0",
-		"phootwork/file" : "^2.0"
+		"phootwork/collection" : "^3.0",
+		"phootwork/file" : "^3.0"
 	}
 }

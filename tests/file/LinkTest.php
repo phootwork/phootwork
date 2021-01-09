@@ -10,6 +10,7 @@
 namespace phootwork\file\tests;
 
 use phootwork\file\Directory;
+use phootwork\file\exception\FileException;
 use phootwork\file\File;
 use phootwork\file\Path;
 use phootwork\lang\Text;
@@ -26,9 +27,7 @@ use PHPUnit\Framework\TestCase;
  * @author Cristiano Cinotti
  */
 class LinkTest extends TestCase {
-
-	/** @var Directory */
-	private $tempDir;
+	private Directory $tempDir;
 
 	public function setUp(): void {
 		if ((new Text(PHP_OS))->toUpperCase()->contains('WIN')) {
@@ -90,5 +89,27 @@ class LinkTest extends TestCase {
 		$this->assertTrue($link2->isLink());
 		$this->assertFalse($origin->equals($link2->getLinkTarget()));
 		$this->assertTrue($origin2->equals($link2->getLinkTarget()));
+	}
+
+	public function testOnNonWritableDirectory(): void {
+		$targetDir = new Directory($this->tempDir->getPathname()->append('/target'));
+		$targetDir->make();
+
+		$origin = new Path(tempnam((string) $this->tempDir->getPathname(), 'orig'));
+		$target = new File(tempnam((string) $targetDir->getPathname(), 'target'));
+		$target->delete();
+		$targetDir->setMode(100);
+		$target = new Path($target->getPathname());
+
+		$file = new File($origin);
+		$file->touch();
+
+		try {
+			$file->linkTo($target);
+			$this->assertFalse(true, 'A FileException expected.');
+		} catch (FileException $e) {
+			$targetDir->setMode(777);
+			$this->assertStringContainsString('Failed to create symbolic link', $e->getMessage());
+		}
 	}
 }

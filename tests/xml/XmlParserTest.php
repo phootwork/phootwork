@@ -57,8 +57,6 @@ class XmlParserTest extends TestCase {
 		//	return strtoupper($item);
 		//});
 		$this->assertEquals($stack, $visitor->getElementStack());
-
-		$parser->__destruct();
 	}
 
 	public function testParseWrongContentThrowsException(): void {
