@@ -592,4 +592,28 @@ class ArrayTest extends TestCase {
 		$this->assertEquals(2, $animals->size());
 		$this->assertEquals(['canid' => 'wolfe', 'reptile' => 'mamba'], $animals->toArray());
 	}
+
+	public function testInsertArrayableObject(): void {
+		$cartoons = new ArrayObject();
+		$goNagai = new ArrayObject(['Mazinger Z', 'Great Mazinger']);
+		$marvel = new ArrayObject(['X-Men', 'Spiderman', 'Devil']);
+		$dc = new ArrayObject(['Superman', 'Wonder Woman', 'Bat Man']);
+		$cartoons->add($goNagai, $marvel);
+
+		$this->assertEquals(2, $cartoons->size());
+		$this->assertEquals([$goNagai, $marvel], $cartoons->toArray());
+
+		$cartoons->insert($dc, 1);
+
+		$this->assertEquals(3, $cartoons->size());
+		$this->assertEquals([$goNagai, $dc, $marvel], $cartoons->toArray());
+	}
+
+	public function testInsertNull(): void {
+		$goNagai = new ArrayObject(['Mazinger Z', 'Great Mazinger']);
+		$goNagai->insert(null, 0);
+
+		$this->assertEquals(3, $goNagai->count());
+		$this->assertEquals([null, 'Mazinger Z', 'Great Mazinger'], $goNagai->toArray());
+	}
 }
