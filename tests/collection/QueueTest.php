@@ -34,6 +34,7 @@ class QueueTest extends TestCase {
 		$queue->enqueue($item3);
 
 		$this->assertEquals(3, $queue->size());
+		$this->assertTrue(array_is_list($queue->toArray()));
 	}
 
 	public function testToArray(): void {
