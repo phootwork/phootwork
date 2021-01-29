@@ -194,12 +194,16 @@ class ArrayTest extends TestCase {
 		$arr->append('e', 'f');
 
 		$this->assertEquals(['b', 'c', 'd', 'e', 'f'], $arr->toArray());
+		$this->assertTrue(array_is_list($arr->toArray()), 'Appending items preserve indexes order');
 		$this->assertEquals('f', $arr->pop());
 		$this->assertEquals('e', $arr->pop());
+		$this->assertTrue(array_is_list($arr->toArray()), 'Popping items preserve indexes order');
 		$arr->prepend('a');
 		$this->assertEquals(['a', 'b', 'c', 'd'], $arr->toArray());
+		$this->assertTrue(array_is_list($arr->toArray()), 'Prepending items preserve indexes order');
 		$this->assertEquals('a', $arr->shift());
 		$this->assertEquals($base, $arr->toArray());
+		$this->assertTrue(array_is_list($arr->toArray()), 'Shifting items preserve indexes order');
 		$arr->prepend('a');
 		$this->assertEquals(['a', 'b', 'c', 'd'], $arr->toArray());
 	}
@@ -535,6 +539,7 @@ class ArrayTest extends TestCase {
 		$this->assertEquals('apple', $fruits->get(0));
 		$this->assertEquals('peach', $fruits->get(1));
 		$this->assertEquals('banana', $fruits->get(2));
+		$this->assertTrue(array_is_list($fruits->toArray()), 'Inserting items preserve indexes order');
 
 		$fruits->insert('pear', null);
 		$this->assertEquals(4, $fruits->size());
@@ -559,5 +564,32 @@ class ArrayTest extends TestCase {
 		$alimony->insert(['potatoes', 'carrots'], null); //adds the element at the end of the array
 		$this->assertEquals(4, $alimony->size());
 		$this->assertEquals(['potatoes', 'carrots'], $alimony->get(3));
+	}
+
+	public function testAddNotOverwriteElements(): void {
+		$fruits = new ArrayObject(['apple', 'banana', 'peach']);
+		$this->assertEquals(3, $fruits->size());
+
+		$fruits->remove('banana');
+		$this->assertEquals(2, $fruits->size());
+		$this->assertEquals(['apple', 'peach'], $fruits->toArray());
+		$fruits->add('apricot');
+
+		$this->assertEquals(3, $fruits->size());
+		$this->assertEquals(['apple', 'peach', 'apricot'], $fruits->toArray());
+		$this->assertTrue(array_is_list($fruits->toArray()));
+	}
+
+	public function testRemoveAssocArray(): void {
+		$animals = new ArrayObject([
+			'canid' => 'wolfe',
+			'feline' => 'lion',
+			'reptile' => 'mamba'
+		]);
+		$this->assertEquals(3, $animals->size());
+
+		$animals->remove('lion');
+		$this->assertEquals(2, $animals->size());
+		$this->assertEquals(['canid' => 'wolfe', 'reptile' => 'mamba'], $animals->toArray());
 	}
 }

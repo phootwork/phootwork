@@ -46,6 +46,7 @@ class ArrayListTest extends TestCase {
 		$list->remove(...$items);
 
 		$this->assertEquals(1, $list->size());
+		$this->assertTrue(array_is_list($list->toArray()));
 	}
 
 	public function testDuplicateValues(): void {
@@ -71,6 +72,8 @@ class ArrayListTest extends TestCase {
 		$this->assertNull($list->indexOf($item3));
 
 		$list->remove($item1, $item2);
+		$this->assertTrue(array_is_list($list->toArray()));
+
 		$list->add(...$items);
 
 		$this->assertEquals(2, $list->size());
@@ -80,6 +83,7 @@ class ArrayListTest extends TestCase {
 
 		$this->assertEquals($item3, $list->get(1));
 		$this->assertEquals($item2, $list->get(2));
+		$this->assertTrue(array_is_list($list->toArray()));
 	}
 
 	public function testContains(): void {

@@ -33,6 +33,7 @@ class StackTest extends TestCase {
 		$stack->push($item3);
 
 		$this->assertEquals(3, $stack->size());
+		$this->assertTrue(array_is_list($stack->toArray()));
 	}
 
 	public function testsAddWithIterator(): void {

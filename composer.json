@@ -29,7 +29,8 @@
     "php": ">=7.2",
     "ext-json": "*",
     "ext-xml": "*",
-    "symfony/polyfill-mbstring": "^1.8"
+    "symfony/polyfill-mbstring": "^1.8",
+    "symfony/polyfill-php81": "^1.22"
   },
   "replace": {
     "phootwork/collection": "self.version",

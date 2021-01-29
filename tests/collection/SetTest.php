@@ -41,6 +41,7 @@ class SetTest extends TestCase {
 		$set->remove(...$items);
 
 		$this->assertEquals(1, $set->size());
+		$this->assertTrue(array_is_list($set->toArray()));
 	}
 
 	public function testDuplicateValues(): void {
