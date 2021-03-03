@@ -19,6 +19,9 @@ class TokenCollection extends ArrayList {
 	 * @param int $index the given index
 	 *
 	 * @return Token|null
+	 *
+	 * @psalm-suppress MixedReturnStatement
+	 * @psalm-suppress MixedInferredReturnType
 	 */
 	public function get(int $index): ?Token {
 		return parent::get($index);

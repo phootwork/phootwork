@@ -218,17 +218,52 @@ class TextTest extends TestCase {
 		$str = new Text('let it go');
 		$this->assertEquals(4, $str->indexOf('it'));
 		$this->assertEquals(4, $str->indexOf(new Text('it')));
+		$this->assertNull($str->indexOf('foo'));
 
 		// mb
 		$str = new Text('äåÖäÄåûüÜÛ');
 		$this->assertEquals(2, $str->indexOf('Ö'));
 		$this->assertEquals(2, $str->indexOf(new Text('Ö')));
+		$this->assertNull($str->indexOf('γγρ'));
+	}
+
+	public function testIndexSearchWithOffset(): void {
+		$str = new Text('let it go');
+		$this->assertEquals(7, $str->indexOf('go', 5));
+		$this->assertEquals(7, $str->indexOf(new Text('go'), 5));
+
+		// mb
+		$str = new Text('äåÖäÄåûüÜÛ');
+		$this->assertEquals(8, $str->indexOf('Ü', 4));
+		$this->assertEquals(8, $str->indexOf(new Text('Ü'), 4));
 	}
 
 	public function testIndexSearchNullString(): void {
 		$str = new Text('let it go');
 		$this->assertEquals(0, $str->indexOf(''));
 		$this->assertEquals(0, $str->indexOf(new Text('')));
+	}
+
+	public function testIndexSearchNullStringWithOffset(): void {
+		$str = new Text('let it go');
+		$this->assertEquals(3, $str->indexOf('', 3));
+		$this->assertEquals(3, $str->indexOf(new Text(''), 3));
+	}
+
+	public function testSearchWithTooSmallOffsetThrowsException(): void {
+		$this->expectException(\ValueError::class);
+		$this->expectExceptionMessage('mb_strpos(): Argument #3 ($offset) must be contained in argument #1 ($haystack)');
+
+		$str = new Text('let it go');
+		$str->indexOf('go', -12);
+	}
+
+	public function testSearchWithTooBigOffsetThrowsException(): void {
+		$this->expectException(\ValueError::class);
+		$this->expectExceptionMessage('mb_strpos(): Argument #3 ($offset) must be contained in argument #1 ($haystack)');
+
+		$str = new Text('let it go');
+		$str->indexOf('go', 20);
 	}
 
 	public function testToLowerCase(): void {
@@ -389,7 +424,7 @@ class TextTest extends TestCase {
 
 	public function testSpliceWrongOffsetThrowsException(): void {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Offset must be in range [-len, len]');
+		$this->expectExceptionMessage('Offset must be in range [-14, 14]');
 
 		$str = new Text('Text to splice');
 		$str->splice('', 25);
@@ -397,7 +432,7 @@ class TextTest extends TestCase {
 
 	public function testSpliceWrongNegativeOffsetThrowsException(): void {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Offset must be in range [-len, len]');
+		$this->expectExceptionMessage('Offset must be in range [-14, 14]');
 
 		$str = new Text('Text to splice');
 		$str->splice('', -25);
@@ -445,6 +480,14 @@ class TextTest extends TestCase {
 		$this->assertEquals(3, $str->lastIndexOf('', 3));
 	}
 
+	public function testLastIndexOfWithInvalidOffsetThrowsException(): void {
+		$this->expectException(\ValueError::class);
+		$this->expectExceptionMessage('mb_strrpos(): Argument #3 ($offset) must be contained in argument #1 ($haystack)');
+
+		$str = new Text('Text to test');
+		$str->lastIndexOf('to', 25);
+	}
+
 	public function testCountSubstring(): void {
 		$str = new Text('Text to count total occurrencies');
 		$this->assertEquals(2, $str->countSubstring('to'));
@@ -467,7 +510,7 @@ class TextTest extends TestCase {
 
 	public function testCountWrongOffsetThrowsException(): void {
 		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Offset must be in range [-len, len]');
+		$this->expectExceptionMessage('Offset must be in range [-13, 13]');
 
 		$str = new Text('Text to count');
 		$str->splice('', 25);
@@ -561,8 +604,8 @@ id est laborum.';
 	}
 
 	public function testRepeatNegativeTimesThrowsException(): void {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('Number of repetitions can not be negative');
+		$this->expectException(\ValueError::class);
+		$this->expectExceptionMessage('str_repeat(): Argument #2 ($times) must be greater than or equal to 0');
 		$str = new Text('repeat');
 		$str->repeat(-2);
 	}
@@ -600,16 +643,16 @@ id est laborum.';
 	}
 
 	public function testChunkNegativeLengthThrowsException(): void {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('The chunk length has to be positive');
+		$this->expectException(\ValueError::class);
+		$this->expectExceptionMessage('str_split(): Argument #2 ($length) must be greater than 0');
 
 		$str = new Text('Let it go');
 		$str->chunk(-1);
 	}
 
 	public function testChunkZeroLengthThrowsException(): void {
-		$this->expectException(\InvalidArgumentException::class);
-		$this->expectExceptionMessage('The chunk length has to be positive');
+		$this->expectException(\ValueError::class);
+		$this->expectExceptionMessage('str_split(): Argument #2 ($length) must be greater than 0');
 		$str = new Text('Let it go');
 		$str->chunk(0);
 	}

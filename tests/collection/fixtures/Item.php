@@ -12,9 +12,7 @@ namespace phootwork\collection\tests\fixtures;
 use phootwork\lang\Comparable;
 
 class Item implements Comparable {
-
-	/** @var mixed */
-	private $content;
+	private mixed $content;
 
 	public function __construct($content = '') {
 		$this->content = $content;

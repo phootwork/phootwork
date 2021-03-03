@@ -56,7 +56,7 @@ class XmlParser {
 	const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
 
 	/** @var BaseParser */
-	private $parser;
+	private BaseParser $parser;
 
 	/** @var Set */
 	private Set $visitors;
@@ -136,7 +136,7 @@ class XmlParser {
 	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_get_error_code`
 	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
-	public function parse(string | Stringable $data): void {
+	public function parse(string|Stringable $data): void {
 		if (!xml_parse($this->parser, (string) $data)) {
 			$code = xml_get_error_code($this->parser);
 
@@ -152,7 +152,7 @@ class XmlParser {
 	 * @throws XmlException
 	 * @throws FileException If something went wrong in reading file
 	 */
-	public function parseFile(string | Stringable $file): void {
+	public function parseFile(string|Stringable $file): void {
 		$file = new File($file);
 		$this->parse($file->read());
 	}
