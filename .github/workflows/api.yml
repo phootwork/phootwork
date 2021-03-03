@@ -1,7 +1,7 @@
 name: Build Api Documentation
 on:
-  push:
-    branches: [master]
+  release:
+    types: [published]
 jobs:
   build-api:
     name: Build api
@@ -9,13 +9,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Checkout api repository
-        uses: actions/checkout@v2
-        with:
-          repository: phootwork/api
-          path: api
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: 7.2
           extensions: mbstring, dom, json, libxml, xml, xmlwriter
@@ -24,12 +19,10 @@ jobs:
         run: wget https://github.com/cristianoc72/Sami/releases/download/v4.1.3/sami.phar
       - name: Build api documentation
         run: php sami.phar update sami.php
-      - name: Create .nojekyll file
-        run: touch ./api/.nojekyll
       - name: Deploy api documentation site
-        uses: peaceiris/actions-gh-pages@v2
-        env:
-          PERSONAL_TOKEN: ${{ secrets.AUTH_TOKEN }}
-          EXTERNAL_REPOSITORY: phootwork/api
-          PUBLISH_BRANCH: master
-          PUBLISH_DIR: ./api
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.AUTH_TOKEN }}
+          external_repository: phootwork/api
+          publish_branch: master
+          publish_dir: ./api

@@ -1,11 +1,11 @@
 # PHP Tokenizer Library
 
-[![Build Status](https://travis-ci.org/phootwork/phootwork.svg?branch=master)](https://travis-ci.org/phootwork/phootwork)
+![Tests](https://github.com/phootwork/phootwork/workflows/Tests/badge.svg)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/phootwork/phootwork/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/phootwork/phootwork/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/phootwork/phootwork/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/phootwork/phootwork/?branch=master)
 [![License](https://img.shields.io/github/license/phootwork/tokenizer.svg?style=flat-square)](https://packagist.org/packages/phootwork/tokenizer)
 [![Latest Stable Version](https://img.shields.io/packagist/v/phootwork/tokenizer.svg?style=flat-square)](https://packagist.org/packages/phootwork/tokenizer)
-[![Total Downloads](https://img.shields.io/packagist/dt/phootwork/tokenizer.svg?style=flat-square&colorB=007ec6)](https://packagist.org/packages/phootwork/tokenizer)<br>
+[![Total Downloads](https://img.shields.io/packagist/dt/phootwork/tokenizer.svg?style=flat-square&colorB=007ec6)](https://packagist.org/packages/phootwork/tokenizer)
 
 Tokenizer for PHP code.
 

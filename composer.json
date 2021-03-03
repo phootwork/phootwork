@@ -42,7 +42,7 @@
   },
   "require-dev": {
     "phpunit/phpunit": "^9.5",
-    "phootwork/php-cs-fixer-config": "^0.2",
+    "phootwork/php-cs-fixer-config": "^0.3",
     "mikey179/vfsstream": "^1.6",
     "psalm/phar": "^4.3"
   },
@@ -70,14 +70,8 @@
     ],
     "coverage:html": "@test --coverage-html coverage/",
     "coverage:clover": "@test --coverage-clover clover.xml",
-    "cs": [
-      "@putenv PHP_CS_FIXER_IGNORE_ENV=1",
-      "php-cs-fixer fix -v --diff --dry-run"
-    ],
-    "cs-fix": [
-      "@putenv PHP_CS_FIXER_IGNORE_ENV=1",
-      "php-cs-fixer fix -v --diff"
-    ],
+    "cs": "php-cs-fixer fix -v --diff --dry-run",
+    "cs-fix": "php-cs-fixer fix -v --diff",
     "test": "phpunit --colors=always"
   },
   "scripts-descriptions": {

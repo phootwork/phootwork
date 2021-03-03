@@ -20,12 +20,12 @@ class Token {
 	/**
 	 * Token constructor.
 	 *
-	 * @param mixed $token
+	 * @param string|array $token
 	 */
-	public function __construct(mixed $token = null) {
+	public function __construct(string|array $token = null) {
 		if (is_array($token)) {
-			$this->type = $token[0];
-			$this->contents = $token[1];
+			$this->type = (int) $token[0];
+			$this->contents = (string) $token[1];
 		} else {
 			$this->type = -1;
 			$this->contents = $token;
