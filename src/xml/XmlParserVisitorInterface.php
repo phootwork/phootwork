@@ -59,8 +59,14 @@ interface XmlParserVisitorInterface {
 	 * @param int $line line number
 	 * @param int $column column number
 	 */
-	public function visitNotationDeclaration(string $notationName, string $base, string $systemId, string $publicId,
-											 int $line, int $column): void;
+	public function visitNotationDeclaration(
+		string $notationName,
+		string $base,
+		string $systemId,
+		string $publicId,
+		int $line,
+		int $column
+	): void;
 
 	/**
 	 * visits an unparsed entity declaration
@@ -73,6 +79,13 @@ interface XmlParserVisitorInterface {
 	 * @param int $line line number
 	 * @param int $column column number
 	 */
-	public function visitUnparsedEntityDeclaration(string $entityName, string $base, string $systemId,
-													string $publicId, string $notationName, int $line, int $column): void;
+	public function visitUnparsedEntityDeclaration(
+		string $entityName,
+		string $base,
+		string $systemId,
+		string $publicId,
+		string $notationName,
+		int $line,
+		int $column
+	): void;
 }

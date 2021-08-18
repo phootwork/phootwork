@@ -19,7 +19,7 @@ class TokenCollectionTest extends TokenizerTest {
 		$tokenizer = new PhpTokenizer();
 		$tokens = $tokenizer->tokenize($sample);
 
-		$this->assertEquals(95, $tokens->size(), 'The fixture class has 95 tokens');
+		$this->assertEquals(97, $tokens->size(), 'The fixture class has 97 tokens');
 		$this->assertInstanceOf(Token::class, $tokens->get(55));
 		$this->assertNull($tokens->get(500));
 	}

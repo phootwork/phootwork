@@ -4,7 +4,7 @@ namespace a\b\c;
 
 class D {
 	use Alpha;
-	const XYZ = 'xyz';
+	public const XYZ = 'xyz';
 	public $content;
 	public $type;
 	public function __construct() {

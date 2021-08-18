@@ -25,7 +25,7 @@ class XmlParser {
 	 * 
 	 * @var int
 	 */
-	const OPTION_CASE_FOLDING = XML_OPTION_CASE_FOLDING;
+	public const OPTION_CASE_FOLDING = XML_OPTION_CASE_FOLDING;
 
 	/**
 	 * Specify how many characters should be skipped in the beginning of a tag name.
@@ -34,7 +34,7 @@ class XmlParser {
 	 * 
 	 * @var int
 	 */
-	const OPTION_SKIP_TAGSTART = XML_OPTION_SKIP_TAGSTART;
+	public const OPTION_SKIP_TAGSTART = XML_OPTION_SKIP_TAGSTART;
 
 	/**
 	 * Whether to skip values consisting of whitespace characters. 
@@ -43,7 +43,7 @@ class XmlParser {
 	 * 
 	 * @var string
 	 */
-	const OPTION_SKIP_WHITE = XML_OPTION_SKIP_WHITE;
+	public const OPTION_SKIP_WHITE = XML_OPTION_SKIP_WHITE;
 
 	/**
 	 * Sets which target encoding to use in this XML parser. By default, it is set to the same as the 
@@ -53,7 +53,7 @@ class XmlParser {
 	 *
 	 * @var string
 	 */
-	const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
+	public const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
 
 	/** @var BaseParser */
 	private BaseParser $parser;
@@ -238,8 +238,13 @@ class XmlParser {
 	 * @param string     $systemId
 	 * @param string     $publicId
 	 */
-	private function handleNotationDeclaration(BaseParser $parser, string $notationName, string $base, string $systemId,
-											   string $publicId): void {
+	private function handleNotationDeclaration(
+		BaseParser $parser,
+		string $notationName,
+		string $base,
+		string $systemId,
+		string $publicId
+	): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitNotationDeclaration($notationName, $base, $systemId, $publicId, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -256,8 +261,14 @@ class XmlParser {
 	 * @param string     $publicId
 	 * @param string     $notationName
 	 */
-	private function handleUnparsedEntitiyDeclaration(BaseParser $parser, string $entityName, string $base, string $systemId,
-													  string $publicId, string $notationName): void {
+	private function handleUnparsedEntitiyDeclaration(
+		BaseParser $parser,
+		string $entityName,
+		string $base,
+		string $systemId,
+		string $publicId,
+		string $notationName
+	): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitUnparsedEntityDeclaration($entityName, $base, $systemId, $publicId, $notationName, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());

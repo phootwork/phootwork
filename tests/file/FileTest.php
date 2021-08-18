@@ -208,4 +208,14 @@ class FileTest extends FilesystemTest {
 		$file->setOwner(vfsStream::OWNER_USER_1);
 		$this->assertEquals(vfsStream::OWNER_USER_1, $stream->getUser());
 	}
+
+	public function testWriteUnwritableFileThrowsException(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('Impossible to write the file `vfs://root/myfile.txt`: do you have enough permissions?');
+
+		$stream = vfsStream::newFile('myfile.txt', 0444)->at($this->root);
+		$file = new File($stream->url());
+
+		$file->write('Some content.');
+	}
 }
