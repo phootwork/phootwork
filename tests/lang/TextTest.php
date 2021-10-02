@@ -820,4 +820,15 @@ id est laborum.';
 		$text = new Text('Let it go');
 		$text->split('');
 	}
+
+	public function testCreate(): void {
+		$text = Text::create('A string');
+		$textExt = TextExtension::create('Another string');
+
+		$this->assertInstanceOf(Text::class, $text);
+		$this->assertInstanceOf(TextExtension::class, $textExt);
+	}
+}
+
+class TextExtension extends Text {
 }

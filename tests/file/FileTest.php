@@ -218,4 +218,14 @@ class FileTest extends FilesystemTest {
 
 		$file->write('Some content.');
 	}
+
+	public function testCreate(): void {
+		$file = File::create('a_file.txt');
+		$fileExt = FileExtension::create('myfile.txt');
+		$this->assertInstanceOf(File::class, $file);
+		$this->assertInstanceOf(FileExtension::class, $fileExt);
+	}
+}
+
+class FileExtension extends File {
 }
