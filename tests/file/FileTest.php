@@ -260,6 +260,12 @@ class FileTest extends FilesystemTest {
 		File::create($stream->url())->append('Some content to append.');
 	}
 
+	public function testNormalizePath(): void {
+		$file = new File('\\Documents\\letter.txt');
+
+		$this->assertEquals('/Documents/letter.txt', $file->getPathname()->toString());
+	}
+
 	public function testCreate(): void {
 		$file = File::create('a_file.txt');
 		$fileExt = FileExtension::create('myfile.txt');

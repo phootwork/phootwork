@@ -41,4 +41,10 @@ class FileDescriptorTest extends FilesystemTest {
 		$desc = new FileDescriptor($this->root->url() . '/dir/composer.json');
 		$this->assertEquals($this->root->url() . '/dir/composer.json', '' . $desc);
 	}
+
+	public function testNormalizePath(): void {
+		$fileDesc = new FileDescriptor('\\Documents\\letter.txt');
+
+		$this->assertEquals('/Documents/letter.txt', $fileDesc->getPathname()->toString());
+	}
 }

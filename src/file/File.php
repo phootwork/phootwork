@@ -21,7 +21,7 @@ class File implements Stringable {
 	use FileOperationTrait;
 
 	public function __construct(string|Stringable $filename) {
-		$this->pathname = (string) $filename;
+		$this->pathname = $this->normalizePathName($filename);
 	}
 
 	/**

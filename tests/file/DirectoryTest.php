@@ -88,4 +88,10 @@ class DirectoryTest extends FilesystemTest {
 		//see https://github.com/bovigo/vfsStream/issues/119
 		$this->assertEquals(0, $dir->getInode());
 	}
+
+	public function testNormalizePath(): void {
+		$dir = new Directory('\\Documents\\MyDir');
+
+		$this->assertEquals('/Documents/MyDir', $dir->getPathname()->toString());
+	}
 }

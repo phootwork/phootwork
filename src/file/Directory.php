@@ -24,7 +24,7 @@ class Directory implements Iterator, Stringable {
 	private ?DirectoryIterator $iterator = null;
 
 	public function __construct(string|Stringable $filename) {
-		$this->pathname = (string) $filename;
+		$this->pathname = $this->normalizePathName($filename);
 	}
 
 	/**

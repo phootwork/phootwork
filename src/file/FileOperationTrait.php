@@ -367,4 +367,16 @@ trait FileOperationTrait {
 			throw new FileException(sprintf('Failed to create symbolic link from %s to %s', $this->pathname, (string) $targetDir));
 		}
 	}
+
+	/**
+	 * Convert Windows paths to normalized Linux paths.
+	 * Example: \my_directory\my_file.txt becomes /my_directory/my_file.txt
+	 *
+	 * @param Stringable|string $pathName
+	 *
+	 * @return string
+	 */
+	protected function normalizePathName(Stringable|string $pathName): string {
+		return str_replace('\\', '/', (string) $pathName);
+	}
 }

@@ -40,6 +40,7 @@ class Path implements Stringable {
 	 */
 	public function __construct(Stringable|string $pathname) {
 		$this->pathname = new Text($pathname);
+		$this->pathname->replace('\\', '/');
 
 		if ($this->pathname->match('/^[a-zA-Z]+:\/\//')) {
 			$this->stream = $this->pathname->slice(0, (int) $this->pathname->indexOf('://') + 3)->toString();
