@@ -9,6 +9,7 @@
  */
 namespace phootwork\file\tests;
 
+use org\bovigo\vfs\content\LargeFileContent;
 use org\bovigo\vfs\vfsStream;
 use phootwork\file\Directory;
 use phootwork\file\exception\FileException;
@@ -217,6 +218,22 @@ class FileTest extends FilesystemTest {
 		$file = new File($stream->url());
 
 		$file->write('Some content.');
+	}
+
+	public function testGetSize(): void {
+		$stream = vfsStream::newFile('myfile.txt')
+			->withContent(LargeFileContent::withKilobytes(1))
+			->at($this->root);
+		$file = new File($stream->url());
+
+		$this->assertEquals(1024, $file->getSize());
+	}
+
+	public function testGetSizeWithNonExistentFileThrowsException(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('Impossible to get the file size: stat failed for not_existent.txt.');
+
+		File::create('not_existent.txt')->getSize();
 	}
 
 	public function testCreate(): void {
