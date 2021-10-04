@@ -236,6 +236,30 @@ class FileTest extends FilesystemTest {
 		File::create('not_existent.txt')->getSize();
 	}
 
+	public function testAppend(): void {
+		$stream = vfsStream::newFile('myfile.txt')->at($this->root)->setContent("My initial content.\n");
+		$file = File::create($stream->url())->append('Appended content.');
+
+		$this->assertEquals("My initial content.\nAppended content.", $file->read()->toString());
+	}
+
+	public function testAppendToNotExistentFileThrowsException(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage(
+			'Impossible to write the file `not_existent_file.txt`: do you have enough permissions?'
+		);
+
+		File::create('not_existent_file.txt')->append('Content to append.');
+	}
+
+	public function testAppendToNotWriteableFileThrowsException(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('Impossible to write the file `vfs://root/myfile.txt`: do you have enough permissions?');
+
+		$stream = vfsStream::newFile('myfile.txt', 0444)->at($this->root);
+		File::create($stream->url())->append('Some content to append.');
+	}
+
 	public function testCreate(): void {
 		$file = File::create('a_file.txt');
 		$fileExt = FileExtension::create('myfile.txt');
