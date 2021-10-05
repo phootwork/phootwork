@@ -72,7 +72,7 @@ class File implements Stringable {
 	 *
 	 * @param Stringable|string $contents The content to append
 	 *
-	 * @throws FileException if the file does not exist or is not readable
+	 * @throws FileException if the file does not exist or is not writable
 	 *
 	 * @return $this
 	 */
