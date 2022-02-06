@@ -96,6 +96,6 @@ class Json {
 	 * @psalm-suppress MixedArgument `json_decode($json, true)` returns an array
 	 */
 	public static function toCollection(string|\Stringable $json): Collection {
-		return CollectionUtils::fromCollection(json_decode($json, true));
+		return CollectionUtils::fromCollection(json_decode((string) $json, true));
 	}
 }
