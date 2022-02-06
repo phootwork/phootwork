@@ -39,7 +39,7 @@ class Json {
 	/**
 	 * Decodes a JSON string to an array.
 	 *
-	 * @param string $json The json string being decoded. This only works with UTF-8 encoded strings.  
+	 * @param string|\Stringable $json The json string being decoded. This only works with UTF-8 encoded strings.
 	 * @param int $options Bitmask consisting of JSON_FORCE_OBJECT, JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP,
 	 *                     JSON_HEX_APOS, JSON_INVALID_UTF8_IGNORE, JSON_INVALID_UTF8_SUBSTITUTE, JSON_NUMERIC_CHECK,
 	 *                     JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_PRESERVE_ZERO_FRACTION, JSON_PRETTY_PRINT,
@@ -56,46 +56,46 @@ class Json {
 	 *                 is thrown, which fits for us
 	 * @psalm-suppress MixedInferredReturnType
 	 */
-	public static function decode(string $json, int $options = 0, int $depth = 512): array {
-		return json_decode($json, true, $depth, $options | JSON_THROW_ON_ERROR);
+	public static function decode(string|\Stringable $json, int $options = 0, int $depth = 512): array {
+		return json_decode((string) $json, true, $depth, $options | JSON_THROW_ON_ERROR);
 	}
 
 	/**
 	 * Returns a map collection of the provided json
 	 * 
-	 * @param string $json
+	 * @param string|\Stringable $json
 	 *
 	 * @return Map
 	 *
 	 * @psalm-suppress MixedArgument `json_decode($json, true)` returns an array
 	 */
-	public static function toMap(string $json): Map {
-		return CollectionUtils::toMap(json_decode($json, true));
+	public static function toMap(string|\Stringable $json): Map {
+		return CollectionUtils::toMap(json_decode((string) $json, true));
 	}
 
 	/**
 	 * Returns a list collection of the provided json
 	 *
-	 * @param string $json
+	 * @param string|\Stringable $json
 	 *
 	 * @return ArrayList
 	 *
 	 * @psalm-suppress MixedArgument `json_decode($json, true)` returns an array
 	 */
-	public static function toList(string $json): ArrayList {
-		return CollectionUtils::toList(json_decode($json, true));
+	public static function toList(string|\Stringable $json): ArrayList {
+		return CollectionUtils::toList(json_decode((string) $json, true));
 	}
 
 	/**
 	 * Returns a collection (list or map) of the provided json
 	 *
-	 * @param string $json
+	 * @param string|\Stringable $json
 	 *
 	 * @return Collection
 	 *
 	 * @psalm-suppress MixedArgument `json_decode($json, true)` returns an array
 	 */
-	public static function toCollection(string $json): Collection {
-		return CollectionUtils::fromCollection(json_decode($json, true));
+	public static function toCollection(string|\Stringable $json): Collection {
+		return CollectionUtils::fromCollection(json_decode((string) $json, true));
 	}
 }
