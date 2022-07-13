@@ -10,29 +10,31 @@
 namespace phootwork\collection\tests\fixtures;
 
 class DummyIteratorClass implements \Iterator {
-	private $collection;
+	private array $collection;
 
-	public function __construct($contents = []) {
+	public function __construct(array $contents = []) {
 		$this->collection = $contents;
 	}
 
 	/**
 	 * @internal
 	 */
-	public function rewind() {
+	#[\ReturnTypeWillChange]
+	public function rewind(): mixed {
 		return reset($this->collection);
 	}
 
 	/**
 	 * @internal
 	 */
-	public function current() {
+	public function current(): mixed {
 		return current($this->collection);
 	}
 
 	/**
 	 * @internal
 	 */
+	#[\ReturnTypeWillChange]
 	public function key() {
 		return key($this->collection);
 	}
@@ -40,14 +42,15 @@ class DummyIteratorClass implements \Iterator {
 	/**
 	 * @internal
 	 */
-	public function next() {
+	#[\ReturnTypeWillChange]
+	public function next(): mixed {
 		return next($this->collection);
 	}
 
 	/**
 	 * @internal
 	 */
-	public function valid() {
+	public function valid(): bool {
 		return key($this->collection) !== null;
 	}
 }
