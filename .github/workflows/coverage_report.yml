@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 10
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
@@ -29,5 +31,4 @@ jobs:
       - name: Upload Scrutinizer coverage
         uses: sudo-bot/action-scrutinizer@latest
         with:
-          fetch-depth: 10
           cli-args: "--format=php-clover clover.xml"
