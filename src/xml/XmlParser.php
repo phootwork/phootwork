@@ -73,7 +73,6 @@ class XmlParser {
 		$this->visitors = new Set();
 		$this->parser = xml_parser_create($encoding);
 
-		xml_set_object($this->parser, $this);
 		xml_set_element_handler($this->parser, [$this, 'handleElementStart'], [$this, 'handleElementEnd']);
 		xml_set_character_data_handler($this->parser, [$this, 'handleCharacterData']);
 		xml_set_processing_instruction_handler($this->parser, [$this, 'handleProcessingInstruction']);
@@ -86,12 +85,9 @@ class XmlParser {
 	 * 
 	 * @param int $option Any of the XmlParser::OPTION_* constants
 	 * @param mixed $value The desired value
-	 *
-	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_parser_set_option`
-	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
-	public function setOption(int $option, mixed $value): void {
-		xml_parser_set_option($this->parser, $option, $value);
+	public function setOption(int $option, mixed $value): bool {
+		return xml_parser_set_option($this->parser, $option, $value);
 	}
 
 	/**
@@ -133,8 +129,6 @@ class XmlParser {
 	 *
 	 * @throws XmlException
 	 *
-	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_get_error_code`
-	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
 	public function parse(string|Stringable $data): void {
 		if (!xml_parse($this->parser, (string) $data)) {
@@ -181,6 +175,9 @@ class XmlParser {
 	 * @param BaseParser $parser
 	 * @param string $name
 	 * @param array $attribs
+	 *
+	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
+	 *                 call this method passing $parser as the first parameter
 	 */
 	private function handleElementStart(BaseParser $parser, string $name, array $attribs): void {
 		/** @var XmlParserVisitorInterface $visitor */
@@ -194,6 +191,9 @@ class XmlParser {
 	 *
 	 * @param BaseParser $parser
 	 * @param string $name
+	 *
+	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
+	 *                 call this method passing $parser as the first parameter
 	 */
 	private function handleElementEnd(BaseParser $parser, string $name): void {
 		/** @var XmlParserVisitorInterface $visitor */
@@ -207,6 +207,9 @@ class XmlParser {
 	 *
 	 * @param BaseParser $parser
 	 * @param string $data
+	 *
+	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
+	 *                 call this method passing $parser as the first parameter
 	 */
 	private function handleCharacterData(BaseParser $parser, string $data): void {
 		/** @var XmlParserVisitorInterface $visitor */
@@ -221,6 +224,9 @@ class XmlParser {
 	 * @param BaseParser $parser
 	 * @param string     $target
 	 * @param string     $data
+	 *
+	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
+	 *                 call this method passing $parser as the first parameter
 	 */
 	private function handleProcessingInstruction(BaseParser $parser, string $target, string $data): void {
 		/** @var XmlParserVisitorInterface $visitor */
@@ -237,6 +243,9 @@ class XmlParser {
 	 * @param string     $base
 	 * @param string     $systemId
 	 * @param string     $publicId
+	 *
+	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
+	 *                 call this method passing $parser as the first parameter
 	 */
 	private function handleNotationDeclaration(
 		BaseParser $parser,
@@ -260,6 +269,9 @@ class XmlParser {
 	 * @param string     $systemId
 	 * @param string     $publicId
 	 * @param string     $notationName
+	 *
+	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
+	 *                 call this method passing $parser as the first parameter
 	 */
 	private function handleUnparsedEntitiyDeclaration(
 		BaseParser $parser,

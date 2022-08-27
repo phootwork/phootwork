@@ -75,6 +75,13 @@ class ArrayTest extends TestCase {
 		$this->assertEquals($arr, $brr);
 	}
 
+	public function testExternalSerialization(): void {
+		$arr = new ArrayObject(['these', 'are', 'my', 'items']);
+		$serialized = serialize($arr);
+
+		$this->assertEquals($arr, unserialize($serialized));
+	}
+
 	public function testReduce(): void {
 		$list = new ArrayObject(range(1, 10));
 		$sum = $list->reduce(function ($a, $b) {
@@ -615,5 +622,13 @@ class ArrayTest extends TestCase {
 
 		$this->assertEquals(3, $goNagai->count());
 		$this->assertEquals([null, 'Mazinger Z', 'Great Mazinger'], $goNagai->toArray());
+	}
+
+	public function testJoinWherWrongTypeThrowsException(): void {
+		$this->expectException(\TypeError::class);
+		$this->expectExceptionMessage('Can join elements only if scalar, null or \\Stringable');
+
+		$obj = new ArrayObject([new \StdClass, 'string', true]);
+		$obj->join(',');
 	}
 }
