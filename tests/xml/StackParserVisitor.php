@@ -13,7 +13,6 @@ use phootwork\collection\Stack;
 use phootwork\xml\XmlParserNoopVisitor;
 
 class StackParserVisitor extends XmlParserNoopVisitor {
-
 	/** @var Stack */
 	private $elementStack;
 

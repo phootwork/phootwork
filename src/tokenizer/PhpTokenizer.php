@@ -10,7 +10,6 @@
 namespace phootwork\tokenizer;
 
 class PhpTokenizer {
-
 	/**
 	 * 
 	 * @param string $code

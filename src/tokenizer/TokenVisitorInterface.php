@@ -10,7 +10,6 @@
 namespace phootwork\tokenizer;
 
 interface TokenVisitorInterface {
-
 	/**
 	 * @param Token $token
 	 *

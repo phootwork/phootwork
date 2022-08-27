@@ -10,7 +10,6 @@
 namespace phootwork\tokenizer;
 
 class Token {
-
 	/** @var int */
 	public int $type;
 

@@ -14,7 +14,6 @@ use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 
 abstract class FilesystemTest extends TestCase {
-
 	/** @var vfsStreamDirectory */
 	protected $root;
 

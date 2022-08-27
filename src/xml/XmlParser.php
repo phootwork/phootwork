@@ -17,7 +17,6 @@ use Stringable;
 use XmlParser as BaseParser;
 
 class XmlParser {
-
 	/**
 	 * Controls whether case-folding is enabled for this XML parser. Enabled by default. 
 	 * 

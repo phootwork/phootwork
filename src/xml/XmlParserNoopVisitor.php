@@ -10,7 +10,6 @@
 namespace phootwork\xml;
 
 class XmlParserNoopVisitor implements XmlParserVisitorInterface {
-
 	/**
 	 * @param string $name
 	 * @param int    $line

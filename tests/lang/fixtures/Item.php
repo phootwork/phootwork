@@ -12,7 +12,6 @@ namespace phootwork\lang\tests\fixtures;
 use phootwork\lang\Comparable;
 
 class Item implements Comparable {
-
 	/** @var string string */
 	private $content;
 

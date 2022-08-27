@@ -10,7 +10,6 @@
 namespace phootwork\xml;
 
 interface XmlParserVisitorInterface {
-
 	/**
 	 * visits the start of an element
 	 *

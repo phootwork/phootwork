@@ -12,7 +12,6 @@ namespace phootwork\tokenizer;
 use phootwork\collection\ArrayList;
 
 class TokenCollection extends ArrayList {
-
 	/**
 	 * Retrieves a token at the given index
 	 *
