@@ -14,7 +14,7 @@ use phootwork\file\exception\FileException;
 use phootwork\file\File;
 use phootwork\xml\exception\XmlException;
 use Stringable;
-use XmlParser as BaseParser;
+use XMLParser as BaseParser;
 
 class XmlParser {
 	/**
@@ -133,7 +133,7 @@ class XmlParser {
 		if (!xml_parse($this->parser, (string) $data)) {
 			$code = xml_get_error_code($this->parser);
 
-			throw new XmlException(xml_error_string($code), $code);
+			throw new XmlException(xml_error_string($code) ?? 'Undefined error', $code);
 		}
 	}
 
@@ -152,6 +152,7 @@ class XmlParser {
 
 	/**
 	 * @return int
+	 *
 	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_get_current_line_number`
 	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */
@@ -161,6 +162,7 @@ class XmlParser {
 
 	/**
 	 * @return int
+	 *
 	 * @psalm-suppress InvalidArgument Psalm issue: in PHP8 the function `xml_get_current_column_number`
 	 *                  expects a `XmlParser` and not more `resource`. Remove it when fixed.
 	 */

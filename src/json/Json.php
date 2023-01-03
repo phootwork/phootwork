@@ -51,7 +51,6 @@ class Json {
 	 * @return array Returns the value encoded in json in appropriate PHP type. Values true, false and null
 	 *               are returned as TRUE, FALSE and NULL respectively.
 	 *
-	 *
 	 * @psalm-suppress MixedReturnStatement if `json_decode` doesn't return an array, a `TypeError` exception
 	 *                 is thrown, which fits for us
 	 * @psalm-suppress MixedInferredReturnType
