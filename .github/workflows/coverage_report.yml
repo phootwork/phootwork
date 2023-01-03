@@ -9,13 +9,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 10
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.0
+          php-version: 8.1
           extensions: mbstring, dom, json, libxml, xml, xmlwriter
           coverage: pcov
       - name: Install composer dependencies
@@ -23,7 +23,7 @@ jobs:
         with:
           composer-options: "--prefer-dist --optimize-autoloader"
       - name: CodeClimate coverage report
-        uses: paambaati/codeclimate-action@v2.7.5
+        uses: paambaati/codeclimate-action@v3.2.0
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
