@@ -828,6 +828,21 @@ id est laborum.';
 		$this->assertInstanceOf(Text::class, $text);
 		$this->assertInstanceOf(TextExtension::class, $textExt);
 	}
+
+	public function testContainsOnly(): void {
+		$text = Text::create('aaaaaaa');
+		$text1 = Text::create("\t\t\t\n\n\n   \n\n\n\t\t\t");
+		$text2 = Text::create('iweurhqrivadfkhvbfhrpgpqg');
+		$text3 = Text::create('σσσσσσσσσσσσσσσ');
+		$text4 = Text::create('いちりんしゃ');
+
+		$this->assertTrue($text->containsOnly('a'));
+		$this->assertTrue($text1->containsOnly("\t\n "));
+		$this->assertTrue($text2->containsOnly('a..z'));
+		$this->assertFalse($text2->containsOnly('1..6'));
+		$this->assertTrue($text3->containsOnly('σ'));
+		$this->assertFalse($text4->containsOnly('し'));
+	}
 }
 
 class TextExtension extends Text {
