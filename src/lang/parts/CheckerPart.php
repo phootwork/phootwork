@@ -118,7 +118,7 @@ trait CheckerPart {
 	}
 
 	/**
-	 * Check if a string is plural form.
+	 * Check if the string is plural form.
 	 *
 	 * @param InflectorInterface|null $pluralizer
 	 *            A custom pluralizer. Default is the Inflector
@@ -129,5 +129,18 @@ trait CheckerPart {
 		$pluralizer = $pluralizer ?? new Inflector();
 
 		return $pluralizer->isPlural($this->getString());
+	}
+
+	/**
+	 * Check if the string contains only `$charList` characters.
+	 * 
+	 * @param string The list of characters to check. Use `..` to define a range.
+	 * 
+	 * @return bool
+	 * 
+	 * @see https://www.php.net/manual/en/function.trim.php 
+	 */
+	public function containsOnly(string $charList): bool {
+		return trim($this->getString(), $charList) === '';
 	}
 }
