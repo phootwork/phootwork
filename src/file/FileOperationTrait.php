@@ -86,15 +86,15 @@ trait FileOperationTrait {
 	 * @return DateTime
 	 */
 	public function getLastAccessedAt(): DateTime {
-		try {
-			$timestamp = fileatime($this->pathname);
-			$time = new DateTime();
-			$time->setTimestamp($timestamp);
-
-			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		$timestamp = fileatime($this->pathname);
+		if ($timestamp === false) {
+			throw new FileException("Failure on accessing `{$this->pathname}`: please, check if the file exists and you have the correct permissions.");
 		}
+
+		$time = new DateTime();
+		$time->setTimestamp($timestamp);
+
+		return $time;
 	}
 
 	/**
@@ -105,15 +105,15 @@ trait FileOperationTrait {
 	 * @return DateTime
 	 */
 	public function getCreatedAt(): DateTime {
-		try {
-			$timestamp = filemtime($this->pathname);
-			$time = new DateTime();
-			$time->setTimestamp($timestamp);
-
-			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		$timestamp = filemtime($this->pathname);
+		if ($timestamp === false) {
+			throw new FileException("Failure on accessing `{$this->pathname}`: please, check if the file exists and you have the correct permissions.");
 		}
+
+		$time = new DateTime();
+		$time->setTimestamp($timestamp);
+
+		return $time;
 	}
 
 	/**
@@ -124,15 +124,15 @@ trait FileOperationTrait {
 	 * @return DateTime
 	 */
 	public function getModifiedAt(): DateTime {
-		try {
-			$timestamp = filemtime($this->pathname);
-			$time = new DateTime();
-			$time->setTimestamp($timestamp);
-
-			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		$timestamp = filemtime($this->pathname);
+		if ($timestamp === false) {
+			throw new FileException("Failure on accessing `{$this->pathname}`: please, check if the file exists and you have the correct permissions.");
 		}
+
+		$time = new DateTime();
+		$time->setTimestamp($timestamp);
+
+		return $time;
 	}
 
 	/**
