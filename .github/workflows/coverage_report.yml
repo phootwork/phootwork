@@ -15,7 +15,7 @@ jobs:
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: 8.1
+          php-version: 8.3
           extensions: mbstring, dom, json, libxml, xml, xmlwriter
           coverage: pcov
       - name: Install composer dependencies
@@ -27,7 +27,7 @@ jobs:
         env:
           CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
         with:
-          coverageCommand: "composer coverage:clover"
+          coverageCommand: "composer coverage:clover -- --compact"
       - name: Upload Scrutinizer coverage
         uses: sudo-bot/action-scrutinizer@latest
         with:

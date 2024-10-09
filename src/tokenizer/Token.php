@@ -21,7 +21,7 @@ class Token {
 	 *
 	 * @param string|array $token
 	 */
-	public function __construct(string|array $token = null) {
+	public function __construct(string|array|null $token = null) {
 		if (is_array($token)) {
 			$this->type = (int) $token[0];
 			$this->contents = (string) $token[1];

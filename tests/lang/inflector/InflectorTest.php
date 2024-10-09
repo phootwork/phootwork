@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *
  */
 class InflectorTest extends TestCase {
-	public function getPluralFormDataProvider(): array {
+	public static function getPluralFormDataProvider(): array {
 		return [
 			['', 's'],
 			['user', 'users'],
@@ -88,7 +88,7 @@ class InflectorTest extends TestCase {
 		];
 	}
 
-	public function providerForWrongType(): array {
+	public static function providerForWrongType(): array {
 		return [
 			[null],
 			[[1, 2, 3]],

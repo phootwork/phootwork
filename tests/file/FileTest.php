@@ -112,7 +112,7 @@ class FileTest extends FilesystemTest {
 
 	public function testLastAccessedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('fileatime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('Failure on accessing `non-existent.txt`: please, check if the file exists and you have the correct permissions.');
 
 		$file = new File('non-existent.txt');
 		$file->getLastAccessedAt();
@@ -120,7 +120,7 @@ class FileTest extends FilesystemTest {
 
 	public function testGetCreatedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('Failure on accessing `non-existent.txt`: please, check if the file exists and you have the correct permissions.');
 
 		$file = new File('non-existent.txt');
 		$file->getCreatedAt();
@@ -128,7 +128,7 @@ class FileTest extends FilesystemTest {
 
 	public function testGetModifiedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('Failure on accessing `non-existent.txt`: please, check if the file exists and you have the correct permissions.');
 
 		$file = new File('non-existent.txt');
 		$file->getModifiedAt();
