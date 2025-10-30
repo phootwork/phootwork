@@ -27,7 +27,7 @@ use PHPUnit\Framework\TestCase;
  * @author Cristiano Cinotti
  */
 class LinkTest extends TestCase {
-	private Directory $tempDir;
+	private ?Directory $tempDir = null;
 
 	public function setUp(): void {
 		if ((new Text(PHP_OS))->toUpperCase()->contains('WIN')) {
@@ -44,7 +44,7 @@ class LinkTest extends TestCase {
 	}
 
 	public function tearDown(): void {
-		$this->tempDir->delete();
+		$this->tempDir?->delete();
 		parent::tearDown();
 	}
 
