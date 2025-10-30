@@ -10,6 +10,7 @@
 namespace phootwork\lang\tests;
 
 use phootwork\lang\inflector\Inflector;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -17,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  *
  */
 class InflectorTest extends TestCase {
-	public function getPluralFormDataProvider(): array {
+	public static function getPluralFormDataProvider(): array {
 		return [
 			['', 's'],
 			['user', 'users'],
@@ -88,7 +89,7 @@ class InflectorTest extends TestCase {
 		];
 	}
 
-	public function providerForWrongType(): array {
+	public static function providerForWrongType(): array {
 		return [
 			[null],
 			[[1, 2, 3]],
@@ -100,17 +101,13 @@ class InflectorTest extends TestCase {
 		];
 	}
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
+	#[DataProvider('getPluralFormDataProvider')]
 	public function testPluralForm($input, $output): void {
 		$pluralizer = new Inflector();
 		$this->assertEquals($output, $pluralizer->getPluralForm($input));
 	}
 
-	/**
-	 * @dataProvider providerForWrongType
-	 */
+	#[DataProvider('providerForWrongType')]
 	public function testWrongTypeToPluralizeThrowsException($wrong): void {
 		$this->expectException(\TypeError::class);
 		// No exception message here, because it's changed in PHP 8
@@ -119,17 +116,13 @@ class InflectorTest extends TestCase {
 		$pluralizer->getPluralForm($wrong);
 	}
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
+	#[DataProvider('getPluralFormDataProvider')]
 	public function testSingularForm($output, $input): void {
 		$pluralizer = new Inflector();
 		$this->assertEquals($output, $pluralizer->getSingularForm($input));
 	}
 
-	/**
-	 * @dataProvider providerForWrongType
-	 */
+	#[DataProvider('providerForWrongType')]
 	public function testWrongTypeToSingularizeThrowsException($wrong): void {
 		$this->expectException(\TypeError::class);
 		// No exception message here, because it's changed in PHP 8
@@ -156,17 +149,13 @@ class InflectorTest extends TestCase {
 		$this->assertEquals('food_menus', $pluralizer->getPluralForm('food_menus'), '`food_menus` is already plural.');
 	}
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
+	#[DataProvider('getPluralFormDataProvider')]
 	public function testIsPlural($singular, $plural): void {
 		$pluralizer = new Inflector();
 		$this->assertTrue($pluralizer->isPlural($plural));
 	}
 
-	/**
-	 * @dataProvider getPluralFormDataProvider
-	 */
+	#[DataProvider('getPluralFormDataProvider')]
 	public function testIsSingular($singular, $plural): void {
 		$pluralizer = new Inflector();
 		$this->assertTrue($pluralizer->isSingular($singular));

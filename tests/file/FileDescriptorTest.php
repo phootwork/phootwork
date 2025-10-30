@@ -15,7 +15,7 @@ use phootwork\file\FileDescriptor;
 use phootwork\file\Path;
 use phootwork\lang\Text;
 
-class FileDescriptorTest extends FilesystemTest {
+class FileDescriptorTest extends FilesystemTestCase {
 	public function testTypes(): void {
 		$this->assertTrue(Directory::create('') instanceof Directory);
 		$this->assertTrue(File::create('') instanceof File);

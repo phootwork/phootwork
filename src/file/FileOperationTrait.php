@@ -87,13 +87,13 @@ trait FileOperationTrait {
 	 */
 	public function getLastAccessedAt(): DateTime {
 		try {
-			$timestamp = fileatime($this->pathname);
+			$timestamp = @fileatime($this->pathname);
 			$time = new DateTime();
 			$time->setTimestamp($timestamp);
 
 			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		} catch (\Error $err) {
+			throw new FileException($err->getMessage(), (int) $err->getCode(), $err);
 		}
 	}
 
@@ -106,13 +106,13 @@ trait FileOperationTrait {
 	 */
 	public function getCreatedAt(): DateTime {
 		try {
-			$timestamp = filemtime($this->pathname);
+			$timestamp = @filemtime($this->pathname);
 			$time = new DateTime();
 			$time->setTimestamp($timestamp);
 
 			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		} catch (\Error $err) {
+			throw new FileException($err->getMessage(), (int) $err->getCode(), $err);
 		}
 	}
 
@@ -125,13 +125,13 @@ trait FileOperationTrait {
 	 */
 	public function getModifiedAt(): DateTime {
 		try {
-			$timestamp = filemtime($this->pathname);
+			$timestamp = @filemtime($this->pathname);
 			$time = new DateTime();
 			$time->setTimestamp($timestamp);
 
 			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		} catch (\Error $err) {
+			throw new FileException($err->getMessage(), (int) $err->getCode(), $err);
 		}
 	}
 

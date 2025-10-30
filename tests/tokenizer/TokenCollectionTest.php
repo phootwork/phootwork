@@ -12,7 +12,7 @@ namespace phootwork\tokenizer\tests;
 use phootwork\tokenizer\PhpTokenizer;
 use phootwork\tokenizer\Token;
 
-class TokenCollectionTest extends TokenizerTest {
+class TokenCollectionTest extends TokenizerTestCase {
 	public function testGetMethod(): void {
 		$sample = $this->getSample('class');
 

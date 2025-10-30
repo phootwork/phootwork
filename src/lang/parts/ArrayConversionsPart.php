@@ -84,7 +84,7 @@ trait ArrayConversionsPart {
 	 *
 	 * @param int $splitLength Maximum length of the chunk.
 	 *
-	 * @throws InvalidArgumentException If splitLength is less than 1.
+	 * @throws \ValueError If splitLength is less than 1.
 	 *
 	 * @return ArrayObject
 	 * 		If the optional splitLength parameter is specified, the returned array will be
@@ -94,10 +94,6 @@ trait ArrayConversionsPart {
 	 *      as the first (and only) array element.
 	 */
 	public function chunk(int $splitLength = 1): ArrayObject {
-		if (false === $array = str_split($this->getString(), $splitLength)) {
-			throw new InvalidArgumentException('The chunk length has to be positive');
-		}
-
-		return new ArrayObject($array);
+		return new ArrayObject(str_split($this->getString(), $splitLength));
 	}
 }
