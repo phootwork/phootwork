@@ -13,7 +13,7 @@ use phootwork\tokenizer\PhpTokenizer;
 use phootwork\tokenizer\tests\fixtures\ExampleTokenVisitor;
 use phootwork\tokenizer\TokenCollection;
 
-class TokenizerCollectionTest extends TokenizerTest {
+class TokenizerCollectionTest extends TokenizerTestCase {
 	public function testTokenizerCollection(): void {
 		$sample = $this->getSample('sample1');
 

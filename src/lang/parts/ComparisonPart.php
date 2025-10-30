@@ -9,7 +9,7 @@
  */
 namespace phootwork\lang\parts;
 
-use phootwork\lang\Text;
+use Stringable;
 
 /**
  * Text methods to perform string and Text object comparison
@@ -25,43 +25,41 @@ trait ComparisonPart {
 	 *
 	 * @param mixed $comparison
 	 *
+	 * @throws \TypeError If $comparison is not a string or a Stringableobject.
+	 *
 	 * @return int
 	 *
 	 * @see \phootwork\lang\Comparable::compareTo()
 	 */
 	public function compareTo(mixed $comparison): int {
-		if (is_string($comparison) || $comparison instanceof Text) {
-			return $this->compare($comparison);
-		}
-
-		throw new \InvalidArgumentException('`compareTo` method can accept only strings or Text objects.');
+		return $this->compare($comparison);
 	}
 
 	/**
 	 * Compares this string to another string, ignoring the case
 	 *
-	 * @param string|Text $compare
+	 * @param string|Stringable $compare
 	 *
 	 * @return int Return Values:<br>
 	 * 		&lt; 0 if the object is less than comparison<br>
 	 *  	&gt; 0 if the object is greater than comparison<br>
 	 * 		0 if they are equal.
 	 */
-	public function compareCaseInsensitive(string|Text $compare): int {
+	public function compareCaseInsensitive(string|Stringable $compare): int {
 		return $this->compare($compare, 'strcasecmp');
 	}
 
 	/**
 	 * Compares this string to another
 	 *
-	 * @param string|Text   $compare string to compare to
+	 * @param string|Stringable   $compare string to compare to
 	 * @param callable|null $callback
 	 *
 	 * @return int
 	 *
 	 * @psalm-suppress MixedInferredReturnType
 	 */
-	public function compare(string|Text $compare, ?callable $callback = null): int {
+	public function compare(string|Stringable $compare, ?callable $callback = null): int {
 		if ($callback === null) {
 			$callback = 'strcmp';
 		}
@@ -72,22 +70,22 @@ trait ComparisonPart {
 	/**
 	 * Checks whether the string and the given object are equal
 	 *
-	 * @param string|Text $string
+	 * @param string|Stringable $string
 	 *
 	 * @return bool
 	 */
-	public function equals(string|Text $string): bool {
+	public function equals(string|Stringable $string): bool {
 		return $this->compareTo($string) === 0;
 	}
 
 	/**
 	 * Checks whether the string and the given object are equal ignoring the case
 	 *
-	 * @param string|Text $string
+	 * @param string|Stringable $string
 	 *
 	 * @return bool
 	 */
-	public function equalsIgnoreCase(string|Text $string): bool {
+	public function equalsIgnoreCase(string|Stringable $string): bool {
 		return $this->compareCaseInsensitive($string) === 0;
 	}
 }

@@ -16,7 +16,7 @@ use phootwork\file\exception\FileException;
 use phootwork\file\File;
 use phootwork\file\Path;
 
-class FileTest extends FilesystemTest {
+class FileTest extends FilesystemTestCase {
 	public function testReadWrite(): void {
 		$json = '{"hello":"world!"}';
 		$file = new File($this->root->url() . '/dir/composer.json');
@@ -112,7 +112,7 @@ class FileTest extends FilesystemTest {
 
 	public function testLastAccessedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('fileatime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('DateTime::setTimestamp(): Argument #1 ($timestamp) must be of type int, false given');
 
 		$file = new File('non-existent.txt');
 		$file->getLastAccessedAt();
@@ -120,7 +120,7 @@ class FileTest extends FilesystemTest {
 
 	public function testGetCreatedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('DateTime::setTimestamp(): Argument #1 ($timestamp) must be of type int, false given');
 
 		$file = new File('non-existent.txt');
 		$file->getCreatedAt();
@@ -128,7 +128,7 @@ class FileTest extends FilesystemTest {
 
 	public function testGetModifiedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('DateTime::setTimestamp(): Argument #1 ($timestamp) must be of type int, false given');
 
 		$file = new File('non-existent.txt');
 		$file->getModifiedAt();

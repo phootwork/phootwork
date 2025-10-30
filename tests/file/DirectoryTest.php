@@ -14,7 +14,7 @@ use phootwork\file\exception\FileException;
 use phootwork\file\FileDescriptor;
 use phootwork\lang\ArrayObject;
 
-class DirectoryTest extends FilesystemTest {
+class DirectoryTest extends FilesystemTestCase {
 	public function testCreateDirectory(): void {
 		$dir = new Directory($this->root->url() . '/prj');
 		$this->assertFalse($dir->exists());
