@@ -11,7 +11,7 @@ namespace phootwork\tokenizer;
 
 use phootwork\collection\ArrayList;
 
-class TokenCollection extends ArrayList {
+final class TokenCollection extends ArrayList {
 	/**
 	 * Retrieves a token at the given index
 	 *
@@ -20,8 +20,8 @@ class TokenCollection extends ArrayList {
 	 * @return Token|null
 	 *
 	 * @psalm-suppress MixedReturnStatement
-	 * @psalm-suppress MixedInferredReturnType
 	 */
+	#[\Override]
 	public function get(int $index): ?Token {
 		return parent::get($index);
 	}

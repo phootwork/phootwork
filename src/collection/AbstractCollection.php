@@ -20,6 +20,7 @@ abstract class AbstractCollection extends AbstractArray implements Collection {
 	/**
 	 * Remove all elements from the collection.
 	 */
+	#[\Override]
 	public function clear(): void {
 		$this->array = [];
 	}
@@ -27,6 +28,7 @@ abstract class AbstractCollection extends AbstractArray implements Collection {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function rewind(): void {
 		reset($this->array);
 	}
@@ -34,6 +36,7 @@ abstract class AbstractCollection extends AbstractArray implements Collection {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function current(): mixed {
 		return current($this->array);
 	}
@@ -41,6 +44,7 @@ abstract class AbstractCollection extends AbstractArray implements Collection {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function key(): int|string|null {
 		return key($this->array);
 	}
@@ -48,6 +52,7 @@ abstract class AbstractCollection extends AbstractArray implements Collection {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function next(): void {
 		next($this->array);
 	}
@@ -55,6 +60,7 @@ abstract class AbstractCollection extends AbstractArray implements Collection {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function valid(): bool {
 		return key($this->array) !== null;
 	}

@@ -19,6 +19,10 @@ use phootwork\lang\Text;
  * Represents a Map
  * 
  * @author Thomas Gossmann
+ *
+ * @api
+ * 
+ * @psalm-suppress MissingTemplateParam
  */
 class Map extends AbstractCollection implements \ArrayAccess {
 	use SortAssocPart;
@@ -152,6 +156,7 @@ class Map extends AbstractCollection implements \ArrayAccess {
 	 *
 	 * @return $this
 	 */
+	#[\Override]
 	public function sort(Comparator|callable|null $cmp = null): AbstractArray {
 		return $this->sortAssoc($cmp);
 	}
@@ -225,6 +230,7 @@ class Map extends AbstractCollection implements \ArrayAccess {
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetSet(mixed $offset, mixed $value): void {
 		/** @var string|null $offset */
 		if ($offset !== null) {
@@ -239,6 +245,7 @@ class Map extends AbstractCollection implements \ArrayAccess {
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetExists(mixed $offset): bool {
 		/** @var string $offset */
 		return isset($this->array[$offset]);
@@ -249,6 +256,7 @@ class Map extends AbstractCollection implements \ArrayAccess {
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetUnset(mixed $offset): void {
 		/** @var string $offset */
 		unset($this->array[$offset]);
@@ -261,6 +269,7 @@ class Map extends AbstractCollection implements \ArrayAccess {
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetGet(mixed $offset): mixed {
 		/** @var string $offset */
 		return isset($this->array[$offset]) ? $this->array[$offset] : null;

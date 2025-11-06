@@ -212,7 +212,7 @@ class TextTest extends TestCase {
 		$this->assertEquals('-=fòôbàř', $str->padStart(8, '-='));
 		$this->assertEquals('fòôbàř=-', $str->padEnd(8, '=-'));
 		$this->assertEquals('==fòôbàř==', $str->pad(10, '=='));
-		$this->assertSame($str, $str->pad(0));
+		$this->assertEquals($str, $str->pad(0));
 	}
 
 	public function testIndexSearch(): void {

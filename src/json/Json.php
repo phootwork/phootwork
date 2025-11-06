@@ -14,7 +14,11 @@ use phootwork\collection\ArrayList;
 use phootwork\collection\Collection;
 use phootwork\collection\CollectionUtils;
 use phootwork\collection\Map;
+use Stringable;
 
+/**
+ * @api
+ */
 class Json {
 	/**
 	 * Returns the JSON representation of a value
@@ -31,6 +35,11 @@ class Json {
 	 * @return string Returns a JSON encoded string
 	 *
 	 * @see https://www.php.net/manual/en/json.constants.php for constant details
+	 * 
+	 * @psalm-suppress ArgumentTypeCoercion
+	 * @psalm-suppress FalsableReturnStatement We set JSON_THROW_ON_ERROR by default, so if some error occurs an exception
+	 * 											is thrown and the function never return false.
+	 * @psalm-suppress InvalidFalsableReturnType Same reason above.
 	 */
 	public static function encode(mixed $data, int $options = 0, int $depth = 512): string {
 		return json_encode($data, $options | JSON_THROW_ON_ERROR, $depth);
@@ -54,6 +63,7 @@ class Json {
 	 * @psalm-suppress MixedReturnStatement if `json_decode` doesn't return an array, a `TypeError` exception
 	 *                 is thrown, which fits for us
 	 * @psalm-suppress MixedInferredReturnType
+	 * @psalm-suppress ArgumentTypeCoercion
 	 */
 	public static function decode(string|\Stringable $json, int $options = 0, int $depth = 512): array {
 		return json_decode((string) $json, true, $depth, $options | JSON_THROW_ON_ERROR);
@@ -96,5 +106,38 @@ class Json {
 	 */
 	public static function toCollection(string|\Stringable $json): Collection {
 		return CollectionUtils::fromCollection(json_decode((string) $json, true));
+	}
+
+	/**
+	 * Check if a given string is a correct JSON representation.
+	 * 
+	 * If this method return false, you can retrieve the error message, via `Json::getLastError` function.
+	 *
+	 * @param string|Stringable $data The JSON string.
+	 * @param int $options Bitmask consisting of JSON_FORCE_OBJECT, JSON_HEX_QUOT, JSON_HEX_TAG, JSON_HEX_AMP,
+	 *                     JSON_HEX_APOS, JSON_INVALID_UTF8_IGNORE, JSON_INVALID_UTF8_SUBSTITUTE, JSON_NUMERIC_CHECK,
+	 *                     JSON_PARTIAL_OUTPUT_ON_ERROR, JSON_PRESERVE_ZERO_FRACTION, JSON_PRETTY_PRINT,
+	 *                     JSON_UNESCAPED_LINE_TERMINATORS, JSON_UNESCAPED_SLASHES, JSON_UNESCAPED_UNICODE
+	 * @param int $depth Set the maximum depth. Must be greater than zero.
+	 *
+	 * @return bool
+	 *
+	 * @see https://www.php.net/manual/en/json.constants.php for constant details
+	 * 
+	 * @psalm-suppress ArgumentTypeCoercion
+	 */
+	public static function validate(string|Stringable $data, int $options = 0, int $depth = 512): bool {
+		return json_validate((string) $data, $depth, $options);
+	}
+
+	/**
+	 * Return the error message thrown by the last operation.
+	 * This function is useful in conjunction with `Json::validate()`,
+	 * when it returns false.
+	 * 
+	 * @return string
+	 */
+	public static function getLastError(): string {
+		return json_last_error_msg() . '.';
 	}
 }

@@ -9,6 +9,7 @@
  */
 namespace phootwork\lang\parts;
 
+use InvalidArgumentException;
 use Stringable;
 
 /**
@@ -32,6 +33,10 @@ trait ComparisonPart {
 	 * @see \phootwork\lang\Comparable::compareTo()
 	 */
 	public function compareTo(mixed $comparison): int {
+		if (! $comparison instanceof Stringable && !is_string($comparison)) {
+			throw new InvalidArgumentException('A Text object can be compared only with strings or Stringable objects.');
+		}
+
 		return $this->compare($comparison);
 	}
 

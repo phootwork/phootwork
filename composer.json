@@ -39,7 +39,7 @@
     "phootwork/xml": "self.version"
   },
   "require-dev": {
-    "phootwork/php-cs-fixer-config": "^0.4",
+    "phootwork/php-cs-fixer-config": "^1",
     "mikey179/vfsstream": "^1.6",
     "phpunit/phpunit": "^12.4",
     "psalm/phar": "^6.13"

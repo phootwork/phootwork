@@ -13,6 +13,9 @@ use phootwork\lang\ArrayObject;
 use phootwork\lang\Text;
 use Stringable;
 
+/**
+ * @api
+ */
 class Path implements Stringable {
 	/** @var ArrayObject */
 	private ArrayObject $segments;
@@ -84,7 +87,7 @@ class Path implements Stringable {
 	 * @return Text
 	 */
 	public function getPathname(): Text {
-		return new Text($this->stream . $this->pathname);
+		return new Text($this->stream . (string) $this->pathname);
 	}
 
 	/**
@@ -262,7 +265,7 @@ class Path implements Stringable {
 	 * @return Path
 	 */
 	public function removeExtension(): self {
-		return new self($this->pathname->replace('.' . $this->getExtension(), ''));
+		return new self($this->pathname->replace($this->getExtension()->prepend('.'), ''));
 	}
 
 	/**
@@ -355,12 +358,13 @@ class Path implements Stringable {
 	 * @return string A string representation of this path
 	 */
 	public function toString(): string {
-		return $this->stream . $this->pathname;
+		return $this->stream . (string) $this->pathname;
 	}
 
 	/**
 	 * String representation as pathname
 	 */
+	#[\Override]
 	public function __toString(): string {
 		return $this->toString();
 	}

@@ -16,6 +16,9 @@ use phootwork\xml\exception\XmlException;
 use Stringable;
 use XMLParser as BaseParser;
 
+/**
+ * @api
+ */
 class XmlParser {
 	/**
 	 * Controls whether case-folding is enabled for this XML parser. Enabled by default. 
@@ -24,7 +27,7 @@ class XmlParser {
 	 * 
 	 * @var int
 	 */
-	public const OPTION_CASE_FOLDING = XML_OPTION_CASE_FOLDING;
+	public const int OPTION_CASE_FOLDING = XML_OPTION_CASE_FOLDING;
 
 	/**
 	 * Specify how many characters should be skipped in the beginning of a tag name.
@@ -33,26 +36,22 @@ class XmlParser {
 	 * 
 	 * @var int
 	 */
-	public const OPTION_SKIP_TAGSTART = XML_OPTION_SKIP_TAGSTART;
+	public const int OPTION_SKIP_TAGSTART = XML_OPTION_SKIP_TAGSTART;
 
 	/**
 	 * Whether to skip values consisting of whitespace characters. 
 	 * 
-	 * Data Type: integer
-	 * 
-	 * @var string
+	 * @var int
 	 */
-	public const OPTION_SKIP_WHITE = XML_OPTION_SKIP_WHITE;
+	public const int OPTION_SKIP_WHITE = XML_OPTION_SKIP_WHITE;
 
 	/**
 	 * Sets which target encoding to use in this XML parser. By default, it is set to the same as the 
 	 * source encoding used by XmlParser::construct(). Supported target encodings are ISO-8859-1, US-ASCII and UTF-8.
-	 * 
-	 * Data Type: string
 	 *
-	 * @var string
+	 * @var int
 	 */
-	public const OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
+	public const int OPTION_TARGET_ENCODING = XML_OPTION_TARGET_ENCODING;
 
 	/** @var BaseParser */
 	private BaseParser $parser;
@@ -176,11 +175,8 @@ class XmlParser {
 	 * @param BaseParser $parser
 	 * @param string $name
 	 * @param array $attribs
-	 *
-	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
-	 *                 call this method passing $parser as the first parameter
 	 */
-	private function handleElementStart(BaseParser $parser, string $name, array $attribs): void {
+	public function handleElementStart(BaseParser $parser, string $name, array $attribs): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitElementStart(strtolower($name), $attribs, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -192,11 +188,8 @@ class XmlParser {
 	 *
 	 * @param BaseParser $parser
 	 * @param string $name
-	 *
-	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
-	 *                 call this method passing $parser as the first parameter
 	 */
-	private function handleElementEnd(BaseParser $parser, string $name): void {
+	public function handleElementEnd(BaseParser $parser, string $name): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitElementEnd(strtolower($name), $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -208,11 +201,8 @@ class XmlParser {
 	 *
 	 * @param BaseParser $parser
 	 * @param string $data
-	 *
-	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
-	 *                 call this method passing $parser as the first parameter
 	 */
-	private function handleCharacterData(BaseParser $parser, string $data): void {
+	public function handleCharacterData(BaseParser $parser, string $data): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitCharacterData($data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -225,11 +215,8 @@ class XmlParser {
 	 * @param BaseParser $parser
 	 * @param string     $target
 	 * @param string     $data
-	 *
-	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
-	 *                 call this method passing $parser as the first parameter
 	 */
-	private function handleProcessingInstruction(BaseParser $parser, string $target, string $data): void {
+	public function handleProcessingInstruction(BaseParser $parser, string $target, string $data): void {
 		/** @var XmlParserVisitorInterface $visitor */
 		foreach ($this->visitors as $visitor) {
 			$visitor->visitProcessingInstruction($target, $data, $this->getCurrentLineNumber(), $this->getCurrentColumnNumber());
@@ -244,11 +231,8 @@ class XmlParser {
 	 * @param string     $base
 	 * @param string     $systemId
 	 * @param string     $publicId
-	 *
-	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
-	 *                 call this method passing $parser as the first parameter
 	 */
-	private function handleNotationDeclaration(
+	public function handleNotationDeclaration(
 		BaseParser $parser,
 		string $notationName,
 		string $base,
@@ -270,11 +254,8 @@ class XmlParser {
 	 * @param string     $systemId
 	 * @param string     $publicId
 	 * @param string     $notationName
-	 *
-	 * @psalm-suppress UnusedParam xml_parse() function in self::parse(),
-	 *                 call this method passing $parser as the first parameter
 	 */
-	private function handleUnparsedEntitiyDeclaration(
+	public function handleUnparsedEntitiyDeclaration(
 		BaseParser $parser,
 		string $entityName,
 		string $base,

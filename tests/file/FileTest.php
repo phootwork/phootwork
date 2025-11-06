@@ -112,7 +112,7 @@ class FileTest extends FilesystemTestCase {
 
 	public function testLastAccessedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('DateTime::setTimestamp(): Argument #1 ($timestamp) must be of type int, false given');
+		$this->expectExceptionMessage('Error while reading the access timestamp: is `non-existent.txt` the correct file name?');
 
 		$file = new File('non-existent.txt');
 		$file->getLastAccessedAt();
@@ -120,7 +120,7 @@ class FileTest extends FilesystemTestCase {
 
 	public function testGetCreatedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('DateTime::setTimestamp(): Argument #1 ($timestamp) must be of type int, false given');
+		$this->expectExceptionMessage('Error while reading the timestamp: is `non-existent.txt` the correct file name?');
 
 		$file = new File('non-existent.txt');
 		$file->getCreatedAt();
@@ -128,7 +128,7 @@ class FileTest extends FilesystemTestCase {
 
 	public function testGetModifiedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('DateTime::setTimestamp(): Argument #1 ($timestamp) must be of type int, false given');
+		$this->expectExceptionMessage('Error while reading the timestamp: is `non-existent.txt` the correct file name?');
 
 		$file = new File('non-existent.txt');
 		$file->getModifiedAt();
@@ -176,6 +176,14 @@ class FileTest extends FilesystemTestCase {
 		$this->assertEquals('0755', substr(sprintf('%o', $file->getPermissions()), -4));
 		$this->assertTrue($file->isExecutable());
 		$this->assertTrue($file->isWritable());
+	}
+
+	public function testGetPermissionsOnNonExistentFile(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('Error while reading the file permissions: is `non-existent.txt` the correct file name?');
+
+		$file = new File('non-existent.txt');
+		$file->getPermissions();
 	}
 
 	public function testIsWritable(): void {

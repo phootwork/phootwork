@@ -102,4 +102,19 @@ class JsonTest extends TestCase {
 
 		Json::decode($json, 0, 3);
 	}
+
+	public function testValidate(): void {
+		$goodJson = '{"a":1,"b":2,"c":3,"d":4,"e":5}';
+		$badJson = "{ 'bar': 'baz' }";
+
+		$this->assertTrue(Json::validate($goodJson));
+		$this->assertFalse(Json::validate($badJson));
+	}
+
+	public function testGetLastError(): void {
+		$badJson = "{ 'bar': 'baz' }";
+		$this->assertFalse(Json::validate($badJson));
+
+		$this->assertEquals('Syntax error.', Json::getLastError());
+	}
 }

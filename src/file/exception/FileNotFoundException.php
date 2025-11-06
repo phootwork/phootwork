@@ -9,5 +9,5 @@
  */
 namespace phootwork\file\exception;
 
-class FileNotFoundException extends \Exception {
+final class FileNotFoundException extends \Exception {
 }

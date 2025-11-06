@@ -15,6 +15,8 @@ use Iterator;
  * Represents a Set
  *
  * @author Thomas Gossmann
+ *
+ * @api
  */
 class Set extends AbstractList {
 	/**

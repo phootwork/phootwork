@@ -92,6 +92,8 @@ trait ArrayConversionsPart {
 	 * 		will be one character in length.
 	 *      If the split_length length exceeds the length of string, the entire string is returned
 	 *      as the first (and only) array element.
+	 * 
+	 * @psalm-suppress ArgumentTypeCoercion
 	 */
 	public function chunk(int $splitLength = 1): ArrayObject {
 		return new ArrayObject(str_split($this->getString(), $splitLength));

@@ -9,7 +9,7 @@
  */
 namespace phootwork\tokenizer;
 
-class PhpTokenizer {
+final class PhpTokenizer {
 	/**
 	 * 
 	 * @param string $code

@@ -17,6 +17,8 @@ use Iterator;
  * FIFO - first in first out
  * 
  * @author Thomas Gossmann
+ *
+ * @api
  */
 class Queue extends AbstractList {
 	/**

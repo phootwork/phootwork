@@ -9,12 +9,16 @@
  */
 namespace phootwork\xml;
 
+/**
+ * @psalm-suppress ClassMustBeFinal We want this class to be extensible.
+ */
 class XmlParserNoopVisitor implements XmlParserVisitorInterface {
 	/**
 	 * @param string $name
 	 * @param int    $line
 	 * @param int    $column
 	 */
+	#[\Override]
 	public function visitElementEnd(string $name, int $line, int $column): void {
 	}
 
@@ -24,6 +28,7 @@ class XmlParserNoopVisitor implements XmlParserVisitorInterface {
 	 * @param int    $line
 	 * @param int    $column
 	 */
+	#[\Override]
 	public function visitProcessingInstruction(string $target, string $data, int $line, int $column): void {
 	}
 
@@ -35,6 +40,7 @@ class XmlParserNoopVisitor implements XmlParserVisitorInterface {
 	 * @param int    $line
 	 * @param int    $column
 	 */
+	#[\Override]
 	public function visitNotationDeclaration(
 		string $notationName,
 		string $base,
@@ -54,6 +60,7 @@ class XmlParserNoopVisitor implements XmlParserVisitorInterface {
 	 * @param int    $line
 	 * @param int    $column
 	 */
+	#[\Override]
 	public function visitUnparsedEntityDeclaration(
 		string $entityName,
 		string $base,
@@ -71,6 +78,7 @@ class XmlParserNoopVisitor implements XmlParserVisitorInterface {
 	 * @param int    $line
 	 * @param int    $column
 	 */
+	#[\Override]
 	public function visitElementStart(string $name, array $attributes, int $line, int $column): void {
 	}
 
@@ -79,6 +87,7 @@ class XmlParserNoopVisitor implements XmlParserVisitorInterface {
 	 * @param int    $line
 	 * @param int    $column
 	 */
+	#[\Override]
 	public function visitCharacterData(string $data, int $line, int $column): void {
 	}
 }

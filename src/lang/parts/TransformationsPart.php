@@ -25,6 +25,8 @@ use Stringable;
 trait TransformationsPart {
 	abstract protected function getString(): string;
 
+	abstract public function getEncoding(): string;
+
 	/**
 	 * Slices a piece of the string from a given start to an end.
 	 * If no length is given, the String is sliced to its maximum length.
@@ -82,7 +84,7 @@ trait TransformationsPart {
 	 * @return Text
 	 */
 	public function toLowerCase(): Text {
-		return new Text(mb_strtolower($this->getString(), $this->encoding), $this->encoding);
+		return new Text(mb_strtolower($this->getString(), $this->getEncoding()), $this->getEncoding());
 	}
 
 	/**
@@ -91,10 +93,7 @@ trait TransformationsPart {
 	 * @return Text
 	 */
 	public function toLowerCaseFirst(): Text {
-		$first = $this->substring(0, 1);
-		$rest = $this->substring(1);
-
-		return new Text(mb_strtolower((string) $first, $this->encoding) . $rest, $this->encoding);
+		return new Text(mb_lcfirst($this->getString(), $this->getEncoding()));
 	}
 
 	/**
@@ -103,7 +102,7 @@ trait TransformationsPart {
 	 * @return Text
 	 */
 	public function toUpperCase(): Text {
-		return new Text(mb_strtoupper($this->getString(), $this->encoding), $this->encoding);
+		return new Text(mb_strtoupper($this->getString(), $this->getEncoding()), $this->getEncoding());
 	}
 
 	/**
@@ -112,10 +111,7 @@ trait TransformationsPart {
 	 * @return Text
 	 */
 	public function toUpperCaseFirst(): Text {
-		$first = $this->substring(0, 1);
-		$rest = $this->substring(1);
-
-		return new Text(mb_strtoupper((string) $first, $this->encoding) . $rest, $this->encoding);
+		return new Text(mb_ucfirst($this->getString(), $this->getEncoding()));
 	}
 
 	/**
@@ -133,11 +129,9 @@ trait TransformationsPart {
 	 * @return Text
 	 */
 	public function toCapitalCaseWords(): Text {
-		$encoding = $this->encoding;
-
-		return $this->split(' ')->map(function (string $str) use ($encoding) {
-			return Text::create($str, $encoding)->toCapitalCase();
-		})->join(' ');
+		return $this->split(' ')
+			->map(fn (string $str) => Text::create($str, $this->getEncoding())->toCapitalCase())
+			->join(' ');
 	}
 
 	/**
@@ -194,14 +188,13 @@ trait TransformationsPart {
 		if ($input->isEmpty()) {
 			return $input;
 		}
-		$normString = preg_replace('/\s+/', ' ', $input->toString());
-		$encoding = $this->encoding;
+		$normString = (string) preg_replace('/\s+/', ' ', $input->toString());
 
-		return Text::create(preg_replace_callback(
+		return Text::create((string) preg_replace_callback(
 			'/([A-Z-_\s][a-z0-9]+)/',
 			fn (array $matches): string => ucfirst(str_replace(['-', '_', ' '], '', $matches[0])),
 			$normString
-		), $encoding)
+		), $this->getEncoding())
 			->toUpperCaseFirst();
 	}
 
@@ -220,9 +213,9 @@ trait TransformationsPart {
 	 */
 	public function toKebabCase(): Text {
 		$input = $this->trim('-_');
-		$normString = str_replace([' ', '_'], '-', preg_replace('/\s+/', ' ', $input->toString()));
+		$normString = str_replace([' ', '_'], '-', (string) preg_replace('/\s+/', ' ', $input->toString()));
 
-		return new Text(mb_strtolower(preg_replace('/([a-z0-9])([A-Z])/', '$1-$2', $normString)), $this->encoding);
+		return new Text(mb_strtolower((string) preg_replace('/([a-z0-9])([A-Z])/', '$1-$2', $normString)), $this->getEncoding());
 	}
 
 	/**
@@ -235,7 +228,7 @@ trait TransformationsPart {
 	public function toPlural(?InflectorInterface $pluralizer = null): Text {
 		$pluralizer = $pluralizer ?: new Inflector();
 
-		return new Text($pluralizer->getPluralForm($this->getString()), $this->encoding);
+		return new Text($pluralizer->getPluralForm($this->getString()), $this->getEncoding());
 	}
 
 	/**
@@ -248,7 +241,7 @@ trait TransformationsPart {
 	public function toSingular(?InflectorInterface $pluralizer = null): Text {
 		$pluralizer = $pluralizer ?: new Inflector();
 
-		return new Text($pluralizer->getSingularForm($this->getString()), $this->encoding);
+		return new Text($pluralizer->getSingularForm($this->getString()), $this->getEncoding());
 	}
 
 	/**

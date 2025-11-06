@@ -22,9 +22,7 @@ trait IndexFindersPart {
 	 * @return int|string|null the index for the given element
 	 */
 	public function indexOf(mixed $element): int|string|null {
-		$out = array_search($element, $this->array, true);
-
-		return $out === false ? null : $out;
+		return array_find_key($this->array, fn (mixed $value) => $element === $value);
 	}
 
 	/**

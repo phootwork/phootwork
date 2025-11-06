@@ -16,6 +16,8 @@ use Stringable;
 
 /**
  * Class File
+ * 
+ * @api
  */
 class File implements Stringable {
 	use FileOperationTrait;
@@ -30,6 +32,9 @@ class File implements Stringable {
 	 * @throws FileException
 	 *
 	 * @return Text contents
+	 * 
+	 * @psalm-suppress PossiblyFalseArgument Since we check for existence and readability of the file,
+	 *                                       `file_get_contents` never returns false.
 	 */
 	public function read(): Text {
 		if (!$this->exists()) {
@@ -114,6 +119,7 @@ class File implements Stringable {
 	 *
 	 * @throws FileException when something goes wrong
 	 */
+	#[\Override]
 	public function delete(): void {
 		if (!@unlink($this->pathname)) {
 			throw new FileException(sprintf('Failed to delete file at %s', $this->pathname));
@@ -145,6 +151,7 @@ class File implements Stringable {
 	/**
 	 * String representation of this file as pathname
 	 */
+	#[\Override]
 	public function __toString(): string {
 		return $this->pathname;
 	}
