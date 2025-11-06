@@ -10,6 +10,7 @@
 namespace phootwork\collection;
 
 use Iterator;
+use JsonException;
 use stdClass;
 
 /**
@@ -17,6 +18,8 @@ use stdClass;
  *
  * It must be mentioned the API is experimental and may change. Please
  * report to the issue tracker.
+ * 
+ * @api
  */
 class CollectionUtils {
 	/**
@@ -37,6 +40,8 @@ class CollectionUtils {
 
 	/**
 	 * @param mixed $data
+	 * 
+	 * @throws JsonException If $data is not Iterator and can't be converted into JSON.
 	 *
 	 * @return mixed
 	 */
@@ -44,7 +49,7 @@ class CollectionUtils {
 		// prepare normal array
 		if (!($data instanceof Iterator)) {
 			/** @var mixed $data */
-			$data = json_decode(json_encode($data));
+			$data = json_decode(json_encode($data, JSON_THROW_ON_ERROR));
 		}
 
 		// check if we can transform it into a collection or just return as is
@@ -66,13 +71,15 @@ class CollectionUtils {
 	 * transformed to an appropriate collection) (experimental API)
 	 *
 	 * @param array|Iterator|stdClass $collection
+	 * 
+	 * @throws JsonException If $collection can't be encoded into JSON.
 	 *
 	 * @return Map
 	 */
 	public static function toMap(Iterator|array|stdClass $collection): Map {
 		if ($collection instanceof stdClass) {
 			/** @var array $collection */
-			$collection = json_decode(json_encode($collection), true);
+			$collection = json_decode(json_encode($collection, JSON_THROW_ON_ERROR), true);
 		}
 
 		$map = new Map();

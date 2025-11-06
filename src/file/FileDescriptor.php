@@ -14,6 +14,8 @@ use Stringable;
 
 /**
  * Class FileDescriptor
+ * 
+ * @api
  */
 class FileDescriptor implements Stringable {
 	use FileOperationTrait;
@@ -83,6 +85,7 @@ class FileDescriptor implements Stringable {
 	 *
 	 * @throws FileException
 	 */
+	#[\Override]
 	public function delete(): void {
 		if ($this->isDir()) {
 			$this->toDirectory()->delete();
@@ -94,6 +97,7 @@ class FileDescriptor implements Stringable {
 	/**
 	 * String representation of this file as pathname
 	 */
+	#[\Override]
 	public function __toString(): string {
 		return $this->pathname;
 	}

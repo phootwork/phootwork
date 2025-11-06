@@ -86,15 +86,15 @@ trait FileOperationTrait {
 	 * @return DateTime
 	 */
 	public function getLastAccessedAt(): DateTime {
-		try {
-			$timestamp = fileatime($this->pathname);
-			$time = new DateTime();
-			$time->setTimestamp($timestamp);
-
-			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		$timestamp = @fileatime($this->pathname);
+		if ($timestamp === false) {
+			throw new FileException("Error while reading the access timestamp: is `{$this->pathname}` the correct file name?");
 		}
+
+		$time = new DateTime();
+		$time->setTimestamp($timestamp);
+
+		return $time;
 	}
 
 	/**
@@ -105,15 +105,7 @@ trait FileOperationTrait {
 	 * @return DateTime
 	 */
 	public function getCreatedAt(): DateTime {
-		try {
-			$timestamp = filemtime($this->pathname);
-			$time = new DateTime();
-			$time->setTimestamp($timestamp);
-
-			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
-		}
+		return $this->getModifiedAt();
 	}
 
 	/**
@@ -124,15 +116,15 @@ trait FileOperationTrait {
 	 * @return DateTime
 	 */
 	public function getModifiedAt(): DateTime {
-		try {
-			$timestamp = filemtime($this->pathname);
-			$time = new DateTime();
-			$time->setTimestamp($timestamp);
-
-			return $time;
-		} catch (\Exception $e) {
-			throw new FileException($e->getMessage(), (int) $e->getCode(), $e);
+		$timestamp = @filemtime($this->pathname);
+		if ($timestamp === false) {
+			throw new FileException("Error while reading the timestamp: is `{$this->pathname}` the correct file name?");
 		}
+
+		$time = new DateTime();
+		$time->setTimestamp($timestamp);
+
+		return $time;
 	}
 
 	/**
@@ -171,12 +163,20 @@ trait FileOperationTrait {
 	/**
 	 * Gets file permissions
 	 *
+	 * 
+	 * @throws FileException If the file does not exist.
+	 *
 	 * @return int Returns the file's permissions as a numeric mode. Lower bits of this
 	 * 		mode are the same as the permissions expected by chmod(), however on most platforms
 	 * 		the return value will also include information on the type of file given as filename.
 	 */
 	public function getPermissions(): int {
-		return fileperms($this->pathname);
+		$perms = @fileperms($this->pathname);
+		if ($perms === false) {
+			throw new FileException("Error while reading the file permissions: is `{$this->pathname}` the correct file name?");
+		}
+
+		return $perms;
 	}
 
 	/**
@@ -231,6 +231,9 @@ trait FileOperationTrait {
 	 * @see #isLink
 	 *
 	 * @return Path|null The target path or null if this isn't a link
+	 * 
+	 * @psalm-suppress PossiblyFalseArgument Since we check if the pathnameis a simlink via `isLink()` method, the function
+	 *                                       `readlink` never returns false.
 	 */
 	public function getLinkTarget(): ?Path {
 		if ($this->isLink()) {

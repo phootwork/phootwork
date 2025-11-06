@@ -17,6 +17,8 @@ use InvalidArgumentException;
  * Comparator for objects implementing phootwork\lang\Comparable interface.
  *
  * @author Thomas Gossmann
+ * 
+ * @api
  */
 class ComparableComparator implements Comparator {
 	/**
@@ -27,6 +29,7 @@ class ComparableComparator implements Comparator {
 	 *
 	 * @return int
 	 */
+	#[\Override]
 	public function compare(mixed $a, mixed $b): int {
 		if (! $a instanceof Comparable) {
 			throw new InvalidArgumentException(

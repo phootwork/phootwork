@@ -16,6 +16,10 @@ use Stringable;
 
 /**
  * Class Directory
+ * 
+ * @api
+ * 
+ * @psalm-suppress MissingTemplateParam
  */
 class Directory implements Iterator, Stringable {
 	use FileOperationTrait;
@@ -45,6 +49,7 @@ class Directory implements Iterator, Stringable {
 	 *
 	 * @throws FileException when something goes wrong
 	 */
+	#[\Override]
 	public function delete(): void {
 		foreach ($this as $file) {
 			if (!$file->isDot()) {
@@ -75,6 +80,7 @@ class Directory implements Iterator, Stringable {
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function current(): FileDescriptor {
 		return FileDescriptor::fromFileInfo($this->getIterator()->current());
 	}
@@ -82,6 +88,7 @@ class Directory implements Iterator, Stringable {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function key(): float|bool|int|string|null {
 		return $this->getIterator()->key();
 	}
@@ -89,6 +96,7 @@ class Directory implements Iterator, Stringable {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function next(): void {
 		$this->getIterator()->next();
 	}
@@ -96,6 +104,7 @@ class Directory implements Iterator, Stringable {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function rewind(): void {
 		$this->getIterator()->rewind();
 	}
@@ -103,6 +112,7 @@ class Directory implements Iterator, Stringable {
 	/**
 	 * @internal
 	 */
+	#[\Override]
 	public function valid(): bool {
 		return $this->getIterator()->valid();
 	}
@@ -110,6 +120,7 @@ class Directory implements Iterator, Stringable {
 	/**
 	 * String representation of this directory as pathname
 	 */
+	#[\Override]
 	public function __toString(): string {
 		return $this->pathname;
 	}

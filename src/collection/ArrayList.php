@@ -20,6 +20,8 @@ use phootwork\lang\parts\InsertPart;
  * 
  * @author Thomas Gossmann
  * @author Cristiano Cinotti
+ *
+ * @api
  */
 class ArrayList extends AbstractList {
 	use AccessorsPart {

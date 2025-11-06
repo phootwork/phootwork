@@ -14,6 +14,7 @@ use phootwork\lang\tests\fixtures\Replace;
 use phootwork\lang\tests\fixtures\Search;
 use phootwork\lang\Text;
 use PHPUnit\Framework\TestCase;
+use stdClass;
 
 class TextTest extends TestCase {
 	public function testToText(): void {
@@ -211,7 +212,7 @@ class TextTest extends TestCase {
 		$this->assertEquals('-=fòôbàř', $str->padStart(8, '-='));
 		$this->assertEquals('fòôbàř=-', $str->padEnd(8, '=-'));
 		$this->assertEquals('==fòôbàř==', $str->pad(10, '=='));
-		$this->assertSame($str, $str->pad(0));
+		$this->assertEquals($str, $str->pad(0));
 	}
 
 	public function testIndexSearch(): void {
@@ -789,6 +790,14 @@ id est laborum.';
 		$array = ['Phootwork', 'is', 'a', 'collection', 'of', 'awesome', 'libraries'];
 		$expected = 'Phootwork is a collection of awesome libraries';
 		$this->assertEquals($expected, Text::join($array, ' '));
+	}
+
+	public function testJoinWithWrongTypeElements(): void {
+		$this->expectException(\TypeError::class);
+		$this->expectExceptionMessage('Can join elements only if scalar, null or \\Stringable');
+
+		$array = ['Phootwork', 'is', 'a', new stdClass(), ['of', 'awesome', 'libraries']];
+		Text::join($array, ';');
 	}
 
 	public function testToSpaces(): void {

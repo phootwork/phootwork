@@ -26,6 +26,7 @@ abstract class AbstractArray implements \Countable {
 	 *
 	 * @return int the amount of items
 	 */
+	#[\Override]
 	public function count(): int {
 		return count($this->array);
 	}
@@ -251,9 +252,11 @@ abstract class AbstractArray implements \Countable {
 	 *
 	 * Returns <code>true</code> for an empty array.
 	 *
-	 * @param callable(mixed, mixed): scalar $callback
+	 * @param callable $callback
 	 *
 	 * @return bool
+	 * 
+	 * @psalm-suppress MixedArgumentTypeCoercion
 	 */
 	public function every(callable $callback): bool {
 		return $this->count() === count(array_filter($this->array, $callback));
@@ -264,9 +267,11 @@ abstract class AbstractArray implements \Countable {
 	 *
 	 * Returns <code>false</code> for an empty array.
 	 *
-	 * @param callable(mixed, mixed): scalar $callback
+	 * @param callable $callback
 	 *
 	 * @return bool
+	 * 
+	 * @psalm-suppress MixedArgumentTypeCoercion
 	 */
 	public function some(callable $callback): bool {
 		return count(array_filter($this->array, $callback)) > 0;
@@ -275,11 +280,12 @@ abstract class AbstractArray implements \Countable {
 	/**
 	 * Filters elements using a callback function
 	 *
-	 * @param callable(mixed, mixed): scalar $callback the filter function
+	 * @param callable $callback the filter function
 	 *
 	 * @return static
 	 *
 	 * @psalm-suppress UnsafeInstantiation
+	 * @psalm-suppress MixedArgumentTypeCoercion
 	 */
 	public function filter(callable $callback): self {
 		return new static(array_filter($this->array, $callback));

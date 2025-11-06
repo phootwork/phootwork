@@ -11,8 +11,11 @@ namespace phootwork\lang;
 
 /**
  * String comparison
+ * 
+ * @api
  */
 class StringComparator implements Comparator {
+	#[\Override]
 	public function compare(mixed $a, mixed $b): int {
 		return strcmp((string) $a, (string) $b);
 	}

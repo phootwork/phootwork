@@ -16,7 +16,7 @@ use phootwork\file\exception\FileException;
 use phootwork\file\File;
 use phootwork\file\Path;
 
-class FileTest extends FilesystemTest {
+class FileTest extends FilesystemTestCase {
 	public function testReadWrite(): void {
 		$json = '{"hello":"world!"}';
 		$file = new File($this->root->url() . '/dir/composer.json');
@@ -112,7 +112,7 @@ class FileTest extends FilesystemTest {
 
 	public function testLastAccessedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('fileatime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('Error while reading the access timestamp: is `non-existent.txt` the correct file name?');
 
 		$file = new File('non-existent.txt');
 		$file->getLastAccessedAt();
@@ -120,7 +120,7 @@ class FileTest extends FilesystemTest {
 
 	public function testGetCreatedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('Error while reading the timestamp: is `non-existent.txt` the correct file name?');
 
 		$file = new File('non-existent.txt');
 		$file->getCreatedAt();
@@ -128,7 +128,7 @@ class FileTest extends FilesystemTest {
 
 	public function testGetModifiedAtOnNonExistentFile(): void {
 		$this->expectException(FileException::class);
-		$this->expectExceptionMessage('filemtime(): stat failed for non-existent.txt');
+		$this->expectExceptionMessage('Error while reading the timestamp: is `non-existent.txt` the correct file name?');
 
 		$file = new File('non-existent.txt');
 		$file->getModifiedAt();
@@ -176,6 +176,14 @@ class FileTest extends FilesystemTest {
 		$this->assertEquals('0755', substr(sprintf('%o', $file->getPermissions()), -4));
 		$this->assertTrue($file->isExecutable());
 		$this->assertTrue($file->isWritable());
+	}
+
+	public function testGetPermissionsOnNonExistentFile(): void {
+		$this->expectException(FileException::class);
+		$this->expectExceptionMessage('Error while reading the file permissions: is `non-existent.txt` the correct file name?');
+
+		$file = new File('non-existent.txt');
+		$file->getPermissions();
 	}
 
 	public function testIsWritable(): void {

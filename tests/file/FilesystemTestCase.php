@@ -13,7 +13,7 @@ use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamDirectory;
 use PHPUnit\Framework\TestCase;
 
-abstract class FilesystemTest extends TestCase {
+abstract class FilesystemTestCase extends TestCase {
 	/** @var vfsStreamDirectory */
 	protected $root;
 

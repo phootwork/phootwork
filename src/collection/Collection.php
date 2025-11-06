@@ -13,6 +13,8 @@ namespace phootwork\collection;
  * Collection interface
  *
  * @author Thomas Gossmann
+ * 
+ * @psalm-suppress MissingTemplateParam
  */
 interface Collection extends \Iterator {
 	/**

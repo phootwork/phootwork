@@ -9,8 +9,8 @@
  */
 namespace phootwork\lang\parts;
 
+use InvalidArgumentException;
 use phootwork\lang\ArrayObject;
-use phootwork\lang\Text;
 use Stringable;
 
 /**
@@ -21,6 +21,8 @@ use Stringable;
  */
 trait SearchPart {
 	abstract protected function getString(): string;
+
+	abstract public function getEncoding(): string;
 
 	abstract public function length(): int;
 
@@ -40,7 +42,7 @@ trait SearchPart {
 	 * @return string the found character
 	 */
 	public function at(int $index): string {
-		return mb_substr($this->getString(), $index, 1, $this->encoding);
+		return mb_substr($this->getString(), $index, 1, $this->getEncoding());
 	}
 
 	/**
@@ -49,7 +51,7 @@ trait SearchPart {
 	 * @return ArrayObject An ArrayObject of all chars
 	 */
 	public function chars(): ArrayObject {
-		return new ArrayObject(mb_str_split($this->getString(), 1, $this->encoding));
+		return new ArrayObject(mb_str_split($this->getString(), 1, $this->getEncoding()));
 	}
 
 	/**
@@ -61,7 +63,7 @@ trait SearchPart {
 	 * @return int|null int for the index or null if the given string doesn't occur
 	 */
 	public function indexOf(string|Stringable $string, int $offset = 0): ?int {
-		$output = mb_strpos($this->getString(), (string) $string, $offset, $this->encoding);
+		$output = mb_strpos($this->getString(), (string) $string, $offset, $this->getEncoding());
 
 		return false === $output ? null : $output;
 	}
@@ -81,7 +83,7 @@ trait SearchPart {
 
 		// Converts $offset to a negative offset as strrpos has a different
 		// behavior for positive offsets.
-		$output = mb_strrpos($this->getString(), (string) $string, $offset - $this->length(), $this->encoding);
+		$output = mb_strrpos($this->getString(), (string) $string, $offset - $this->length(), $this->getEncoding());
 
 		return false === $output ? null : $output;
 	}
@@ -111,7 +113,7 @@ trait SearchPart {
 	 *
 	 */
 	public function startsWithIgnoreCase(string|Stringable $substring): bool {
-		return str_starts_with($this->toUpperCase()->getString(), mb_strtoupper((string) $substring, $this->encoding));
+		return str_starts_with($this->toUpperCase()->getString(), mb_strtoupper((string) $substring, $this->getEncoding()));
 	}
 
 	/**
@@ -139,7 +141,7 @@ trait SearchPart {
 	 *
 	 */
 	public function endsWithIgnoreCase(string|Stringable $substring): bool {
-		return str_ends_with($this->toUpperCase()->getString(), mb_strtoupper((string) $substring, $this->encoding));
+		return str_ends_with($this->toUpperCase()->getString(), mb_strtoupper((string) $substring, $this->getEncoding()));
 	}
 
 	/**
@@ -161,6 +163,10 @@ trait SearchPart {
 	 * @return bool
 	 */
 	public function match(string $regexp): bool {
+		if ($regexp === '') {
+			throw new InvalidArgumentException("Can't search an empty pattern.");
+		}
+
 		return (bool) preg_match($regexp, $this->getString());
 	}
 }

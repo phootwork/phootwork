@@ -19,7 +19,7 @@ namespace phootwork\lang\inflector;
  * @author paul.hanssen
  * @author Cristiano Cinotti
  */
-class Inflector implements InflectorInterface {
+final class Inflector implements InflectorInterface {
 	protected array $plural = [
 		'(ind|vert)ex' => '\1ices',
 		'(alumn|bacill|cact|foc|fung|nucle|radi|stimul|syllab|termin|vir)us' => '\1i',
@@ -147,6 +147,7 @@ class Inflector implements InflectorInterface {
 	 *
 	 * @return string The plural form of $root (e.g. Authors).
 	 */
+	#[\Override]
 	public function getPluralForm(string $root): string {
 		$pluralForm = $root;
 
@@ -176,6 +177,7 @@ class Inflector implements InflectorInterface {
 	 *
 	 * @return string The singular form of $root (e.g. Authors).
 	 */
+	#[\Override]
 	public function getSingularForm(string $root): string {
 		$singularForm = $root;
 
@@ -202,6 +204,7 @@ class Inflector implements InflectorInterface {
 	 *
 	 * @psalm-suppress MixedArgumentTypeCoercion `array_keys($this->singular)` is an array of strings
 	 */
+	#[\Override]
 	public function isPlural(string $root): bool {
 		if ('' === $root) {
 			return false;
@@ -226,6 +229,7 @@ class Inflector implements InflectorInterface {
 	 *
 	 * @psalm-suppress MixedArgumentTypeCoercion `array_keys($this->plural)` is an array of strings
 	 */
+	#[\Override]
 	public function isSingular(string $root): bool {
 		if ('' === $root || in_array(strtolower($root), $this->uncountable)) {
 			return true;
@@ -263,7 +267,7 @@ class Inflector implements InflectorInterface {
 				// look at the first char and see if it's upper case
 				// I know it won't handle more than one upper case char here (but I'm OK with that)
 				if (preg_match('/^[A-Z]/', $root)) {
-					$replacement = ucfirst($replacement);
+					$replacement = $replacement !== null ? ucfirst($replacement) : null;
 				}
 
 				return $replacement;

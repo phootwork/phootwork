@@ -18,6 +18,8 @@ use phootwork\lang\parts\PopPart;
  * FILO - first in last out
  * 
  * @author Thomas Gossmann
+ *
+ * @api
  */
 class Stack extends AbstractList {
 	use PopPart;

@@ -20,6 +20,17 @@ use phootwork\lang\parts\RemovePart;
 use phootwork\lang\parts\ReversePart;
 use phootwork\lang\parts\SortAssocPart;
 
+/**
+ * Class ArrayObject.
+ * 
+ * @author Thomas Gossmann
+ * @author Cristiano Cinotti
+ * 
+ * @api
+ *
+ * @psalm-suppress UnsafeInstantiation
+ * @psalm-suppress MissingTemplateParam
+ */
 class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \IteratorAggregate, \Serializable, Arrayable {
 	use AccessorsPart;
 	use AddPart;
@@ -44,10 +55,12 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 		$this->array = $data;
 	}
 
+	#[\Override]
 	public function getIterator(): \ArrayIterator {
 		return new \ArrayIterator($this->array);
 	}
 
+	#[\Override]
 	public function serialize(): string {
 		return serialize($this->array);
 	}
@@ -57,8 +70,9 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 * @psalm-suppress MixedAssignment if `unserialize($serialized)` can't return an array, this assignment throws
 	 *                 a TypeError exception, which is ok for us
 	 */
-	public function unserialize(string $serialized): self {
-		$this->array = unserialize($serialized);
+	#[\Override]
+	public function unserialize(string $data): static {
+		$this->array = unserialize($data);
 
 		return $this;
 	}
@@ -68,7 +82,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @return $this
 	 */
-	public function clear(): self {
+	public function clear(): static {
 		$this->array = [];
 
 		return $this;
@@ -87,7 +101,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @return $this
 	 */
-	public function append(mixed ...$elements): self {
+	public function append(mixed ...$elements): static {
 		array_push($this->array, ...$elements);
 
 		return $this;
@@ -100,7 +114,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @return $this
 	 */
-	public function prepend(mixed ...$elements): self {
+	public function prepend(mixed ...$elements): static {
 		array_unshift($this->array, ...$elements);
 
 		return $this;
@@ -126,7 +140,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @psalm-suppress PossiblyNullArgument third argument of `array_splice` CAN be null
 	 */
-	public function splice(int $offset, ?int $length = null, array $replacement = []): self {
+	public function splice(int $offset, ?int $length = null, array $replacement = []): static {
 		array_splice($this->array, $offset, $length, $replacement);
 
 		return $this;
@@ -168,21 +182,17 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 * @param int      $offset
 	 * @param int|null $length
 	 * @param bool     $preserveKeys
-	 *
-	 * @return ArrayObject
 	 */
-	public function slice(int $offset, ?int $length = null, bool $preserveKeys = false): self {
-		return new self(array_slice($this->array, $offset, $length, $preserveKeys));
+	public function slice(int $offset, ?int $length = null, bool $preserveKeys = false): static {
+		return new static(array_slice($this->array, $offset, $length, $preserveKeys));
 	}
 
 	/**
 	 * Merges in other values
 	 *
 	 * @param array ...$toMerge Variable list of arrays to merge.
-	 *
-	 * @return ArrayObject $this
 	 */
-	public function merge(mixed ...$toMerge): self {
+	public function merge(mixed ...$toMerge): static {
 		$this->array = array_merge($this->array, ...$toMerge);
 
 		return $this;
@@ -192,10 +202,8 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 * Merges in other values, recursively
 	 *
 	 * @param array ...$toMerge Variable list of arrays to merge.
-	 *
-	 * @return ArrayObject $this
 	 */
-	public function mergeRecursive(mixed ...$toMerge): self {
+	public function mergeRecursive(mixed ...$toMerge): static {
 		$this->array = array_merge_recursive($this->array, ...$toMerge);
 
 		return $this;
@@ -203,28 +211,22 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 
 	/**
 	 * Returns the keys of the array
-	 *
-	 * @return ArrayObject the keys
 	 */
-	public function keys(): self {
-		return new self(array_keys($this->array));
+	public function keys(): static {
+		return new static(array_keys($this->array));
 	}
 
 	/**
 	 * Returns the values of the array
-	 *
-	 * @return ArrayObject the values
 	 */
-	public function values(): self {
-		return new self(array_values($this->array));
+	public function values(): static {
+		return new static(array_values($this->array));
 	}
 
 	/**
 	 * Flips keys and values
-	 *
-	 * @return ArrayObject $this
 	 */
-	public function flip(): self {
+	public function flip(): static {
 		$this->array = array_flip($this->array);
 
 		return $this;
@@ -242,6 +244,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetSet(mixed $offset, mixed $value): void {
 		if (!is_null($offset)) {
 			$this->array[$offset] = $value;
@@ -255,6 +258,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetExists(mixed $offset): bool {
 		return isset($this->array[$offset]);
 	}
@@ -264,6 +268,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetUnset(mixed $offset): void {
 		unset($this->array[$offset]);
 	}
@@ -275,6 +280,7 @@ class ArrayObject extends AbstractArray implements \ArrayAccess, \Countable, \It
 	 *
 	 * @internal
 	 */
+	#[\Override]
 	public function offsetGet(mixed $offset): mixed {
 		return $this->array[$offset] ?? null;
 	}

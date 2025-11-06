@@ -11,7 +11,7 @@ namespace phootwork\tokenizer\tests;
 
 use PHPUnit\Framework\TestCase;
 
-abstract class TokenizerTest extends TestCase {
+abstract class TokenizerTestCase extends TestCase {
 	protected function getSample($file) {
 		return file_get_contents(sprintf(__DIR__ . '/fixtures/samples/%s.php', $file));
 	}

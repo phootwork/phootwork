@@ -9,5 +9,8 @@
  */
 namespace phootwork\xml\exception;
 
+/**
+ * @psalm-suppress ClassMustBeFinal We grant the possibility to extend this class.
+ */
 class XmlException extends \Exception {
 }
